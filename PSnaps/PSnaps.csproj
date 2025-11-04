@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>13</LangVersion>
+    <AssemblyName>PSnaps</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <WarningLevel>8</WarningLevel>
+    <DebugType>portable</DebugType>
+    <VersionPrefix>0.1</VersionPrefix>
+    <VersionSuffix>Alpha01</VersionSuffix>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Title>PSnaps</Title>
+    <Description>A PowerShell module and .net library for management of Snap packages on Linux.</Description>
+    <Copyright>2025 Brandon Thetford. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/dodexahedron/PSnaps</PackageProjectUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/dodexahedron/PSnaps</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>snap;snapd;linux</PackageTags>
+    <PackageReleaseNotes>Early development version. Functionality and API surface are subject to change.</PackageReleaseNotes>
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="PSnaps.psd1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="PSnaps.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
+    <PackageReference Include="System.Management.Automation" Version="7.5.4" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>

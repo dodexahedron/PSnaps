@@ -1,0 +1,25 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ECD_005FTH/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ECOMMA_005FPARENTHESIS_005FWHITESPACE/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002EDATE_005FFUTURE_005FVERB_005FPAST_005FUS/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002EDOUBLE_005FAPOSTROPHE/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002EEG_005FNO_005FCOMMA/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002EHE_005FQUESTION/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002EID_005FCASING/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002EIE_005FNO_005FCOMMA/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002EITS_005FJJ_005FNNSNN/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ELOOK_005FSLIKE/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002EMISSING_005FGENITIVE/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002EMISSING_005FPERIOD_005FAFTER_005FABBREVIATION/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ENON_005FSTANDARD_005FCOMMA/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ENON_005FSTANDARD_005FQUESTION_005FMARK/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ENON_005FSTANDARD_005FWORD/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002EREADABILITY_005FRULE_005FDIFFICULT/@EntryIndexedValue"></s:String>
+	<s:Boolean x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002EREADABILITY_005FRULE_005FDIFFICULT/@EntryIndexRemoved">True</s:Boolean>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ESENTENCE_005FWHITESPACE/@EntryIndexedValue"></s:String>
+	<s:Boolean x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ESENTENCE_005FWHITESPACE/@EntryIndexRemoved">True</s:Boolean>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ESPURIOUS_005FAPOSTROPHE/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ETYPO_005FAN_005FAND/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ETYPO_005FAS_005FHAS_005FWAS/@EntryIndexedValue">EnabledByUser</s:String>
+	<s:String x:Key="/Default/GrammarAndSpelling/GrammarChecking/RulesStates/=LanguageTool_002EEN_002ETYPO_005FID_005FIF/@EntryIndexedValue">EnabledByUser</s:String>
+</wpf:ResourceDictionary>
