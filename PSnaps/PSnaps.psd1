@@ -7,7 +7,7 @@
   CompanyName = ''
   Copyright = '(c) Brandon Thetford. All rights reserved.'
   Description = 'A PowerShell module and .net library for management of Snap packages on Linux.'
-  PowerShellVersion = '7.6.0'
+  PowerShellVersion = '7.5.4'
   RequiredModules = @('Microsoft.PowerShell.Management')
   RequiredAssemblies = @('System.Management.Automation','System.Globalization')
   ScriptsToProcess = @()
