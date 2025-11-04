@@ -9,7 +9,9 @@
 namespace PSnaps.SnapdRestApi.Responses;
 
 using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 
+[PublicAPI]
 public record RemoveSnapResultData
 {
   [JsonPropertyName ( "snap-names" )]

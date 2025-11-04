@@ -4,6 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <LangVersion>13</LangVersion>
     <AssemblyName>PSnaps</AssemblyName>
+    <RootNamespace>PSnaps</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
@@ -28,10 +29,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Formatting\GetSnapResponseResult.format.ps1xml" />
+    <None Remove="Formatting\Publisher.format.ps1xml" />
     <None Remove="PSnaps.psd1" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Formatting\RemoveSnapResult.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Formatting\GetSnapResponseResult.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Formatting\Publisher.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="PSnaps.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

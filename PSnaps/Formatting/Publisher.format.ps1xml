@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<Configuration>
+  <ViewDefinitions>
+    <View>
+      <Name>Publisher</Name>
+      <ViewSelectedBy>
+        <TypeName>PSnaps.SnapCore.Publisher</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <AutoSize>true</AutoSize>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Validation</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Id</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>DisplayName</PropertyName>
+                <Alignment>Left</Alignment>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Validation</PropertyName>
+                <Alignment>Left</Alignment>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Id</PropertyName>
+                <Alignment>Left</Alignment>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+  </ViewDefinitions>
+</Configuration>

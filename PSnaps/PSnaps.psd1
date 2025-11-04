@@ -12,14 +12,14 @@
   RequiredAssemblies = @('System.Management.Automation','System.Globalization')
   ScriptsToProcess = @()
   TypesToProcess = @()
-  FormatsToProcess = @()
+  FormatsToProcess = @('./Formatting/Publisher.format.ps1xml','./Formatting/GetSnapResponseResult.format.ps1xml','./Formatting/RemoveSnapResult.format.ps1xml')
   NestedModules = @()
   FunctionsToExport = @()
   CmdletsToExport = @('Get-SnapPackage','Remove-SnapPackage')
   VariablesToExport = @()
   AliasesToExport = @()
   ModuleList = @('PSnaps.dll')
-  FileList = @('PSnaps.dll','PSnaps.psd1')
+  FileList = @('PSnaps.dll','PSnaps.psd1','./Formatting/Publisher.format.ps1xml','./Formatting/GetSnapResponseResult.format.ps1xml','./Formatting/RemoveSnapResult.format.ps1xml')
 
   PrivateData = @{
     PSData = @{

@@ -23,4 +23,7 @@ public sealed record Publisher
 
   [JsonPropertyName ( "validation" )]
   public string? Validation { get; set; }
+
+  [JsonIgnore]
+  public bool Verified => string.Equals ( Validation, "verified", StringComparison.OrdinalIgnoreCase );
 }
