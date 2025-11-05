@@ -12,7 +12,7 @@ using System.Collections.Concurrent;
 using System.Management.Automation;
 using JetBrains.Annotations;
 
-using PSnaps.SnapdRestApi.Responses;
+using PSnaps.SnapCore;
 
 using SnapdRestApi;
 
