@@ -20,7 +20,7 @@ using SnapCore;
                                UseStringEnumConverter = true
                              )]
 [JsonSerializable ( typeof( GetSnapsResponse ) )]
-[JsonSerializable ( typeof( GetSnapsResponseResult[] ) )]
+[JsonSerializable ( typeof( SnapPackage[] ) )]
 [JsonSerializable ( typeof( App[] ) )]
 [JsonSerializable ( typeof( SnapsPostData ) )]
 [JsonSerializable ( typeof( RemoveSnapsPostData ) )]

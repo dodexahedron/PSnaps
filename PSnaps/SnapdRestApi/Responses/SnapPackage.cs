@@ -8,18 +8,11 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
-using System.Numerics;
-using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
-
-using SnapCore;
-
 /// <summary>
-///   Represents an element in the <see cref="GetSnapsResponse.Result" /> collection.
+///   Represents a Snap package.
 /// </summary>
 [PublicAPI]
-public sealed record GetSnapsResponseResult : IComparable<GetSnapsResponseResult>, IComparable, IComparisonOperators<GetSnapsResponseResult, GetSnapsResponseResult, bool>
+public sealed record SnapPackage : IComparable<SnapPackage>, IComparable, IComparisonOperators<SnapPackage, SnapPackage, bool>
 {
   [JsonPropertyName ( "apps" )]
   public App[]? Apps { get; set; }
@@ -42,8 +35,9 @@ public sealed record GetSnapsResponseResult : IComparable<GetSnapsResponseResult
   [JsonPropertyName ( "developer" )]
   public string? Developer { get; set; }
 
+  // ReSharper disable once StringLiteralTypo
   [JsonPropertyName ( "devmode" )]
-  public bool Devmode { get; set; }
+  public bool DevMode { get; set; }
 
   [JsonPropertyName ( "grade" )]
   public string? Grade { get; set; }
@@ -63,8 +57,9 @@ public sealed record GetSnapsResponseResult : IComparable<GetSnapsResponseResult
   [JsonPropertyName ( "installed-size" )]
   public long InstalledSize { get; set; }
 
+  // ReSharper disable once StringLiteralTypo
   [JsonPropertyName ( "jailmode" )]
-  public bool Jailmode { get; set; }
+  public bool JailMode { get; set; }
 
   [JsonPropertyName ( "license" )]
   public string? License { get; set; }
@@ -72,8 +67,11 @@ public sealed record GetSnapsResponseResult : IComparable<GetSnapsResponseResult
   [JsonPropertyName ( "links" )]
   public Links? Links { get; set; }
 
+  [JsonPropertyName ( "media" )]
+  public MediaAsset[]? Media { get; set; }
+
   [JsonPropertyName ( "mounted-from" )]
-  public string? Mountedfrom { get; set; }
+  public string? MountedFrom { get; set; }
 
   [JsonPropertyName ( "name" )]
   public string? Name { get; set; }
@@ -111,11 +109,11 @@ public sealed record GetSnapsResponseResult : IComparable<GetSnapsResponseResult
   /// <inheritdoc />
   public int CompareTo ( object? other )
   {
-    return other is GetSnapsResponseResult otherResult ? CompareTo ( otherResult ) : throw new ArgumentException ( $"Object must be of type {nameof (GetSnapsResponseResult)}" );
+    return other is SnapPackage otherResult ? CompareTo ( otherResult ) : throw new ArgumentException ( $"Object must be of type {nameof (SnapPackage)}" );
   }
 
   /// <inheritdoc />
-  public int CompareTo ( GetSnapsResponseResult? other )
+  public int CompareTo ( SnapPackage? other )
   {
     if ( ReferenceEquals ( this, other ) )
     {
@@ -139,23 +137,23 @@ public sealed record GetSnapsResponseResult : IComparable<GetSnapsResponseResult
     return trackingChannelComparison != 0 ? trackingChannelComparison : string.Compare ( Revision, other.Revision, StringComparison.Ordinal );
   }
 
-  public static bool operator > ( GetSnapsResponseResult? left, GetSnapsResponseResult? right )
+  public static bool operator > ( SnapPackage? left, SnapPackage? right )
   {
-    return Comparer<GetSnapsResponseResult>.Default.Compare ( left, right ) > 0;
+    return Comparer<SnapPackage>.Default.Compare ( left, right ) > 0;
   }
 
-  public static bool operator >= ( GetSnapsResponseResult? left, GetSnapsResponseResult? right )
+  public static bool operator >= ( SnapPackage? left, SnapPackage? right )
   {
-    return Comparer<GetSnapsResponseResult>.Default.Compare ( left, right ) >= 0;
+    return Comparer<SnapPackage>.Default.Compare ( left, right ) >= 0;
   }
 
-  public static bool operator < ( GetSnapsResponseResult? left, GetSnapsResponseResult? right )
+  public static bool operator < ( SnapPackage? left, SnapPackage? right )
   {
-    return Comparer<GetSnapsResponseResult>.Default.Compare ( left, right ) < 0;
+    return Comparer<SnapPackage>.Default.Compare ( left, right ) < 0;
   }
 
-  public static bool operator <= ( GetSnapsResponseResult? left, GetSnapsResponseResult? right )
+  public static bool operator <= ( SnapPackage? left, SnapPackage? right )
   {
-    return Comparer<GetSnapsResponseResult>.Default.Compare ( left, right ) <= 0;
+    return Comparer<SnapPackage>.Default.Compare ( left, right ) <= 0;
   }
 }

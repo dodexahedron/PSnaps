@@ -8,15 +8,13 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
-using System.Text.Json.Serialization;
-
 /// <summary>
 ///   A response received as the result of a request to the <c>/v2/snaps</c> endpoint.
 /// </summary>
 public sealed record GetSnapsResponse
 {
   [JsonPropertyName ( "result" )]
-  public GetSnapsResponseResult[]? Result { get; set; }
+  public SnapPackage[]? Result { get; set; }
 
   [JsonPropertyName ( "sources" )]
   public string[]? Sources { get; set; }
