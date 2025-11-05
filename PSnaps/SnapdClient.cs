@@ -11,11 +11,9 @@ namespace PSnaps;
 using System.Net;
 using System.Net.Http.Json;
 using System.Net.Sockets;
-using JetBrains.Annotations;
-
-using PSnaps.SnapdRestApi.Responses;
-
+using System.Text.Json.Serialization.Metadata;
 using SnapdRestApi;
+using SnapdRestApi.Responses;
 
 [PublicAPI]
 [MustDisposeResource]
@@ -23,6 +21,9 @@ public record SnapdClient : IDisposable
 {
   private readonly HttpClient              _httpClient;
   private readonly CancellationTokenSource _snapdClientCancellationTokenSource;
+  private const    string                  DefaultApiBaseUriV2        = "http://localhost/v2/";
+  private const    string                  DefaultSnapdUnixSocketPath = "unix:///run/snapd.socket";
+  private          long                    _nonZeroMeansDisposed;
 
   public SnapdClient ( string absoluteBaseUri = DefaultApiBaseUriV2, string socketPath = DefaultSnapdUnixSocketPath, CancellationToken cancellationToken = default )
   {
@@ -55,17 +56,32 @@ public record SnapdClient : IDisposable
                   };
   }
 
-  public Uri BaseUri { get; }
-
-  public string SnapdSocketPath { get; }
-
-  public        Uri    SnapdUnixSocketUri { get; }
-  private const string DefaultApiBaseUriV2        = "http://localhost/v2/";
-  private const string DefaultSnapdUnixSocketPath = "unix:///run/snapd.socket";
+  public Uri    BaseUri            { get; }
+  public string SnapdSocketPath    { get; }
+  public Uri    SnapdUnixSocketUri { get; }
 
   public virtual void Dispose ( )
   {
+    if ( Interlocked.CompareExchange ( ref _nonZeroMeansDisposed, -1L, 0L ) != 0L )
+    {
+      // Already disposed or being disposed.
+      return;
+    }
+
+    if ( _snapdClientCancellationTokenSource.Token.CanBeCanceled )
+    {
+      try
+      {
+        _snapdClientCancellationTokenSource.Cancel ( true );
+      }
+      catch ( AggregateException )
+      {
+        // TODO: Decide if doing something other than eating this is appropriate.
+      }
+    }
+
     _httpClient.Dispose ( );
+    _snapdClientCancellationTokenSource.Dispose ( );
     GC.SuppressFinalize ( this );
   }
 
