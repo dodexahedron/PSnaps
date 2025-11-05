@@ -15,10 +15,10 @@ public class MediaAsset
   public int? Height { get; set; }
 
   [JsonPropertyName ( "type" )]
-  public string Type { get; set; }
+  public required string Type { get; set; }
 
   [JsonPropertyName ( "url" )]
-  public string Url { get; set; }
+  public string? Url { get; set; }
 
   [JsonPropertyName ( "width" )]
   public int? Width { get; set; }

@@ -8,8 +8,6 @@
 
 namespace PSnaps.SnapCore;
 
-using System.Text.Json.Serialization;
-
 /// <summary>
 ///   Provides compile-time source generated serialization implementations for types in the PSnaps.SnapCore namespace.
 /// </summary>
@@ -19,6 +17,7 @@ using System.Text.Json.Serialization;
 [JsonSourceGenerationOptions (
                                GenerationMode = JsonSourceGenerationMode.Default,
                                RespectNullableAnnotations = true,
+                               RespectRequiredConstructorParameters = true,
                                UseStringEnumConverter = true
                              )]
 [JsonSerializable ( typeof( App ) )]
@@ -27,4 +26,6 @@ using System.Text.Json.Serialization;
 [JsonSerializable ( typeof( Links ) )]
 [JsonSerializable ( typeof( PackageStatus ) )]
 [JsonSerializable ( typeof( Publisher ) )]
+[JsonSerializable ( typeof( SnapPackage ) )]
+[JsonSerializable ( typeof( SnapPackage[] ) )]
 public partial class SnapCoreJsonSerializerContext : JsonSerializerContext;

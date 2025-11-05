@@ -6,15 +6,10 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-namespace PSnaps.Cmdlets;
-
 using System.Collections.Concurrent;
 using System.Management.Automation;
-using JetBrains.Annotations;
 
-using PSnaps.SnapCore;
-
-using SnapdRestApi;
+namespace PSnaps.Cmdlets;
 
 [PublicAPI]
 [Cmdlet ( VerbsCommon.Get, "SnapPackage", ConfirmImpact = ConfirmImpact.None )]
@@ -39,7 +34,7 @@ public class GetSnapPackageCommand : Cmdlet
       if ( Name is { Length: > 0 } )
       {
         ConcurrentBag<SnapPackage> snaps = [ ];
-        List<Task>                            tasks = [ ];
+        List<Task>                 tasks = [ ];
 
         foreach ( string snapName in Name )
         {

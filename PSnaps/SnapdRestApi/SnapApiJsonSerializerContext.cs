@@ -8,8 +8,6 @@
 
 namespace PSnaps.SnapdRestApi;
 
-using System.Text.Json.Serialization;
-using JetBrains.Annotations;
 using Requests;
 using Responses;
 using SnapCore;
@@ -17,9 +15,11 @@ using SnapCore;
 [JsonSourceGenerationOptions (
                                GenerationMode = JsonSourceGenerationMode.Default,
                                RespectNullableAnnotations = true,
+                               RespectRequiredConstructorParameters = true,
                                UseStringEnumConverter = true
                              )]
 [JsonSerializable ( typeof( GetSnapsResponse ) )]
+[JsonSerializable ( typeof( SnapPackage ) )]
 [JsonSerializable ( typeof( SnapPackage[] ) )]
 [JsonSerializable ( typeof( App[] ) )]
 [JsonSerializable ( typeof( SnapsPostData ) )]

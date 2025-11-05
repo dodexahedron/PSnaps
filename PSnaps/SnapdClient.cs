@@ -6,14 +6,14 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-namespace PSnaps;
-
 using System.Net;
 using System.Net.Http.Json;
 using System.Net.Sockets;
 using System.Text.Json.Serialization.Metadata;
-using SnapdRestApi;
-using SnapdRestApi.Responses;
+using PSnaps.SnapdRestApi;
+using PSnaps.SnapdRestApi.Responses;
+
+namespace PSnaps;
 
 [PublicAPI]
 [MustDisposeResource]
@@ -85,6 +85,13 @@ public record SnapdClient : IDisposable
     GC.SuppressFinalize ( this );
   }
 
+  public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 30000, CancellationToken cancellationToken = default )
+  {
+    GetSnapsResponse? response = await GetAsync ( "snaps?select=all", SnapApiJsonSerializerContext.Default.GetSnapsResponse, timeout, cancellationToken );
+
+    return response?.Result;
+  }
+
   public async Task<TResult?> GetAsync<TResult> ( string path, JsonTypeInfo<TResult> jsonSerializationTypeInfo, int timeout, CancellationToken cancellationToken = default )
   {
     using CancellationTokenSource taskCts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
@@ -99,13 +106,6 @@ public record SnapdClient : IDisposable
                                          )
                        .ConfigureAwait ( true );
     return response;
-  }
-
-  public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 30000, CancellationToken cancellationToken = default )
-  {
-    GetSnapsResponse? response = await GetAsync ( "snaps?select=all", SnapApiJsonSerializerContext.Default.GetSnapsResponse, timeout, cancellationToken );
-
-    return response?.Result;
   }
 
   public async Task<GetChangesResult?> GetChangesAsync ( string actionId, int timeout = 30000, CancellationToken cancellationToken = default )
