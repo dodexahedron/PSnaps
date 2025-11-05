@@ -6,15 +6,12 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-namespace PSnaps.Cmdlets;
-
 using System.Management.Automation;
 using System.Text.Json;
-using JetBrains.Annotations;
-
+using PSnaps.SnapdRestApi;
 using PSnaps.SnapdRestApi.Responses;
 
-using SnapdRestApi;
+namespace PSnaps.Cmdlets;
 
 [PublicAPI]
 [Cmdlet ( VerbsCommon.Remove, "SnapPackage", ConfirmImpact = ConfirmImpact.Medium, DefaultParameterSetName = SingleSnapParameterSet )]
@@ -23,6 +20,9 @@ using SnapdRestApi;
 [OutputType ( typeof( List<RemoveSnapResult> ), ParameterSetName = [ AllSnapsParameterSet ] )]
 public class RemoveSnapPackageCommand : PSCmdlet
 {
+  private const string AllSnapsParameterSet   = "AllSnaps";
+  private const string SingleSnapParameterSet = "SingleSnap";
+
   [Parameter ( Mandatory = true, ParameterSetName = AllSnapsParameterSet )]
   public SwitchParameter All { get; set; }
 
@@ -39,9 +39,6 @@ public class RemoveSnapPackageCommand : PSCmdlet
 
   [Parameter ( Mandatory = true, Position = 1, ParameterSetName = SingleSnapParameterSet )]
   public int Revision { get; set; }
-
-  private const string AllSnapsParameterSet   = "AllSnaps";
-  private const string SingleSnapParameterSet = "SingleSnap";
 
   protected override void ProcessRecord ( )
   {

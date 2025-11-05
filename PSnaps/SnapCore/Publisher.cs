@@ -5,9 +5,8 @@
 // 
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
-namespace PSnaps.SnapCore;
 
-using System.Text.Json.Serialization;
+namespace PSnaps.SnapCore;
 
 [PublicAPI]
 public sealed record Publisher
