@@ -22,6 +22,7 @@
 	<s:Boolean x:Key="/Default/CodeEditing/TypingAssist/VirtualSpaceOnEnter/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeInspection/AsyncConverter/General/ExcludeTestMethodsFromEliding/@EntryValue">False</s:Boolean>
 	<s:Int64 x:Key="/Default/CodeInspection/CyclomaticComplexityAnalysis/Thresholds/=CSHARP/@EntryIndexedValue">25</s:Int64>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=E6CDADF7_002DEBE5_002D0C32_002D107B_002D28A4610E46A9_002Fd_003AAttributes_002Fd_003AJetBrains/@EntryIndexedValue">ExplicitlyExcluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/Highlighting/AnalysisEnabled/@EntryValue">SOLUTION</s:String>
 	<s:Boolean x:Key="/Default/CodeInspection/Highlighting/IdentifierHighlightingEnabled/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=AnnotateCanBeNullParameter/@EntryIndexedValue">SUGGESTION</s:String>

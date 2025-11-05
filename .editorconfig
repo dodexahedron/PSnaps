@@ -1,0 +1,9 @@
+is_root = True
+charset = utf-8
+
+[PSnaps/Attributes/JetBrains/*.cs]
+dotnet_diagnostic.ide0130.severity=silent
+resharper_check_namespace_highlighting=none
+resharper_namespace_match_file_location=false
+dotnet_style_namespace_match_folder = false
+
