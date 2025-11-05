@@ -19,5 +19,8 @@ public enum Confinement
   Partial,
 
   [JsonStringEnumMemberName ( "strict" )]
-  Strict
+  Strict,
+
+  [JsonStringEnumMemberName ( "classic" )]
+  Classic
 }
