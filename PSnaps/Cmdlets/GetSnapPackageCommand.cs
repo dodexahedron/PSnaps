@@ -18,7 +18,7 @@ using SnapdRestApi;
 
 [PublicAPI]
 [Cmdlet ( VerbsCommon.Get, "SnapPackage", ConfirmImpact = ConfirmImpact.None )]
-[OutputType ( typeof( List<GetSnapsResponseResult> ) )]
+[OutputType ( typeof( List<SnapPackage> ) )]
 public class GetSnapPackageCommand : Cmdlet
 {
   [Parameter ( Mandatory = false )]
@@ -38,7 +38,7 @@ public class GetSnapPackageCommand : Cmdlet
 
       if ( Name is { Length: > 0 } )
       {
-        ConcurrentBag<GetSnapsResponseResult> snaps = [ ];
+        ConcurrentBag<SnapPackage> snaps = [ ];
         List<Task>                            tasks = [ ];
 
         foreach ( string snapName in Name )
@@ -57,7 +57,7 @@ public class GetSnapPackageCommand : Cmdlet
 
       if ( All.IsPresent )
       {
-        List<GetSnapsResponseResult> allSnaps
+        List<SnapPackage> allSnaps
           = client.GetAllSnapsAsync ( cancellationToken: cts.Token )
                   .GetAwaiter ( )
                   .GetResult ( )
@@ -79,13 +79,13 @@ public class GetSnapPackageCommand : Cmdlet
 
     return;
 
-    static async Task CollectResults ( Task<GetSnapsResponseResult[]?> task, object? o )
+    static async Task CollectResults ( Task<SnapPackage[]?> task, object? o )
     {
-      GetSnapsResponseResult[]? taskResults = await task;
+      SnapPackage[]? taskResults = await task;
 
-      if ( taskResults is { Length: > 0 } && o is ConcurrentBag<GetSnapsResponseResult> bag )
+      if ( taskResults is { Length: > 0 } && o is ConcurrentBag<SnapPackage> bag )
       {
-        foreach ( GetSnapsResponseResult taskResult in taskResults )
+        foreach ( SnapPackage taskResult in taskResults )
         {
           bag.Add ( taskResult );
         }
