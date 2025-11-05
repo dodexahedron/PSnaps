@@ -8,10 +8,6 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
-using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
-
 [PublicAPI]
 public class GetChangesResult : ApiResponseResult
 {
