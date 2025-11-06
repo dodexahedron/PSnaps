@@ -6,5 +6,6 @@
     <File Path="LICENSE" />
     <File Path="README.md" />
   </Folder>
+  <Project Path="PSnaps.Tests/PSnaps.Tests.csproj" Id="bc72995a-d1ca-4738-82e8-9d779ff4237b" />
   <Project Path="PSnaps/PSnaps.csproj" />
 </Solution>
