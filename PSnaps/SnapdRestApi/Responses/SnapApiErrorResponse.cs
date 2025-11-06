@@ -8,9 +8,7 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
-/// <summary>
-///   A synchronous API response, typically returned in response to a GET request.
-/// </summary>
-public record SnapApiSyncResponse : SnapApiResponse
-{
-}
+public sealed record SnapApiErrorResponse (
+  [property: JsonPropertyName ( "result" )]
+  SnapApiError Result
+) : SnapApiResponse, IHaveResult<SnapApiError>, IEqualityOperators<SnapApiErrorResponse, SnapApiErrorResponse, bool>;

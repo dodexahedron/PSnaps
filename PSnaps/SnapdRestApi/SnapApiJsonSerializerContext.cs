@@ -6,11 +6,10 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-namespace PSnaps.SnapdRestApi;
+using PSnaps.SnapdRestApi.Requests;
+using PSnaps.SnapdRestApi.Responses;
 
-using Requests;
-using Responses;
-using SnapCore;
+namespace PSnaps.SnapdRestApi;
 
 [JsonSourceGenerationOptions (
                                GenerationMode = JsonSourceGenerationMode.Default,
@@ -18,16 +17,21 @@ using SnapCore;
                                RespectRequiredConstructorParameters = true,
                                UseStringEnumConverter = true
                              )]
-[JsonSerializable ( typeof( GetSnapsResponse ) )]
-[JsonSerializable ( typeof( SnapPackage ) )]
-[JsonSerializable ( typeof( SnapPackage[] ) )]
 [JsonSerializable ( typeof( App[] ) )]
-[JsonSerializable ( typeof( SnapsPostData ) )]
+[JsonSerializable ( typeof( GetChangesResponse ) )]
+[JsonSerializable ( typeof( GetSnapsResponse ) )]
+[JsonSerializable ( typeof( IHaveResult<ChangeSet> ) )]
+[JsonSerializable ( typeof( IHaveResult<SnapPackage> ) )]
+[JsonSerializable ( typeof( IHaveResult<SnapPackage[]> ) )]
+[JsonSerializable ( typeof( InstallMultipleSnapsPostData ) )]
+[JsonSerializable ( typeof( RemoveSnapResult ) )]
 [JsonSerializable ( typeof( RemoveSnapsPostData ) )]
 [JsonSerializable ( typeof( SnapApiResponse ) )]
 [JsonSerializable ( typeof( SnapApiAsyncResponse ) )]
+[JsonSerializable ( typeof( SnapApiErrorResponse ) )]
 [JsonSerializable ( typeof( SnapApiSyncResponse ) )]
-[JsonSerializable ( typeof( RemoveSnapResult ) )]
-[JsonSerializable ( typeof( GetChangesResponse ) )]
+[JsonSerializable ( typeof( SnapPackage ) )]
+[JsonSerializable ( typeof( SnapPackage[] ) )]
+[JsonSerializable ( typeof( SnapsPostData ) )]
 [UsedImplicitly]
 public partial class SnapApiJsonSerializerContext : JsonSerializerContext;

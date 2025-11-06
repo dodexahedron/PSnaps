@@ -8,9 +8,11 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
-/// <summary>
-///   A synchronous API response, typically returned in response to a GET request.
-/// </summary>
-public record SnapApiSyncResponse : SnapApiResponse
-{
-}
+[PublicAPI]
+public sealed record SnapApiError (
+  [property: JsonPropertyName ( "message" )]
+  string Message,
+  [property: JsonPropertyName ( "kind" )]
+  string? Kind = null,
+  [property: JsonPropertyName ( "value" )]
+  object? Value = null );
