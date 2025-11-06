@@ -8,8 +8,6 @@
 
 namespace PSnaps.SnapCore;
 
-using System.Text.Json.Serialization;
-
 public enum Confinement
 {
   [JsonStringEnumMemberName ( "none" )]
@@ -22,5 +20,8 @@ public enum Confinement
   Strict,
 
   [JsonStringEnumMemberName ( "classic" )]
-  Classic
+  Classic,
+
+  [JsonStringEnumMemberName ( "devmode" )]
+  DevMode
 }
