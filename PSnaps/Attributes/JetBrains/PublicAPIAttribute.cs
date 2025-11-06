@@ -24,6 +24,7 @@ namespace JetBrains.Annotations;
 [UsedImplicitly ( ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.WithMembers )]
 [AttributeUsage ( AttributeTargets.All, Inherited = false )]
 [Conditional ( "JETBRAINS_ANNOTATIONS" )]
+[ExcludeFromCodeCoverage]
 internal sealed class PublicAPIAttribute : Attribute
 {
   public PublicAPIAttribute ( )

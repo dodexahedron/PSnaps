@@ -28,6 +28,7 @@ namespace JetBrains.Annotations;
                 | AttributeTargets.Parameter
                 )]
 [Conditional ( "JETBRAINS_ANNOTATIONS" )]
+[ExcludeFromCodeCoverage]
 internal sealed class MeansImplicitUseAttribute : Attribute
 {
   public MeansImplicitUseAttribute ( )

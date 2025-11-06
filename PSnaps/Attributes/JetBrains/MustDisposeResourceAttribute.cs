@@ -39,6 +39,7 @@ namespace JetBrains.Annotations;
                | AttributeTargets.Method
                | AttributeTargets.Parameter)]
 [Conditional("JETBRAINS_ANNOTATIONS")]
+[ExcludeFromCodeCoverage]
 internal sealed class MustDisposeResourceAttribute : Attribute
 {
   public MustDisposeResourceAttribute()

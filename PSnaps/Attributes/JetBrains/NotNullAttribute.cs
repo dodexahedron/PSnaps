@@ -34,6 +34,7 @@ namespace JetBrains.Annotations;
                 | AttributeTargets.ReturnValue  // Not included in original source
                 )]
 [Conditional ( "JETBRAINS_ANNOTATIONS" )]
+[ExcludeFromCodeCoverage]
 internal sealed class NotNullAttribute : Attribute
 {
 }

@@ -39,6 +39,7 @@ namespace JetBrains.Annotations;
 /// </example>
 [AttributeUsage ( AttributeTargets.All )]
 [Conditional ( "JETBRAINS_ANNOTATIONS" )]
+[ExcludeFromCodeCoverage]
 internal sealed class UsedImplicitlyAttribute : Attribute
 {
   public UsedImplicitlyAttribute ( )

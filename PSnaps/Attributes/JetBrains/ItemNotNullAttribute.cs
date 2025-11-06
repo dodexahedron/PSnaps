@@ -43,6 +43,7 @@ namespace JetBrains.Annotations;
                 | AttributeTargets.Field
                 )]
 [Conditional ( "JETBRAINS_ANNOTATIONS" )]
+[ExcludeFromCodeCoverage]
 internal sealed class ItemNotNullAttribute : Attribute
 {
 }

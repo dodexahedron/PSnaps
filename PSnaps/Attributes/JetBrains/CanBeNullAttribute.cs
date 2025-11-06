@@ -43,6 +43,7 @@ namespace JetBrains.Annotations;
                 | AttributeTargets.GenericParameter
                 )]
 [Conditional ( "JETBRAINS_ANNOTATIONS" )]
+[ExcludeFromCodeCoverage]
 internal sealed class CanBeNullAttribute : Attribute
 {
 }
