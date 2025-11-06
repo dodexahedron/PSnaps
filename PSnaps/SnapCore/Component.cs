@@ -8,18 +8,12 @@
 
 namespace PSnaps.SnapCore;
 
-[PublicAPI]
-public class MediaAsset
+public record Component
 {
-  [JsonPropertyName ( "height" )]
-  public int? Height { get; set; }
-
-  [JsonPropertyName ( "type" )]
-  public required MediaAssetKind Type { get; set; }
-
-  [JsonPropertyName ( "url" )]
-  public required string Url { get; set; }
-
-  [JsonPropertyName ( "width" )]
-  public int? Width { get; set; }
+  public required string        Name        { get; set; }
+  public required string        Description { get; set; }
+  public required string        Summary     { get; set; }
+  public required string        Version     { get; set; }
+  public required string        Revision    { get; set; }
+  public          ComponentKind Type        { get; set; }
 }

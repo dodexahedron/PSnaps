@@ -6,14 +6,13 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-namespace PSnaps.SnapdRestApi.Responses;
+namespace PSnaps.SnapCore;
 
-using System.Text.Json.Serialization;
-
-[JsonPolymorphic ( TypeDiscriminatorPropertyName = "kind" )]
-[JsonDerivedType ( typeof( RemoveSnapResult ), "remove-snap" )]
-public class ApiResponseResult
+public enum ComponentKind
 {
-  [JsonPropertyName ( "status" )]
-  public required string Status { get; set; }
+  [JsonStringEnumMemberName ( "standard" )]
+  Standard,
+
+  [JsonStringEnumMemberName ( "kernel-modules" )]
+  KernelModules
 }
