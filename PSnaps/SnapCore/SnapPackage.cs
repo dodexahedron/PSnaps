@@ -6,22 +6,28 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
+using PSnaps.SnapdRestApi.Responses;
+
 namespace PSnaps.SnapCore;
 
 /// <summary>
 ///   Represents a Snap package.
 /// </summary>
 [PublicAPI]
-public sealed record SnapPackage : IComparable<SnapPackage>, IComparable, IComparisonOperators<SnapPackage, SnapPackage, bool>
+[JsonPolymorphic ( TypeDiscriminatorPropertyName = "type" )]
+[JsonDerivedType ( typeof( BaseSnap ),  "base" )]
+[JsonDerivedType ( typeof( AppSnap ),   "app" )]
+[JsonDerivedType ( typeof( SnapdSnap ), "snapd" )]
+public record SnapPackage : IHaveStatus<PackageStatus>, IComparable<SnapPackage>, IComparable, IComparisonOperators<SnapPackage, SnapPackage, bool>
 {
-  [JsonPropertyName ( "apps" )]
-  public App[]? Apps { get; set; }
-
-  [JsonPropertyName ( "base" )]
-  public string? Base { get; set; }
-
   [JsonPropertyName ( "channel" )]
-  public string? Channel { get; set; }
+  public required string Channel { get; set; }
+
+  [JsonPropertyName ( "common-ids" )]
+  public string[]? CommonIds { get; set; }
+
+  [JsonPropertyName ( "components" )]
+  public Component[]? Components { get; set; }
 
   [JsonPropertyName ( "confinement" )]
   public Confinement Confinement { get; set; }
@@ -30,7 +36,7 @@ public sealed record SnapPackage : IComparable<SnapPackage>, IComparable, ICompa
   public string? Contact { get; set; }
 
   [JsonPropertyName ( "description" )]
-  public string? Description { get; set; }
+  public required string Description { get; set; }
 
   [JsonPropertyName ( "developer" )]
   public string? Developer { get; set; }
@@ -46,7 +52,7 @@ public sealed record SnapPackage : IComparable<SnapPackage>, IComparable, ICompa
   public string? Icon { get; set; }
 
   [JsonPropertyName ( "id" )]
-  public string? Id { get; set; }
+  public required string Id { get; set; }
 
   [JsonPropertyName ( "ignore-validation" )]
   public bool IgnoreValidation { get; set; }
@@ -74,7 +80,7 @@ public sealed record SnapPackage : IComparable<SnapPackage>, IComparable, ICompa
   public string? MountedFrom { get; set; }
 
   [JsonPropertyName ( "name" )]
-  public string? Name { get; set; }
+  public required string Name { get; set; }
 
   [JsonPropertyName ( "private" )]
   public bool Private { get; set; }
@@ -83,10 +89,7 @@ public sealed record SnapPackage : IComparable<SnapPackage>, IComparable, ICompa
   public Publisher? Publisher { get; set; }
 
   [JsonPropertyName ( "revision" )]
-  public string? Revision { get; set; }
-
-  [JsonPropertyName ( "status" )]
-  public PackageStatus Status { get; set; }
+  public required string Revision { get; set; }
 
   [JsonPropertyName ( "summary" )]
   public string? Summary { get; set; }
@@ -95,13 +98,10 @@ public sealed record SnapPackage : IComparable<SnapPackage>, IComparable, ICompa
   public string? Title { get; set; }
 
   [JsonPropertyName ( "tracking-channel" )]
-  public string? TrackingChannel { get; set; }
-
-  [JsonPropertyName ( "type" )]
-  public string? Type { get; set; }
+  public required string TrackingChannel { get; set; }
 
   [JsonPropertyName ( "version" )]
-  public string? Version { get; set; }
+  public required string Version { get; set; }
 
   [JsonPropertyName ( "website" )]
   public string? Website { get; set; }
@@ -156,4 +156,7 @@ public sealed record SnapPackage : IComparable<SnapPackage>, IComparable, ICompa
   {
     return Comparer<SnapPackage>.Default.Compare ( left, right ) <= 0;
   }
+
+  [JsonPropertyName ( "status" )]
+  public PackageStatus Status { get; set; }
 }
