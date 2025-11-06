@@ -8,8 +8,15 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
-public sealed record GetChangesResponse : SnapApiSyncResponse, IHaveResult<ChangeSet>
+public interface IHaveStatus<out TStatusCode, out TStatus> : IHaveStatus<TStatus>
+  where TStatusCode : unmanaged
+  where TStatus : notnull
 {
-  /// <inheritdoc />
-  public ChangeSet? Result { get; set; }
+  TStatusCode StatusCode { get; }
+}
+
+public interface IHaveStatus<out TStatus>
+  where TStatus : notnull
+{
+  TStatus Status { get; }
 }

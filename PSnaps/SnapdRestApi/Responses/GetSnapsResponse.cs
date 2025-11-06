@@ -11,20 +11,11 @@ namespace PSnaps.SnapdRestApi.Responses;
 /// <summary>
 ///   A response received as the result of a request to the <c>/v2/snaps</c> endpoint.
 /// </summary>
-public sealed record GetSnapsResponse
+public sealed record GetSnapsResponse : SnapApiSyncResponse, IHaveResult<SnapPackage[]>
 {
-  [JsonPropertyName ( "result" )]
+  /// <inheritdoc />
   public SnapPackage[]? Result { get; set; }
 
   [JsonPropertyName ( "sources" )]
   public string[]? Sources { get; set; }
-
-  [JsonPropertyName ( "status" )]
-  public string? Status { get; set; }
-
-  [JsonPropertyName ( "status-code" )]
-  public int StatusCode { get; set; }
-
-  [JsonPropertyName ( "type" )]
-  public string? Type { get; set; }
 }

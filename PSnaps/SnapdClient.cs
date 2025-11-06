@@ -85,72 +85,80 @@ public record SnapdClient : IDisposable
     GC.SuppressFinalize ( this );
   }
 
-  public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 30000, CancellationToken cancellationToken = default )
-  {
-    GetSnapsResponse? response = await GetAsync ( "snaps?select=all", SnapApiJsonSerializerContext.Default.GetSnapsResponse, timeout, cancellationToken );
+  [CollectionAccess ( CollectionAccessType.UpdatedContent )]
+  public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 30000, CancellationToken cancellationToken = default ) => await GetResultAsync ( "snaps?select=all", SnapApiJsonSerializerContext.Default.IHaveResultSnapPackageArray, timeout, cancellationToken );
 
-    return response?.Result;
-  }
+  public async Task<ChangeSet?> GetChangesAsync ( string actionId, int timeout = 30000, CancellationToken cancellationToken = default ) => await GetResultAsync ( $"changes/{actionId}", SnapApiJsonSerializerContext.Default.IHaveResultChangeSet, timeout, cancellationToken );
 
-  public async Task<TResult?> GetAsync<TResult> ( string path, JsonTypeInfo<TResult> jsonSerializationTypeInfo, int timeout, CancellationToken cancellationToken = default )
+  public async Task<TResult?> GetResultAsync<TResult> ( string path, JsonTypeInfo<IHaveResult<TResult>> jsonSerializationTypeInfo, int timeout, CancellationToken cancellationToken = default )
+    where TResult : class
   {
     using CancellationTokenSource taskCts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
     taskCts.Token.ThrowIfCancellationRequested ( );
     taskCts.CancelAfter ( timeout );
 
-    TResult? response =
+    IHaveResult<TResult>? response =
       await _httpClient.GetFromJsonAsync (
                                           path,
                                           jsonSerializationTypeInfo,
                                           taskCts.Token
                                          )
                        .ConfigureAwait ( true );
-    return response;
-  }
-
-  public async Task<GetChangesResult?> GetChangesAsync ( string actionId, int timeout = 30000, CancellationToken cancellationToken = default )
-  {
-    GetChangesResponse? response = await GetAsync ( $"changes/{actionId}", SnapApiJsonSerializerContext.Default.GetChangesResponse, timeout, cancellationToken );
-
     return response?.Result;
   }
 
+  [CollectionAccess ( CollectionAccessType.UpdatedContent )]
   public async Task<SnapPackage[]?> GetSnapAsync ( string snapName, bool includeInactive = false, int timeout = 30000, CancellationToken cancellationToken = default )
   {
-    using CancellationTokenSource taskCts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
-    taskCts.Token.ThrowIfCancellationRequested ( );
-    taskCts.CancelAfter ( timeout );
-
-    GetSnapsResponse? response =
-      await _httpClient.GetFromJsonAsync (
-                                          $"snaps/{snapName}{( includeInactive ? "?select=all" : string.Empty )}",
-                                          SnapApiJsonSerializerContext.Default.GetSnapsResponse,
-                                          taskCts.Token
-                                         )
-                       .ConfigureAwait ( true );
-    return response?.Result;
+    return await GetResultAsync (
+                                 $"snaps/{snapName}{( includeInactive ? "?select=all" : string.Empty )}",
+                                 SnapApiJsonSerializerContext.Default.IHaveResultSnapPackageArray,
+                                 timeout,
+                                 cancellationToken
+                                )
+            .ConfigureAwait ( false );
   }
 
-  public async Task<RemoveSnapResult?> RemoveSnapAsync ( string name, int revision, int timeout = 30000, CancellationToken cancellationToken = default )
+  public async Task<SnapApiResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, bool restartIfRequired = false, int timeout = 30000, CancellationToken cancellationToken = default )
+  {
+    SnapApiResponse? snapApiResponse = await PostAsync (
+                                                        "snaps",
+                                                        new ( snapNames, transactionMode, restartIfRequired ),
+                                                        SnapApiJsonSerializerContext.Default.InstallMultipleSnapsPostData,
+                                                        SnapApiJsonSerializerContext.Default.SnapApiResponse,
+                                                        timeout,
+                                                        cancellationToken
+                                                       );
+    return snapApiResponse;
+  }
+
+  public async Task<TResponse?> PostAsync<TResponse, TPostData> ( string path, TPostData postData, JsonTypeInfo<TPostData> postDataJsonTypeInfo, JsonTypeInfo<TResponse> responseJsonTypeInfo, int timeout = 30000, CancellationToken cancellationToken = default )
+    where TResponse : SnapApiResponse
   {
     using CancellationTokenSource taskCts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
     taskCts.Token.ThrowIfCancellationRequested ( );
     taskCts.CancelAfter ( timeout );
 
-    HttpResponseMessage response =
-      await _httpClient.PostAsJsonAsync (
-                                         $"snaps/{name}",
-                                         new ( revision ),
-                                         SnapApiJsonSerializerContext.Default.RemoveSnapsPostData,
-                                         taskCts.Token
-                                        )
-                       .ConfigureAwait ( true );
+    HttpResponseMessage response = await _httpClient.PostAsJsonAsync ( path, postData, postDataJsonTypeInfo, taskCts.Token ).ConfigureAwait ( true );
 
     if ( response.IsSuccessStatusCode )
     {
-      return await response.Content.ReadFromJsonAsync ( SnapApiJsonSerializerContext.Default.RemoveSnapResult, taskCts.Token );
+      return await response.Content.ReadFromJsonAsync ( responseJsonTypeInfo, taskCts.Token );
     }
 
     return null;
+  }
+
+  public async Task<SnapApiResponse?> RemoveSnapAsync ( string name, string revision, bool purge = false, int timeout = 30000, CancellationToken cancellationToken = default )
+  {
+    return await PostAsync (
+                            $"snaps/{name}",
+                            new ( revision, purge ),
+                            SnapApiJsonSerializerContext.Default.RemoveSnapsPostData,
+                            SnapApiJsonSerializerContext.Default.SnapApiResponse,
+                            timeout,
+                            cancellationToken
+                           )
+            .ConfigureAwait ( false );
   }
 }

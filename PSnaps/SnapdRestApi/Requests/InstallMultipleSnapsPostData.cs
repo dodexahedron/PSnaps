@@ -8,10 +8,11 @@
 
 namespace PSnaps.SnapdRestApi.Requests;
 
-[PublicAPI]
-public sealed record RemoveSnapsPostData (
-  [property: JsonPropertyName ( "revision" )]
-  string Revision,
-  [property: JsonPropertyName ( "purge" )]
-  bool Purge = false
-) : SnapsPostData ( SnapRequestActionKind.Remove );
+public sealed record InstallMultipleSnapsPostData (
+  [property: JsonPropertyName ( "snaps" )]
+  string[] Snaps,
+  [property: JsonPropertyName ( "transaction" )]
+  TransactionMode Transaction = TransactionMode.PerPackage,
+  [property: JsonPropertyName ( "system-restart-immediate" )]
+  bool SystemRestartImmediate = false
+) : SnapsPostData ( SnapRequestActionKind.Install );

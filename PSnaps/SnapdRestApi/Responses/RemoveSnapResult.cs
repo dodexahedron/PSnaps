@@ -8,13 +8,12 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
-using System.Text.Json.Serialization;
-using JetBrains.Annotations;
-
 [PublicAPI]
-public class RemoveSnapResult
-  : ApiResponseResult
+public class RemoveSnapResult : IHaveStatus<string>
 {
   [JsonPropertyName ( "data" )]
   public RemoveSnapResultData? Data { get; set; }
+
+  /// <inheritdoc />
+  public required string Status { get; set; }
 }

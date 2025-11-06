@@ -8,8 +8,10 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
-public sealed record GetChangesResponse : SnapApiSyncResponse, IHaveResult<ChangeSet>
+[JsonDerivedType ( typeof( GetSnapsResponse ) )]
+[JsonDerivedType ( typeof( GetChangesResponse ) )]
+public interface IHaveResult<out T>
 {
-  /// <inheritdoc />
-  public ChangeSet? Result { get; set; }
+  [JsonPropertyName ( "result" )]
+  public T? Result { get; }
 }

@@ -8,8 +8,11 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
+/// <summary>
+///   Describes and encapsulates a set of tasks related to a change.
+/// </summary>
 [PublicAPI]
-public class GetChangesResult : ApiResponseResult
+public class ChangeSet : IHaveStatus<string>
 {
   [JsonPropertyName ( "id" )]
   public required string Id { get; set; }
@@ -27,4 +30,7 @@ public class GetChangesResult : ApiResponseResult
   public string? Summary { get; set; }
 
   public ApiTask[]? Tasks { get; set; }
+
+  /// <inheritdoc />
+  public required string Status { get; set; }
 }

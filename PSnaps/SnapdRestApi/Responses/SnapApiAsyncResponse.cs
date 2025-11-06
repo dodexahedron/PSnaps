@@ -8,10 +8,19 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
-using System.Text.Json.Serialization;
-
-public record SnapApiAsyncResponse : SnapApiResponse
-{
-  [JsonPropertyName ( "change" )]
-  public string? Change { get; set; }
-}
+/// <summary>
+///   An async API response.
+/// </summary>
+/// <param name="Change">
+///   The change ID, for retrieval of the progress and outcome of the operation.<br />
+///   This is always a base-10 number as a string.
+/// </param>
+/// <remarks>
+///   Async responses always contain a <see cref="Change" /> identifier, which can be used to retrieve the outcome of the operation
+///   as a <see cref="ChangeSet" /> via the <c>changes/{id}</c> API endpoint.
+/// </remarks>
+[PublicAPI]
+public sealed record SnapApiAsyncResponse (
+  [property: JsonPropertyName ( "change" )]
+  string Change
+) : SnapApiResponse, IEqualityOperators<SnapApiAsyncResponse, SnapApiAsyncResponse, bool>;
