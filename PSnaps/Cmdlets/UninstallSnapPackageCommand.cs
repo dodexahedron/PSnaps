@@ -16,7 +16,7 @@ namespace PSnaps.Cmdlets;
 
 [PublicAPI]
 [Cmdlet ( VerbsLifecycle.Uninstall, "SnapPackage", ConfirmImpact = ConfirmImpact.Medium, DefaultParameterSetName = SingleSnapAllRevisionsParameterSetName )]
-[Alias ( "Remove-Snap", "Remove-Snaps", "Remove-SnapPackages","Uninstall-Snap", "Uninstall-Snaps", "Uninstall-SnapPackages" )]
+[Alias ( "Remove-Snap", "Remove-Snaps", "Remove-SnapPackages", "Uninstall-Snap", "Uninstall-Snaps", "Uninstall-SnapPackages" )]
 [OutputType ( typeof( IEnumerable<SnapApiAsyncResponse> ) )]
 public class UninstallSnapPackageCommand : SnapdClientCmdlet
 {
