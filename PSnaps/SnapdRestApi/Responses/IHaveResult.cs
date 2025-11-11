@@ -8,8 +8,9 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
+[JsonPolymorphic ( UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToNearestAncestor )]
 [JsonDerivedType ( typeof( GetSnapsResponse ) )]
-[JsonDerivedType ( typeof( GetChangesResponse ) )]
+[JsonDerivedType ( typeof( IHaveResult<SnapPackage[]> ) )]
 public interface IHaveResult<out T>
 {
   [JsonPropertyName ( "result" )]

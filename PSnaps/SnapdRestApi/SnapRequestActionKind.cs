@@ -8,11 +8,10 @@
 
 namespace PSnaps.SnapdRestApi;
 
-using System.Text.Json.Serialization;
-
 /// <summary>
 ///   Enumeration of actions valid for tasks operating on snap packages, such as installing and removing.
 /// </summary>
+[PublicAPI]
 public enum SnapRequestActionKind
 {
   [JsonStringEnumMemberName ( "install" )]

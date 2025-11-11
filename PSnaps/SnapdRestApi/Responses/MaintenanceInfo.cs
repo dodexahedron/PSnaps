@@ -8,8 +8,12 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
-public sealed record GetChangesResponse : SnapApiSyncResponse, IHaveResult<ChangeSet>
+[PublicAPI]
+public sealed record MaintenanceInfo
 {
-  /// <inheritdoc />
-  public ChangeSet? Result { get; set; }
+  [JsonPropertyName ( "kind" )]
+  public required string Kind { get; set; }
+
+  [JsonPropertyName ( "message" )]
+  public required string Message { get; set; }
 }

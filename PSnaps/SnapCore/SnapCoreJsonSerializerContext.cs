@@ -18,14 +18,24 @@ namespace PSnaps.SnapCore;
                                GenerationMode = JsonSourceGenerationMode.Default,
                                RespectNullableAnnotations = true,
                                RespectRequiredConstructorParameters = true,
-                               UseStringEnumConverter = true
+                               UseStringEnumConverter = true,
+                               AllowOutOfOrderMetadataProperties = true
                              )]
 [JsonSerializable ( typeof( App ) )]
-[JsonSerializable ( typeof( Confinement ) )]
+[JsonSerializable ( typeof( App[] ) )]
+[JsonSerializable ( typeof( AppSnap ) )]
+[JsonSerializable ( typeof( BaseSnap ) )]
+[JsonSerializable ( typeof( Component ) )]
+[JsonSerializable ( typeof( Component[] ) )]
+[JsonSerializable ( typeof( ConfinementKind ) )]
 [JsonSerializable ( typeof( DaemonKind ) )]
 [JsonSerializable ( typeof( Links ) )]
+[JsonSerializable ( typeof( MediaAsset ) )]
+[JsonSerializable ( typeof( MediaAssetKind ) )]
 [JsonSerializable ( typeof( PackageStatus ) )]
 [JsonSerializable ( typeof( Publisher ) )]
+[JsonSerializable ( typeof( SnapdSnap ) )]
 [JsonSerializable ( typeof( SnapPackage ) )]
 [JsonSerializable ( typeof( SnapPackage[] ) )]
+[UsedImplicitly]
 public partial class SnapCoreJsonSerializerContext : JsonSerializerContext;

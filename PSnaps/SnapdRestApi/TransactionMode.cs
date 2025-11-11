@@ -8,6 +8,7 @@
 
 namespace PSnaps.SnapdRestApi;
 
+[PublicAPI]
 public enum TransactionMode
 {
   /// <summary>

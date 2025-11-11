@@ -9,7 +9,9 @@
 namespace PSnaps.SnapdRestApi.Requests;
 
 [PublicAPI]
-public sealed record RemoveSnapsPostData (
+public sealed record RemoveSingleSnapPostData (
+  [property: JsonIgnore]
+  string? Name,
   [property: JsonPropertyName ( "revision" )]
   string Revision,
   [property: JsonPropertyName ( "purge" )]

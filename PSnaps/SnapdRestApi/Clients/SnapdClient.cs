@@ -9,23 +9,30 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Net.Sockets;
+using System.Runtime.Versioning;
 using System.Text.Json.Serialization.Metadata;
-using PSnaps.SnapdRestApi;
 using PSnaps.SnapdRestApi.Responses;
 
-namespace PSnaps;
+namespace PSnaps.SnapdRestApi.Clients;
 
 [PublicAPI]
 [MustDisposeResource]
-public record SnapdClient : IDisposable
+[SupportedOSPlatform ( "linux" )]
+public record SnapdClient : ISnapdRestClient
 {
   private readonly HttpClient              _httpClient;
   private readonly CancellationTokenSource _snapdClientCancellationTokenSource;
-  private const    string                  DefaultApiBaseUriV2        = "http://localhost/v2/";
-  private const    string                  DefaultSnapdUnixSocketPath = "unix:///run/snapd.socket";
   private          long                    _nonZeroMeansDisposed;
 
-  public SnapdClient ( string absoluteBaseUri = DefaultApiBaseUriV2, string socketPath = DefaultSnapdUnixSocketPath, CancellationToken cancellationToken = default )
+  public SnapdClient ( ) : this ( ISnapdRestClient.DefaultApiBaseUriV2 )
+  {
+  }
+
+  public SnapdClient (
+    string            absoluteBaseUri   = ISnapdRestClient.DefaultApiBaseUriV2,
+    string            socketPath        = ISnapdRestClient.DefaultSnapdUnixSocketPath,
+    CancellationToken cancellationToken = default
+  )
   {
     _snapdClientCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource ( cancellationToken );
     BaseUri                             = new ( absoluteBaseUri, UriKind.Absolute );
@@ -56,9 +63,11 @@ public record SnapdClient : IDisposable
                   };
   }
 
-  public Uri    BaseUri            { get; }
-  public string SnapdSocketPath    { get; }
-  public Uri    SnapdUnixSocketUri { get; }
+  public Uri BaseUri { get; init; }
+
+  public string SnapdSocketPath { get; init; }
+
+  public Uri SnapdUnixSocketUri { get; }
 
   public virtual void Dispose ( )
   {
@@ -86,9 +95,81 @@ public record SnapdClient : IDisposable
   }
 
   [CollectionAccess ( CollectionAccessType.UpdatedContent )]
-  public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 30000, CancellationToken cancellationToken = default ) => await GetResultAsync ( "snaps?select=all", SnapApiJsonSerializerContext.Default.IHaveResultSnapPackageArray, timeout, cancellationToken );
+  public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 30000, CancellationToken cancellationToken = default )
+  {
+    return await GetResultAsync ( "snaps?select=all", SnapApiJsonSerializerContext.Default.IHaveResultSnapPackageArray, timeout, cancellationToken );
+  }
 
-  public async Task<ChangeSet?> GetChangesAsync ( string actionId, int timeout = 30000, CancellationToken cancellationToken = default ) => await GetResultAsync ( $"changes/{actionId}", SnapApiJsonSerializerContext.Default.IHaveResultChangeSet, timeout, cancellationToken );
+  public async Task<ChangeSet?> GetChangesAsync ( string actionId, int timeout = 30000, CancellationToken cancellationToken = default )
+  {
+    return await GetResultAsync ( $"changes/{actionId}", SnapApiJsonSerializerContext.Default.IHaveResultChangeSet, timeout, cancellationToken );
+  }
+
+  [CollectionAccess ( CollectionAccessType.UpdatedContent )]
+  public async Task<SnapPackage[]?> GetSingleSnapAsync ( string snapName, bool includeInactive = false, int timeout = 30000, CancellationToken cancellationToken = default )
+  {
+    return await GetResultAsync (
+                                 $"snaps/{snapName}{( includeInactive ? "?select=all" : string.Empty )}",
+                                 SnapApiJsonSerializerContext.Default.IHaveResultSnapPackageArray,
+                                 timeout,
+                                 cancellationToken
+                                )
+            .ConfigureAwait ( false );
+  }
+
+  /// <inheritdoc />
+  public async Task<List<SnapPackage>?> GetSnapsAsync ( string[] snapNames, bool includeInactive = false, int timeout = 10000, CancellationToken cancellationToken = default )
+  {
+    SnapPackage[]? snapPackages = await GetResultAsync (
+                                                        $"snaps?snaps={string.Join ( ',', snapNames )}{( includeInactive ? "&select=all" : string.Empty )}",
+                                                        SnapApiJsonSerializerContext.Default.IHaveResultSnapPackageArray,
+                                                        timeout,
+                                                        cancellationToken
+                                                       )
+                                   .ConfigureAwait ( false );
+    return snapPackages is null ? null : [ ..snapPackages ];
+  }
+
+  public async Task<SnapApiResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, bool restartIfRequired = false, int timeout = 30000, CancellationToken cancellationToken = default )
+  {
+    SnapApiResponse? snapApiResponse = await PostAsync (
+                                                        "snaps",
+                                                        new ( snapNames, transactionMode, restartIfRequired ),
+                                                        SnapApiJsonSerializerContext.Default.InstallMultipleSnapsPostData,
+                                                        SnapApiJsonSerializerContext.Default.SnapApiResponse,
+                                                        timeout,
+                                                        cancellationToken
+                                                       );
+    return snapApiResponse;
+  }
+
+  /// <inheritdoc />
+  public async Task<SnapApiAsyncResponse?> RemoveMultipleSnapsAsync ( string[] snapNames, bool purge = false, int timeout = 10000, CancellationToken cancellationToken = default )
+  {
+    return await PostAsync (
+                            "snaps",
+                            new ( snapNames, purge ),
+                            SnapApiJsonSerializerContext.Default.RemoveMultipleSnapsPostData,
+                            SnapApiJsonSerializerContext.Default.SnapApiAsyncResponse,
+                            timeout,
+                            cancellationToken
+                           )
+            .ConfigureAwait ( false );
+  }
+
+  /// <inheritdoc />
+  public async Task<SnapApiAsyncResponse?> RemoveSnapAsync ( string name, string revision, bool purge = false, int timeout = 10000, CancellationToken cancellationToken = default )
+  {
+    return await PostAsync (
+                            $"snaps/{name}",
+                            new ( name, revision, purge ),
+                            SnapApiJsonSerializerContext.Default.RemoveSingleSnapPostData,
+                            SnapApiJsonSerializerContext.Default.SnapApiAsyncResponse,
+                            timeout,
+                            cancellationToken
+                           )
+            .ConfigureAwait ( false );
+  }
 
   public async Task<TResult?> GetResultAsync<TResult> ( string path, JsonTypeInfo<IHaveResult<TResult>> jsonSerializationTypeInfo, int timeout, CancellationToken cancellationToken = default )
     where TResult : class
@@ -107,31 +188,6 @@ public record SnapdClient : IDisposable
     return response?.Result;
   }
 
-  [CollectionAccess ( CollectionAccessType.UpdatedContent )]
-  public async Task<SnapPackage[]?> GetSnapAsync ( string snapName, bool includeInactive = false, int timeout = 30000, CancellationToken cancellationToken = default )
-  {
-    return await GetResultAsync (
-                                 $"snaps/{snapName}{( includeInactive ? "?select=all" : string.Empty )}",
-                                 SnapApiJsonSerializerContext.Default.IHaveResultSnapPackageArray,
-                                 timeout,
-                                 cancellationToken
-                                )
-            .ConfigureAwait ( false );
-  }
-
-  public async Task<SnapApiResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, bool restartIfRequired = false, int timeout = 30000, CancellationToken cancellationToken = default )
-  {
-    SnapApiResponse? snapApiResponse = await PostAsync (
-                                                        "snaps",
-                                                        new ( snapNames, transactionMode, restartIfRequired ),
-                                                        SnapApiJsonSerializerContext.Default.InstallMultipleSnapsPostData,
-                                                        SnapApiJsonSerializerContext.Default.SnapApiResponse,
-                                                        timeout,
-                                                        cancellationToken
-                                                       );
-    return snapApiResponse;
-  }
-
   public async Task<TResponse?> PostAsync<TResponse, TPostData> ( string path, TPostData postData, JsonTypeInfo<TPostData> postDataJsonTypeInfo, JsonTypeInfo<TResponse> responseJsonTypeInfo, int timeout = 30000, CancellationToken cancellationToken = default )
     where TResponse : SnapApiResponse
   {
@@ -147,18 +203,5 @@ public record SnapdClient : IDisposable
     }
 
     return null;
-  }
-
-  public async Task<SnapApiResponse?> RemoveSnapAsync ( string name, string revision, bool purge = false, int timeout = 30000, CancellationToken cancellationToken = default )
-  {
-    return await PostAsync (
-                            $"snaps/{name}",
-                            new ( revision, purge ),
-                            SnapApiJsonSerializerContext.Default.RemoveSnapsPostData,
-                            SnapApiJsonSerializerContext.Default.SnapApiResponse,
-                            timeout,
-                            cancellationToken
-                           )
-            .ConfigureAwait ( false );
   }
 }

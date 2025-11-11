@@ -6,14 +6,11 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-namespace PSnaps.SnapdRestApi.Responses;
+namespace PSnaps.SnapdRestApi.Requests;
 
-[PublicAPI]
-public class RemoveSnapResult
-{
-  [JsonPropertyName ( "data" )]
-  public RemoveSnapResultData? Data { get; set; }
-
-  [JsonPropertyName ( "status" )]
-  public required string Status { get; set; }
-}
+public sealed record RemoveMultipleSnapsPostData (
+  [property: JsonPropertyName ( "snaps" )]
+  string[] Snaps,
+  [property: JsonPropertyName ( "purge" )]
+  bool Purge = false
+) : SnapsPostData ( SnapRequestActionKind.Remove );

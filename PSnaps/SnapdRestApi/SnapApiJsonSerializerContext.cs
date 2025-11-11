@@ -15,17 +15,19 @@ namespace PSnaps.SnapdRestApi;
                                GenerationMode = JsonSourceGenerationMode.Default,
                                RespectNullableAnnotations = true,
                                RespectRequiredConstructorParameters = true,
-                               UseStringEnumConverter = true
+                               UseStringEnumConverter = true,
+                               AllowOutOfOrderMetadataProperties = true,
+                               UnknownTypeHandling = JsonUnknownTypeHandling.JsonNode
                              )]
 [JsonSerializable ( typeof( App[] ) )]
-[JsonSerializable ( typeof( GetChangesResponse ) )]
 [JsonSerializable ( typeof( GetSnapsResponse ) )]
 [JsonSerializable ( typeof( IHaveResult<ChangeSet> ) )]
 [JsonSerializable ( typeof( IHaveResult<SnapPackage> ) )]
 [JsonSerializable ( typeof( IHaveResult<SnapPackage[]> ) )]
 [JsonSerializable ( typeof( InstallMultipleSnapsPostData ) )]
 [JsonSerializable ( typeof( RemoveSnapResult ) )]
-[JsonSerializable ( typeof( RemoveSnapsPostData ) )]
+[JsonSerializable ( typeof( RemoveSingleSnapPostData ) )]
+[JsonSerializable ( typeof( RemoveMultipleSnapsPostData ) )]
 [JsonSerializable ( typeof( SnapApiResponse ) )]
 [JsonSerializable ( typeof( SnapApiAsyncResponse ) )]
 [JsonSerializable ( typeof( SnapApiErrorResponse ) )]
@@ -33,5 +35,6 @@ namespace PSnaps.SnapdRestApi;
 [JsonSerializable ( typeof( SnapPackage ) )]
 [JsonSerializable ( typeof( SnapPackage[] ) )]
 [JsonSerializable ( typeof( SnapsPostData ) )]
+[JsonSerializable ( typeof( ConfinementKind ) )]
 [UsedImplicitly]
 public partial class SnapApiJsonSerializerContext : JsonSerializerContext;

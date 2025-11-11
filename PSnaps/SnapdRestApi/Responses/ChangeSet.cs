@@ -12,7 +12,7 @@ namespace PSnaps.SnapdRestApi.Responses;
 ///   Describes and encapsulates a set of tasks related to a change.
 /// </summary>
 [PublicAPI]
-public class ChangeSet : IHaveStatus<string>
+public class ChangeSet
 {
   [JsonPropertyName ( "id" )]
   public required string Id { get; set; }
@@ -26,11 +26,12 @@ public class ChangeSet : IHaveStatus<string>
   [JsonPropertyName ( "spawn-time" )]
   public DateTimeOffset SpawnTime { get; set; }
 
+  [JsonPropertyName ( "status" )]
+  public required string Status { get; set; }
+
   [JsonPropertyName ( "summary" )]
   public string? Summary { get; set; }
 
+  [JsonPropertyName ( "tasks" )]
   public ApiTask[]? Tasks { get; set; }
-
-  /// <inheritdoc />
-  public required string Status { get; set; }
 }

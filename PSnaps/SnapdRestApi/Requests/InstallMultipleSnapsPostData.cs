@@ -8,6 +8,18 @@
 
 namespace PSnaps.SnapdRestApi.Requests;
 
+/// <summary>
+///   Represents the data required to install multiple snaps in a single request.
+/// </summary>
+/// <remarks>
+///   This record is used to encapsulate the details of a request to install multiple snaps, including the
+///   list of snap package names, the transaction mode, and whether an immediate system restart is respected after the
+///   installation.
+/// </remarks>
+/// <param name="Snaps">An array of one or more snap package names to install.</param>
+/// <param name="Transaction">The transaction mode for the operation.</param>
+/// <param name="SystemRestartImmediate">If a restart is required, specifies whether to perform the restart or not.</param>
+[UsedImplicitly ( ImplicitUseTargetFlags.WithMembers )]
 public sealed record InstallMultipleSnapsPostData (
   [property: JsonPropertyName ( "snaps" )]
   string[] Snaps,

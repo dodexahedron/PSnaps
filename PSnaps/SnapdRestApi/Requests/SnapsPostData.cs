@@ -8,9 +8,6 @@
 
 namespace PSnaps.SnapdRestApi.Requests;
 
-using System.Text.Json.Serialization;
-using JetBrains.Annotations;
-
 [PublicAPI]
 public record SnapsPostData
 {
