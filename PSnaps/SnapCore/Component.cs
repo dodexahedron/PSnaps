@@ -8,12 +8,24 @@
 
 namespace PSnaps.SnapCore;
 
-public record Component
+[PublicAPI]
+public sealed record Component
 {
-  public required string        Name        { get; set; }
-  public required string        Description { get; set; }
-  public required string        Summary     { get; set; }
-  public required string        Version     { get; set; }
-  public required string        Revision    { get; set; }
-  public          ComponentKind Type        { get; set; }
+  [JsonPropertyName ( "description" )]
+  public required string Description { get; set; }
+
+  [JsonPropertyName ( "name" )]
+  public required string Name { get; set; }
+
+  [JsonPropertyName ( "revision" )]
+  public required string Revision { get; set; }
+
+  [JsonPropertyName ( "summary" )]
+  public required string Summary { get; set; }
+
+  [JsonPropertyName ( "type" )]
+  public ComponentKind Type { get; set; }
+
+  [JsonPropertyName ( "version" )]
+  public required string Version { get; set; }
 }
