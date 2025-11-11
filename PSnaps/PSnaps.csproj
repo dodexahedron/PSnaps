@@ -10,7 +10,7 @@
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <WarningLevel>8</WarningLevel>
-    <VersionPrefix>0.2.0</VersionPrefix>
+    <VersionPrefix>0.3.0</VersionPrefix>
     <VersionSuffix>Alpha</VersionSuffix>
     <DebugType>portable</DebugType>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>

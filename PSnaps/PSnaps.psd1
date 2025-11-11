@@ -1,6 +1,6 @@
 @{
   RootModule = 'PSnaps.dll'
-  ModuleVersion = '0.2'
+  ModuleVersion = '0.3'
   CompatiblePSEditions = @('Core')
   GUID = '7a389ff6-dd4f-4486-b430-802de6fcc65c'
   Author = 'Brandon Thetford'
@@ -15,7 +15,7 @@
   FormatsToProcess = @('./Formatting/Publisher.Format.ps1xml','./Formatting/GetSnapResponseResult.Format.ps1xml','./Formatting/RemoveSnapResult.Format.ps1xml','./Formatting/SnapPachakge.Format.ps1xml')
   NestedModules = @()
   FunctionsToExport = @()
-  CmdletsToExport = @('Get-SnapPackage','Install-SnapPackage','Remove-SnapPackage')
+  CmdletsToExport = @('Get-SnapPackage','Install-SnapPackage','Remove-SnapPackage','Set-SnapdClient','Get-SnapdClient')
   VariablesToExport = @()
   AliasesToExport = @()
   ModuleList = @('PSnaps.dll')
