@@ -6,10 +6,9 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-using System.Runtime.CompilerServices;
 using PSnaps.SnapCore;
 
-namespace PSnaps.Tests;
+namespace PSnaps.Tests.SnapCore;
 
 [TestFixture]
 [TestOf ( typeof( SnapPackage ) )]
@@ -152,7 +151,7 @@ public class SnapPackageTests
 
   [Test]
   [TestCaseSource ( nameof (CompareTo_ExpectedOrdering_Cases) )]
-  public int CompareTo_ExpectedOrdering ( SnapPackage? left, SnapPackage? right )
+  public int CompareTo_ExpectedOrdering ( SnapPackage left, SnapPackage? right )
   {
     return left.CompareTo ( right );
   }
@@ -173,7 +172,7 @@ public class SnapPackageTests
     Assert.That ( ( ) => testPackage.CompareTo ( 0xDEADBEEF ), Throws.ArgumentException );
   }
 
-  [Test(ExpectedResult = 0)]
+  [Test ( ExpectedResult = 0 )]
   public int CompareTo_SnapPackageAsObject_DoesNotThrow ( )
   {
     SnapPackage testPackage = new ( )
@@ -186,7 +185,7 @@ public class SnapPackageTests
                                 TrackingChannel = "stable",
                                 Version         = "1.0.0"
                               };
-    object                 testPackageAsObject = testPackage;
+    object testPackageAsObject = testPackage;
     return testPackage.CompareTo ( testPackageAsObject );
   }
 

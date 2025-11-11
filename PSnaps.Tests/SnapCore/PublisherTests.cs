@@ -8,7 +8,7 @@
 
 using PSnaps.SnapCore;
 
-namespace PSnaps.Tests;
+namespace PSnaps.Tests.SnapCore;
 
 [TestFixture]
 [TestOf ( typeof( Publisher ) )]

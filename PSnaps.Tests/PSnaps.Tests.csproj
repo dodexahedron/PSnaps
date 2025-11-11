@@ -16,9 +16,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NUnit3TestAdapter" Version="5.2.0" />
+    <PackageReference Include="System.Management.Automation" Version="7.5.4" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PSnaps.Mocks\PSnaps.Mocks.csproj" />
     <ProjectReference Include="..\PSnaps\PSnaps.csproj" />
   </ItemGroup>
 

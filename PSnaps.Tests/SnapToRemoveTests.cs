@@ -24,7 +24,6 @@ public class SnapToRemoveTests
       yield return @"N\1\2";
       yield return "N/1.2.3/321";
       yield return "Name/1.2.3/InvalidRevision";
-      yield return " ";
     }
   }
 
@@ -69,6 +68,19 @@ public class SnapToRemoveTests
   }
 
   [Test]
+  public void Deconstruct_AllComponentsCorrect ( )
+  {
+    const string snapName     = "SnapName";
+    const string snapVersion  = "1.2.3";
+    const string snapRevision = "321";
+    SnapToRemove testObject   = new ( snapName, snapVersion, snapRevision );
+    ( string name, string version, string revision ) = testObject;
+    Assert.That ( name,     Is.EqualTo ( snapName ) );
+    Assert.That ( version,  Is.EqualTo ( snapVersion ) );
+    Assert.That ( revision, Is.EqualTo ( snapRevision ) );
+  }
+
+  [Test]
   public void Parse_BadInputThrowsFormatException ( [ValueSource ( nameof (BadInputStringsForParseTests) )] string input )
   {
     Assert.That ( ( ) => SnapToRemove.Parse ( input ), Throws.TypeOf<FormatException> ( ) );
@@ -82,11 +94,9 @@ public class SnapToRemoveTests
   }
 
   [Test]
-  [TestCaseSource ( nameof (GoodInputStringsAndExpectedResultsForParseTests) )]
-  public SnapToRemove? TryParse_TrueAndExpectedObjectForGoodInput ( string input )
+  public void Parse_WhitespaceInputThrowsArgumentException ( [Values ( "", " ", "\t", "\n", "\xa0", "\x2002", "\x2003", "\x2009" )] string input )
   {
-    Assert.That ( SnapToRemove.TryParse ( input, null, out SnapToRemove? result ), Is.True );
-    return result;
+    Assert.That ( ( ) => SnapToRemove.Parse ( input ), Throws.TypeOf<ArgumentException> ( ) );
   }
 
   [Test]
@@ -104,15 +114,10 @@ public class SnapToRemoveTests
   }
 
   [Test]
-  public void Deconstruct_AllComponentsCorrect ( )
+  [TestCaseSource ( nameof (GoodInputStringsAndExpectedResultsForParseTests) )]
+  public SnapToRemove? TryParse_TrueAndExpectedObjectForGoodInput ( string input )
   {
-    const string snapName     = "SnapName";
-    const string snapVersion  = "1.2.3";
-    const string snapRevision = "321";
-    SnapToRemove testObject   = new ( snapName, snapVersion, snapRevision );
-    ( string name, string version, string revision ) = testObject;
-    Assert.That ( name,     Is.EqualTo ( snapName ) );
-    Assert.That ( version,  Is.EqualTo ( snapVersion ) );
-    Assert.That ( revision, Is.EqualTo ( snapRevision ) );
+    Assert.That ( SnapToRemove.TryParse ( input, null, out SnapToRemove? result ), Is.True );
+    return result;
   }
 }
