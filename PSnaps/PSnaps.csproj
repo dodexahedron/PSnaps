@@ -90,6 +90,7 @@
     <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Numerics" />
     <Using Include="System.Text.Json.Serialization" />
+    <InternalsVisibleTo Include="PSnaps.Tests" />
   </ItemGroup>
 
 </Project>
