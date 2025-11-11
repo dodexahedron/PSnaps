@@ -15,10 +15,10 @@ using PSnaps.SnapdRestApi.Responses;
 namespace PSnaps.Cmdlets;
 
 [PublicAPI]
-[Cmdlet ( VerbsCommon.Remove, "SnapPackage", ConfirmImpact = ConfirmImpact.Medium, DefaultParameterSetName = SingleSnapAllRevisionsParameterSetName )]
-[Alias ( "Remove-Snap", "Remove-Snaps", "Remove-SnapPackages" )]
+[Cmdlet ( VerbsLifecycle.Uninstall, "SnapPackage", ConfirmImpact = ConfirmImpact.Medium, DefaultParameterSetName = SingleSnapAllRevisionsParameterSetName )]
+[Alias ( "Remove-Snap", "Remove-Snaps", "Remove-SnapPackages","Uninstall-Snap", "Uninstall-Snaps", "Uninstall-SnapPackages" )]
 [OutputType ( typeof( IEnumerable<SnapApiAsyncResponse> ) )]
-public class RemoveSnapPackageCommand : SnapdClientCmdlet
+public class UninstallSnapPackageCommand : SnapdClientCmdlet
 {
   private const string AllSnapsParameterSet                = "AllSnaps";
   private const string CleanUpAllDisabledSnapsParameterSet = nameof (CleanUpAllDisabledSnaps);

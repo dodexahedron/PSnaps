@@ -15,7 +15,7 @@
   FormatsToProcess = @('Formatting\Publisher.Format.ps1xml','Formatting\GetSnapResponseResult.Format.ps1xml','Formatting\RemoveSnapResult.Format.ps1xml','Formatting\SnapPackage.Format.ps1xml')
   NestedModules = @()
   FunctionsToExport = @()
-  CmdletsToExport = @('Get-SnapPackage','Install-SnapPackage','Remove-SnapPackage','Set-SnapdClient','Get-SnapdClient')
+  CmdletsToExport = @('Get-SnapPackage','Install-SnapPackage','Uninstall-SnapPackage','Set-SnapdClient','Get-SnapdClient')
   VariablesToExport = @()
   AliasesToExport = @()
   ModuleList = @('PSnaps')
