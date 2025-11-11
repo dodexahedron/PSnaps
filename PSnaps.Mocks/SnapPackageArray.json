@@ -1,0 +1,797 @@
+[
+  {
+    "base": "core22",
+    "channel": "latest/stable",
+    "confinement": "strict",
+    "contact": "https://github.com/ubuntu/gnome-sdk/issues",
+    "description": "This snap provides the GNOME 42 stack to other snaps that use it. It shares the base GNOME libraries and desktop integration components through the content interface. This helps reduce the size of snaps and helps developers to easily snap desktop applications.\n\n**For users**\n\nThis snap is automatically installed and removed when needed. **Manually adding or removing this snap is not recommended** and might break things.\n\n* If you are having issues with **snaps** using GNOME, please contact the experts on the Snapcraft forum: https://forum.snapcraft.io/\n* If you want to install the GNOME Desktop Environment, then you are in the wrong place. Please take a look at https://www.gnome.org/ for more information on how to get it.\n\n**For developers**\n\n* The `gnome` extension is the recommended way to use this in your own snap: https://snapcraft.io/docs/gnome-extension\n* You can report issues with this content snap on GitHub: https://github.com/ubuntu/gnome-sdk/issues\n* The source code of this snap is available on GitHub in the `gnome-42-2204` branch: https://github.com/ubuntu/gnome-sdk/tree/gnome-42-2204\n",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/gnome-42-2204/icon",
+    "id": "lATO8HzwVvrAPrlZRAWpfyrJKlAJrZS3",
+    "ignore-validation": false,
+    "install-date": "2025-09-27T22:25:45.126303109-07:00",
+    "installed-size": 541278208,
+    "jailmode": false,
+    "links":
+    {
+      "contact":
+      [
+        "https://github.com/ubuntu/gnome-sdk/issues"
+      ],
+      "source":
+      [
+        "https://github.com/ubuntu/gnome-sdk/tree/gnome-42-2204"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/gnome-42-2204_226.snap",
+    "name": "gnome-42-2204",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "226",
+    "status": "active",
+    "summary": "Shared GNOME 42 Ubuntu stack",
+    "title": "gnome-42-2204",
+    "tracking-channel": "latest/stable",
+    "type": "app",
+    "version": "0+git.837775c-sdk0+git.7b07595"
+  },
+  {
+    "channel": "stable",
+    "confinement": "strict",
+    "contact": "mailto:snaps@canonical.com",
+    "description": "",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "",
+    "id": "EISPgh06mRh1vordZY9OZ34QHdd7OrdR",
+    "ignore-validation": false,
+    "install-date": "2023-04-30T23:27:57.97967759-07:00",
+    "installed-size": 4096,
+    "jailmode": false,
+    "links":
+    {
+      "contact":
+      [
+        "mailto:snaps@canonical.com"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/bare_5.snap",
+    "name": "bare",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "5",
+    "status": "active",
+    "summary": "Empty base snap, useful for testing and fully statically linked snaps",
+    "title": "bare",
+    "tracking-channel": "latest/stable",
+    "type": "base",
+    "version": "1.0"
+  },
+  {
+    "channel": "latest/stable",
+    "confinement": "strict",
+    "contact": "",
+    "description": "Base snaps are a specific type of snap that include libraries and dependencies common to many applications. They provide a consistent and reliable execution environment for the snap packages that use them.\n\nThe core22 base snap provides a runtime environment based on Ubuntu 22.04 LTS (Jammy Jellyfish).\n\nOther Ubuntu environment base snaps include:\n-   Core 18: <https://snapcraft.io/core18>\n-   Core 20: <https://snapcraft.io/core20> \n-   Core 24: <https://snapcraft.io/core24>\n\n**Using a base snap**\n\nBase snaps are installed automatically when a snap package requires them. Only one of each type of base snap is ever installed.\n\nManually removing a base snap may affect the stability of your system.\n\n**Building snaps with core22**\n\nSnap developers can use this base in their own snaps by adding the following to the snap's snapcraft.yaml:\n\n    base: core22\n\n**Additional Information***\n\nFor more details, and guidance on using base snaps, see our documentation: <https://snapcraft.io/docs/base-snaps>",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/core22/icon",
+    "id": "amcUKQILKXHHTlmSa7NMdnXSx02dNeeT",
+    "ignore-validation": false,
+    "install-date": "2025-10-20T20:15:59.750506853-07:00",
+    "installed-size": 77500416,
+    "jailmode": false,
+    "links":
+    {
+      "issues":
+      [
+        "https://github.com/snapcore/core20/issues"
+      ],
+      "source":
+      [
+        "https://github.com/snapcore/core22"
+      ],
+      "website":
+      [
+        "https://snapcraft.io/"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/core22_2139.snap",
+    "name": "core22",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "2139",
+    "status": "active",
+    "summary": "Snap runtime environment",
+    "title": "Core 22 base snap",
+    "tracking-channel": "latest/stable",
+    "type": "base",
+    "version": "20250923",
+    "website": "https://snapcraft.io/"
+  },
+  {
+    "apps":
+    [
+      {
+        "desktop-file": "/var/lib/snapd/desktop/applications/desktop-security-center_desktop-security-center.desktop",
+        "name": "desktop-security-center",
+        "snap": "desktop-security-center"
+      }
+    ],
+    "base": "core22",
+    "channel": "1/stable",
+    "confinement": "strict",
+    "contact": "",
+    "description": "The desktop Security Center will provide easy-to-access security features in Ubuntu. \n\nIn this first release, users can enable experimental application permissions prompting for fine-grained control over how apps access files and folders.\n\nPermissions management requires the supporting `prompting-client` snap to be installed alongside; this is included by default on Ubuntu 24.10 and future releases. \n\nNew features will be added in coming releases.",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/desktop-security-center/icon",
+    "id": "FppXWunWzuRT2NUT9CwoBPNJNZBYOCk0",
+    "ignore-validation": false,
+    "installed-size": 13320192,
+    "jailmode": false,
+    "license": "GPL-3.0",
+    "links":
+    {
+      "website":
+      [
+        "https://github.com/canonical/desktop-security-center"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/desktop-security-center_87.snap",
+    "name": "desktop-security-center",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "87",
+    "status": "installed",
+    "summary": "The desktop Security Center will provide easy-to-access security features in Ubuntu.",
+    "title": "Security Center",
+    "tracking-channel": "1/stable/ubuntu-25.04",
+    "type": "app",
+    "version": "0+git.d2e7fd4",
+    "website": "https://github.com/canonical/desktop-security-center"
+  },
+  {
+    "apps":
+    [
+      {
+        "desktop-file": "/var/lib/snapd/desktop/applications/desktop-security-center_desktop-security-center.desktop",
+        "name": "desktop-security-center",
+        "snap": "desktop-security-center"
+      }
+    ],
+    "base": "core22",
+    "channel": "1/stable",
+    "confinement": "strict",
+    "contact": "",
+    "description": "The desktop Security Center will provide easy-to-access security features in Ubuntu. \n\nIn this first release, users can enable experimental application permissions prompting for fine-grained control over how apps access files and folders.\n\nPermissions management requires the supporting `prompting-client` snap to be installed alongside; this is included by default on Ubuntu 24.10 and future releases. \n\nNew features will be added in coming releases.",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/desktop-security-center/icon",
+    "id": "FppXWunWzuRT2NUT9CwoBPNJNZBYOCk0",
+    "ignore-validation": false,
+    "install-date": "2025-10-15T11:23:49.781058234-07:00",
+    "installed-size": 23666688,
+    "jailmode": false,
+    "license": "GPL-3.0",
+    "links":
+    {
+      "website":
+      [
+        "https://github.com/canonical/desktop-security-center"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/desktop-security-center_99.snap",
+    "name": "desktop-security-center",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "99",
+    "status": "active",
+    "summary": "The desktop Security Center will provide easy-to-access security features in Ubuntu.",
+    "title": "Security Center",
+    "tracking-channel": "1/stable/ubuntu-25.04",
+    "type": "app",
+    "version": "0+git.d93b42d",
+    "website": "https://github.com/canonical/desktop-security-center"
+  },
+  {
+    "channel": "latest/stable",
+    "confinement": "strict",
+    "contact": "https://github.com/snapcore/snapd/issues",
+    "description": "Install, configure, refresh and remove snap packages. Snaps are\n'universal' packages that work across many different Linux systems,\nenabling secure distribution of the latest apps and utilities for\ncloud, servers, desktops and the internet of things.\n\nStart with 'snap list' to see installed snaps.",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/snapd/icon",
+    "id": "PMrrV4ml8uWuEUDBT8dSGnKUYbevVhc4",
+    "ignore-validation": false,
+    "installed-size": 53235712,
+    "jailmode": false,
+    "license": "GPL-3.0",
+    "links":
+    {
+      "contact":
+      [
+        "https://github.com/snapcore/snapd/issues"
+      ],
+      "website":
+      [
+        "https://snapcraft.io"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/snapd_25202.snap",
+    "name": "snapd",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "25202",
+    "status": "installed",
+    "summary": "Daemon and tooling that enable snap packages",
+    "title": "snapd",
+    "tracking-channel": "latest/stable",
+    "type": "snapd",
+    "version": "2.71",
+    "website": "https://snapcraft.io"
+  },
+  {
+    "channel": "latest/stable",
+    "confinement": "strict",
+    "contact": "https://github.com/snapcore/snapd/issues",
+    "description": "Install, configure, refresh and remove snap packages. Snaps are\n'universal' packages that work across many different Linux systems,\nenabling secure distribution of the latest apps and utilities for\ncloud, servers, desktops and the internet of things.\n\nStart with 'snap list' to see installed snaps.",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/snapd/icon",
+    "id": "PMrrV4ml8uWuEUDBT8dSGnKUYbevVhc4",
+    "ignore-validation": false,
+    "install-date": "2025-10-22T08:00:59.328060679-07:00",
+    "installed-size": 53399552,
+    "jailmode": false,
+    "license": "GPL-3.0",
+    "links":
+    {
+      "contact":
+      [
+        "https://github.com/snapcore/snapd/issues"
+      ],
+      "website":
+      [
+        "https://snapcraft.io"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/snapd_25577.snap",
+    "name": "snapd",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "25577",
+    "status": "active",
+    "summary": "Daemon and tooling that enable snap packages",
+    "title": "snapd",
+    "tracking-channel": "latest/stable",
+    "type": "snapd",
+    "version": "2.72",
+    "website": "https://snapcraft.io"
+  },
+  {
+    "apps":
+    [
+      {
+        "daemon": "simple",
+        "daemon-scope": "user",
+        "desktop-file": "/var/lib/snapd/desktop/applications/snapd-desktop-integration_snapd-desktop-integration.desktop",
+        "enabled": true,
+        "name": "snapd-desktop-integration",
+        "snap": "snapd-desktop-integration"
+      }
+    ],
+    "base": "core22",
+    "channel": "latest/stable",
+    "confinement": "strict",
+    "contact": "https://github.com/snapcore/snapd-desktop-integration",
+    "description": "Provides a user session daemon used to provide a bridge between the user's session and snapd.  Used for things like automatic theme installation.",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "id": "IrwRHakqtzhFRHJOOPxKVPU0Kk7Erhcu",
+    "ignore-validation": false,
+    "install-date": "2025-06-30T03:40:31.920690532-07:00",
+    "installed-size": 589824,
+    "jailmode": false,
+    "links":
+    {
+      "contact":
+      [
+        "https://github.com/snapcore/snapd-desktop-integration"
+      ],
+      "website":
+      [
+        "https://github.com/snapcore/snapd-desktop-integration"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/snapd-desktop-integration_315.snap",
+    "name": "snapd-desktop-integration",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "315",
+    "status": "active",
+    "summary": "Desktop Integration for snapd",
+    "title": "snapd-desktop-integration",
+    "tracking-channel": "latest/stable",
+    "type": "app",
+    "version": "0.9",
+    "website": "https://github.com/snapcore/snapd-desktop-integration"
+  },
+  {
+    "apps":
+    [
+      {
+        "desktop-file": "/var/lib/snapd/desktop/applications/firefox_firefox.desktop",
+        "name": "firefox",
+        "snap": "firefox"
+      },
+      {
+        "name": "geckodriver",
+        "snap": "firefox"
+      }
+    ],
+    "base": "core22",
+    "channel": "latest/stable",
+    "confinement": "strict",
+    "contact": "https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla",
+    "description": "Firefox is a powerful, extensible web browser with support for modern web application technologies.",
+    "developer": "mozilla",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/firefox/icon",
+    "id": "3wdHCAVyZEmYsCMFDE9qt92UV8rC8Wdk",
+    "ignore-validation": false,
+    "install-date": "2025-10-29T13:51:16.19469163-07:00",
+    "installed-size": 261189632,
+    "jailmode": false,
+    "links":
+    {
+      "contact":
+      [
+        "https://support.mozilla.org/kb/file-bug-report-or-feature-request-mozilla"
+      ],
+      "website":
+      [
+        "https://www.mozilla.org/firefox/"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/firefox_7177.snap",
+    "name": "firefox",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Mozilla",
+      "id": "OgeoZuqQpVvSr9eGKJzNCrFGSaKXpkey",
+      "username": "mozilla",
+      "validation": "verified"
+    },
+    "revision": "7177",
+    "status": "active",
+    "summary": "Mozilla Firefox web browser",
+    "title": "firefox",
+    "tracking-channel": "latest/stable/ubuntu-25.04",
+    "type": "app",
+    "version": "144.0.2-1",
+    "website": "https://www.mozilla.org/firefox/"
+  },
+  {
+    "base": "core24",
+    "channel": "latest/stable",
+    "confinement": "strict",
+    "contact": "https://github.com/ubuntu/gnome-sdk/issues",
+    "description": "This snap provides the GNOME 46 stack to other snaps that use it. It shares the base GNOME libraries and desktop integration components through the content interface. This helps reduce the size of snaps and helps developers to easily snap desktop applications.\n\n**For users**\n\nThis snap is automatically installed and removed when needed. **Manually adding or removing this snap is not recommended** and might break things.\n\n* If you are having issues with **snaps** using GNOME, please contact the experts on the Snapcraft forum: https://forum.snapcraft.io/\n* If you want to install the GNOME Desktop Environment, then you are in the wrong place. Please take a look at https://www.gnome.org/ for more information on how to get it.\n\n**For developers**\n\n* The `gnome` extension is the recommended way to use this in your own snap: https://snapcraft.io/docs/gnome-extension\n* You can report issues with this content snap on GitHub: https://github.com/ubuntu/gnome-sdk/issues\n* The source code of this snap is available on GitHub in the `gnome-46-2404` branch: https://github.com/ubuntu/gnome-sdk/tree/gnome-46-2404",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/gnome-46-2404/icon",
+    "id": "ew7OxpbRTxfK7ImpIygRR85lkxvU7Pzt",
+    "ignore-validation": false,
+    "installed-size": 633360384,
+    "jailmode": false,
+    "links":
+    {
+      "contact":
+      [
+        "https://github.com/ubuntu/gnome-sdk/issues"
+      ],
+      "source-code":
+      [
+        "https://github.com/ubuntu/gnome-sdk/tree/gnome-46-2404"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/gnome-46-2404_121.snap",
+    "name": "gnome-46-2404",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "121",
+    "status": "installed",
+    "summary": "Shared GNOME 46 Ubuntu stack",
+    "title": "gnome-46-2404",
+    "tracking-channel": "latest/stable/ubuntu-25.04",
+    "type": "app",
+    "version": "0+git.4ca00c0-sdk0+git.1ecbaa5"
+  },
+  {
+    "base": "core24",
+    "channel": "latest/stable",
+    "confinement": "strict",
+    "contact": "https://github.com/ubuntu/gnome-sdk/issues",
+    "description": "This snap provides the GNOME 46 stack to other snaps that use it. It shares the base GNOME libraries and desktop integration components through the content interface. This helps reduce the size of snaps and helps developers to easily snap desktop applications.\n\n**For users**\n\nThis snap is automatically installed and removed when needed. **Manually adding or removing this snap is not recommended** and might break things.\n\n* If you are having issues with **snaps** using GNOME, please contact the experts on the Snapcraft forum: https://forum.snapcraft.io/\n* If you want to install the GNOME Desktop Environment, then you are in the wrong place. Please take a look at https://www.gnome.org/ for more information on how to get it.\n\n**For developers**\n\n* The `gnome` extension is the recommended way to use this in your own snap: https://snapcraft.io/docs/gnome-extension\n* You can report issues with this content snap on GitHub: https://github.com/ubuntu/gnome-sdk/issues\n* The source code of this snap is available on GitHub in the `gnome-46-2404` branch: https://github.com/ubuntu/gnome-sdk/tree/gnome-46-2404",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/gnome-46-2404/icon",
+    "id": "ew7OxpbRTxfK7ImpIygRR85lkxvU7Pzt",
+    "ignore-validation": false,
+    "install-date": "2025-08-30T14:12:16.363942407-07:00",
+    "installed-size": 648290304,
+    "jailmode": false,
+    "links":
+    {
+      "contact":
+      [
+        "https://github.com/ubuntu/gnome-sdk/issues"
+      ],
+      "source-code":
+      [
+        "https://github.com/ubuntu/gnome-sdk/tree/gnome-46-2404"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/gnome-46-2404_125.snap",
+    "name": "gnome-46-2404",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "125",
+    "status": "active",
+    "summary": "Shared GNOME 46 Ubuntu stack",
+    "title": "gnome-46-2404",
+    "tracking-channel": "latest/stable/ubuntu-25.04",
+    "type": "app",
+    "version": "0+git.4ca00c0-sdk0+git.df43897"
+  },
+  {
+    "apps":
+    [
+      {
+        "daemon": "simple",
+        "daemon-scope": "system",
+        "name": "component-monitor",
+        "snap": "mesa-2404"
+      }
+    ],
+    "base": "core24",
+    "channel": "latest/stable",
+    "confinement": "strict",
+    "contact": "https://github.com/canonical/mesa-2404",
+    "description": "A content snap containing the mesa libraries and drivers for `base: core24` snaps.\n\nIt supports a broad range of hardware through the Mesa stack as well as Nvidia\ndrivers installed from your distribution through the native SnapD support.\n\nTo make use of this snap in your application, allowing for GPU acceleration on\na broader set of hardware without including the drivers in your snap, refer to the\ndocumentation below:\n\nhttps://mir-server.io/docs/the-gpu-2404-snap-interface\n\n_Note: On some, typically desktop, systems SnapD supports loading Nvidia drivers installed on the host. mesa-2404 is compatible with this._",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/mesa-2404/icon",
+    "id": "HyhSEBPv3vHsW6uOHkQR384NgI7S6zpj",
+    "ignore-validation": false,
+    "installed-size": 304898048,
+    "jailmode": false,
+    "license": "MIT",
+    "links":
+    {
+      "contact":
+      [
+        "https://github.com/canonical/mesa-2404",
+        "https://matrix.to/#/#mir-server:matrix.org"
+      ],
+      "issues":
+      [
+        "https://github.com/canonical/mesa-2404/issues"
+      ],
+      "source":
+      [
+        "https://github.com/canonical/mesa-2404"
+      ],
+      "website":
+      [
+        "https://mesa3d.org/"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/mesa-2404_912.snap",
+    "name": "mesa-2404",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "912",
+    "status": "installed",
+    "summary": "Mesa libraries for core24 snaps",
+    "title": "mesa-2404",
+    "tracking-channel": "latest/stable/ubuntu-25.04",
+    "type": "app",
+    "version": "24.2.8-snap185",
+    "website": "https://mesa3d.org/"
+  },
+  {
+    "apps":
+    [
+      {
+        "daemon": "simple",
+        "daemon-scope": "system",
+        "name": "component-monitor",
+        "snap": "mesa-2404"
+      }
+    ],
+    "base": "core24",
+    "channel": "latest/stable",
+    "confinement": "strict",
+    "contact": "https://github.com/canonical/mesa-2404",
+    "description": "A content snap containing the mesa libraries and drivers for `base: core24` snaps.\n\nIt supports a broad range of hardware through the Mesa stack as well as Nvidia\ndrivers installed from your distribution through the native SnapD support.\n\nTo make use of this snap in your application, allowing for GPU acceleration on\na broader set of hardware without including the drivers in your snap, refer to the\ndocumentation below:\n\nhttps://mir-server.io/docs/the-gpu-2404-snap-interface\n\n_Note: On some, typically desktop, systems SnapD supports loading Nvidia drivers installed on the host. mesa-2404 is compatible with this._",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/mesa-2404/icon",
+    "id": "HyhSEBPv3vHsW6uOHkQR384NgI7S6zpj",
+    "ignore-validation": false,
+    "install-date": "2025-11-05T17:26:31.116286412-07:00",
+    "installed-size": 414167040,
+    "jailmode": false,
+    "license": "MIT",
+    "links":
+    {
+      "contact":
+      [
+        "https://github.com/canonical/mesa-2404",
+        "https://matrix.to/#/#mir-server:matrix.org"
+      ],
+      "issues":
+      [
+        "https://github.com/canonical/mesa-2404/issues"
+      ],
+      "source":
+      [
+        "https://github.com/canonical/mesa-2404"
+      ],
+      "website":
+      [
+        "https://mesa3d.org/"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/mesa-2404_1165.snap",
+    "name": "mesa-2404",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "1165",
+    "status": "active",
+    "summary": "Mesa libraries for core24 snaps",
+    "title": "mesa-2404",
+    "tracking-channel": "latest/stable/ubuntu-25.04",
+    "type": "app",
+    "version": "25.0.7-snap211",
+    "website": "https://mesa3d.org/"
+  },
+  {
+    "apps":
+    [
+      {
+        "daemon": "simple",
+        "daemon-scope": "user",
+        "desktop-file": "/var/lib/snapd/desktop/applications/prompting-client_daemon.desktop",
+        "enabled": true,
+        "name": "daemon",
+        "snap": "prompting-client"
+      },
+      {
+        "name": "echo",
+        "snap": "prompting-client"
+      },
+      {
+        "name": "logging-level",
+        "snap": "prompting-client"
+      },
+      {
+        "name": "scripted",
+        "snap": "prompting-client"
+      }
+    ],
+    "base": "core22",
+    "channel": "stable",
+    "confinement": "strict",
+    "contact": "",
+    "description": "The official client for snap apparmor prompting.",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "id": "aoc5lfC8aUd2VL8VpvynUJJhGXp5K6Dj",
+    "ignore-validation": false,
+    "install-date": "2025-05-27T13:19:06.459613554-07:00",
+    "installed-size": 15118336,
+    "jailmode": false,
+    "license": "GPL-3.0",
+    "links":
+    {
+      "website":
+      [
+        "https://github.com/canonical/prompting-client"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/prompting-client_104.snap",
+    "name": "prompting-client",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "104",
+    "status": "active",
+    "summary": "Prompting Client",
+    "title": "Prompting Client",
+    "tracking-channel": "latest/stable",
+    "type": "app",
+    "version": "0+git.d542a5d",
+    "website": "https://github.com/canonical/prompting-client"
+  },
+  {
+    "channel": "latest/stable",
+    "confinement": "strict",
+    "contact": "",
+    "description": "Base snaps are a specific type of snap that include libraries and dependencies common to many applications. They provide a consistent and reliable execution environment for the snap packages that use them.\n\nThe core24 base snap provides a runtime environment based on Ubuntu 24.04 (Noble Numbat).\n\nOther Ubuntu environment base snaps include:\n-   Core 18: <https://snapcraft.io/core18>\n-   Core 20: <https://snapcraft.io/core20> \n-   Core 22: <https://snapcraft.io/core22>\n\n**Using a base snap**\n\nBase snaps are installed automatically when a snap package requires them. Only one of each type of base snap is ever installed.\n\nManually removing a base snap may affect the stability of your system.\n\n**Building snaps with core24**\n\nSnap developers can use this base in their own snaps by adding the following to the snap's snapcraft.yaml:\n\n    base: core24\n\n**Additional Information***\n\nFor more details, and guidance on using base snaps, see our documentation: <https://snapcraft.io/docs/base-snaps>",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "icon": "/v2/icons/core24/icon",
+    "id": "dwTAh7MZZ01zyriOZErqd1JynQLiOGvM",
+    "ignore-validation": false,
+    "install-date": "2025-10-23T21:11:13.532293111-07:00",
+    "installed-size": 70090752,
+    "jailmode": false,
+    "links":
+    {
+      "issues":
+      [
+        "https://github.com/snapcore/core-base/issues"
+      ],
+      "source":
+      [
+        "https://github.com/snapcore/core-base"
+      ],
+      "website":
+      [
+        "https://snapcraft.io/"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/core24_1225.snap",
+    "name": "core24",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "1225",
+    "status": "active",
+    "summary": "Snap runtime environment",
+    "title": "Core 24 base snap",
+    "tracking-channel": "latest/stable",
+    "type": "base",
+    "version": "20251001",
+    "website": "https://snapcraft.io/"
+  },
+  {
+    "base": "bare",
+    "channel": "stable",
+    "confinement": "strict",
+    "contact": "https://gitlab.gnome.org/Community/Ubuntu/gtk-common-themes/issues",
+    "description": "A snap that exports the GTK and icon themes used on various Linux distros.",
+    "developer": "canonical",
+    "devmode": false,
+    "grade": "stable",
+    "id": "jZLfBRzf1cYlYysIjD2bwSzNtngY0qit",
+    "ignore-validation": false,
+    "install-date": "2023-04-30T23:28:08.446068707-07:00",
+    "installed-size": 96141312,
+    "jailmode": false,
+    "links":
+    {
+      "contact":
+      [
+        "https://gitlab.gnome.org/Community/Ubuntu/gtk-common-themes/issues"
+      ]
+    },
+    "mounted-from": "/var/lib/snapd/snaps/gtk-common-themes_1535.snap",
+    "name": "gtk-common-themes",
+    "private": false,
+    "publisher":
+    {
+      "display-name": "Canonical",
+      "id": "canonical",
+      "username": "canonical",
+      "validation": "verified"
+    },
+    "revision": "1535",
+    "status": "active",
+    "summary": "All the (common) themes",
+    "title": "GTK Common Themes",
+    "tracking-channel": "latest/stable/ubuntu-25.04",
+    "type": "app",
+    "version": "0.1-81-g442e511"
+  }
+]
