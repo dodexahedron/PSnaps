@@ -38,32 +38,38 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Formatting\GetSnapResponseResult.format.ps1xml" />
-    <None Remove="Formatting\Publisher.format.ps1xml" />
-    <None Remove="Formatting\RemoveSnapPackageResult.format.ps1xml" />
+    <None Remove="Formatting\GetSnapResponseResult.Format.ps1xml" />
+    <None Remove="Formatting\Publisher.Format.ps1xml" />
+    <None Remove="Formatting\RemoveSnapPackageResult.Format.ps1xml" />
+    <None Remove="Formatting\SnapPackage.Format.ps1xml" />
     <None Remove="PSnaps.psd1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Formatting\RemoveSnapResult.format.ps1xml">
+    <Content Include="Formatting\SnapPackage.Format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <PackagePath>\tools\Formatting</PackagePath>
+      <Pack>True</Pack>
+      <PackagePath>\Formatting</PackagePath>
+    </Content>
+    <Content Include="Formatting\RemoveSnapResult.Format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <PackagePath>\Formatting</PackagePath>
       <Pack>True</Pack>
     </Content>
-    <Content Include="Formatting\GetSnapResponseResult.format.ps1xml">
+    <Content Include="Formatting\GetSnapResponseResult.Format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Pack>True</Pack>
-      <PackagePath>\tools\Formatting</PackagePath>
+      <PackagePath>\Formatting</PackagePath>
     </Content>
-    <Content Include="Formatting\Publisher.format.ps1xml">
+    <Content Include="Formatting\Publisher.Format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Pack>True</Pack>
-      <PackagePath>\tools\Formatting</PackagePath>
+      <PackagePath>\Formatting</PackagePath>
     </Content>
     <Content Include="PSnaps.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Pack>True</Pack>
-      <PackagePath>\tools</PackagePath>
+      <PackagePath>\</PackagePath>
     </Content>
   </ItemGroup>
 
