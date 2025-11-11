@@ -6,205 +6,179 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-using System.Collections.Immutable;
+using System.Collections.Concurrent;
 using System.Globalization;
 using System.Management.Automation;
-using System.Text.RegularExpressions;
+using PSnaps.SnapdRestApi.Clients;
 using PSnaps.SnapdRestApi.Responses;
 
 namespace PSnaps.Cmdlets;
 
 [PublicAPI]
-[Cmdlet ( VerbsCommon.Remove, "SnapPackage", ConfirmImpact = ConfirmImpact.Medium, DefaultParameterSetName = NamedSnapsParameterSet )]
+[Cmdlet ( VerbsCommon.Remove, "SnapPackage", ConfirmImpact = ConfirmImpact.Medium, DefaultParameterSetName = SingleSnapAllRevisionsParameterSetName )]
 [Alias ( "Remove-Snap", "Remove-Snaps", "Remove-SnapPackages" )]
-[OutputType ( typeof( IEnumerable<SnapApiResponse> ) )]
-public class RemoveSnapPackageCommand : PSCmdlet
+[OutputType ( typeof( IEnumerable<SnapApiAsyncResponse> ) )]
+public class RemoveSnapPackageCommand : SnapdClientCmdlet
 {
-  private const string AllSnapsParameterSet   = "AllSnaps";
-  private const string NamedSnapsParameterSet = "SingleSnap";
+  private const string AllSnapsParameterSet                = "AllSnaps";
+  private const string CleanUpAllDisabledSnapsParameterSet = nameof (CleanUpAllDisabledSnaps);
+
+  /// <summary>
+  ///   This parameter set is for removal of multiple snaps, by name.
+  /// </summary>
+  private const string MultipleNamedSnapsParameterSetName = "NamedSnaps";
+
+  /// <summary>
+  ///   This parameter set is for removal of a single snap, by name.
+  /// </summary>
+  private const string SingleSnapAllRevisionsParameterSetName = "SingleSnapAllRevisions";
+
+  /// <summary>
+  ///   This parameter set is for removal of a single snap package, by revision.
+  /// </summary>
+  private const string SingleSnapRevisionParameterSetName = "SingleSnapByRevision";
 
   [Parameter ( Mandatory = true, ParameterSetName = AllSnapsParameterSet )]
   public SwitchParameter All { get; set; }
 
-  [Parameter ( Mandatory = false, ParameterSetName = NamedSnapsParameterSet )]
+  [Parameter ( Mandatory = true, ParameterSetName = CleanUpAllDisabledSnapsParameterSet )]
+  public SwitchParameter CleanUpAllDisabledSnaps { get; set; }
+
   [Parameter ( Mandatory = false, ParameterSetName = AllSnapsParameterSet )]
+  [Parameter ( Mandatory = false, ParameterSetName = MultipleNamedSnapsParameterSetName )]
   public SwitchParameter Disabled { get; set; }
 
-  [Parameter ( Mandatory = false, ParameterSetName = NamedSnapsParameterSet )]
   [Parameter ( Mandatory = false, ParameterSetName = AllSnapsParameterSet )]
+  [Parameter ( Mandatory = false, ParameterSetName = CleanUpAllDisabledSnapsParameterSet )]
+  [Parameter ( Mandatory = false, ParameterSetName = MultipleNamedSnapsParameterSetName )]
+  [Parameter ( Mandatory = false, ParameterSetName = SingleSnapAllRevisionsParameterSetName )]
+  [Parameter ( Mandatory = false, ParameterSetName = SingleSnapRevisionParameterSetName )]
   public SwitchParameter Purge { get; set; }
 
-  [Parameter ( Mandatory = true, Position = 1, ParameterSetName = NamedSnapsParameterSet )]
+  [Parameter ( Mandatory = true, Position = 1, ParameterSetName = SingleSnapRevisionParameterSetName )]
   [ValidateRange ( ValidateRangeKind.NonNegative )]
   public int Revision { get; set; }
 
-  [Parameter ( Mandatory = true, Position = 0, ParameterSetName = NamedSnapsParameterSet )]
+  [Parameter ( Mandatory = true, Position = 0, ParameterSetName = MultipleNamedSnapsParameterSetName )]
+  [Parameter ( Mandatory = true, Position = 0, ParameterSetName = SingleSnapAllRevisionsParameterSetName )]
+  [Parameter ( Mandatory = true, Position = 0, ParameterSetName = SingleSnapRevisionParameterSetName )]
+  [ValidateLength ( 2, int.MaxValue )]
   public string[]? Snaps { get; set; }
 
-  [Parameter ( Mandatory = false, DontShow = true )]
-  [ValidateRange ( ValidateRangeKind.Positive )]
-  public int Timeout { get; set; } = 30000;
-
+  [ExcludeFromCodeCoverage]
   protected override void ProcessRecord ( )
   {
-    ArgumentException.ThrowIfNullOrWhiteSpace ( Snaps [ 0 ] );
-    CancellationTokenSource cts    = new ( Timeout );
-    using SnapdClient       client = new ( );
-
-    switch ( ParameterSetName )
-    {
-      case NamedSnapsParameterSet:
-      {
-        if ( Disabled.IsPresent )
-        {
-          // Remove disabled instances of the package only (those with status=installed).
-          SnapPackage[]? allRevisions =
-            client
-             .GetSnapAsync ( Snaps [ 0 ], true, 5000, cts.Token )
-             .GetAwaiter ( )
-             .GetResult ( );
-
-          if ( allRevisions is not { Length: > 1 } )
-          {
-            // There was only the one result, so respond with an empty array.
-            WriteObject ( ImmutableArray<SnapApiAsyncResponse>.Empty );
-            return;
-          }
-
-          WriteObject (
-                       ImmutableArray
-                        .Create (
-                                 allRevisions
-                                  .Where ( static package => package.Status == PackageStatus.Installed )
-                                   // ReSharper disable once AccessToDisposedClosure
-                                  .Select ( package => new RemoveSnapInfo ( client, package.Name, package.Revision.ToString ( NumberFormatInfo.InvariantInfo ), Purge.IsPresent, cts.Token ) )
-                                  .Select ( RemoveSingleSnap )
-                                )
-                      );
-          GC.KeepAlive ( client );
-          return;
-        }
-
-        //ArgumentException.ThrowIfNullOrWhiteSpace ( Snaps );
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero ( Revision );
-        throw new NotImplementedException("This functionality not yet complete.");
-        //WriteObject ( ImmutableArray.Create ( RemoveSingleSnap ( new ( client, Snaps, Revision.ToString ( NumberFormatInfo.InvariantInfo ), Purge.IsPresent, cts.Token ) ) ) );
-      }
-        return;
-
-      case AllSnapsParameterSet:
-      {
-        // TODO: Handle the -All parameter.
-        throw new NotImplementedException ( "The -All parameter is not yet implemented." );
-      }
-    }
+    WriteObject ( RemoveSnapPackages ( ) );
   }
 
-  private static SnapApiResponse? RemoveSingleSnap ( RemoveSnapInfo removalData )
+  private ConcurrentBag<SnapApiAsyncResponse>? RemoveAllDisabledSnaps ( CancellationTokenSource cts )
   {
-    ( SnapdClient client, string packageName, string revision, bool purge, CancellationToken cancellationToken ) = removalData;
+    // First, get all snaps with status=installed
+    // Sort them in descending order of installation date, which should ensure proper removal ordering for dependencies.
+    List<RemoveSnapInfo> snapsToRemove
+      = ( GetSnapPackageCommand
+           .GetSnapPackages ( ApiClient, null, true, Timeout, cts.Token )
+       ?? [ ] )
+       .Where ( static unfilteredSnap => unfilteredSnap.Status == PackageStatus.Installed )
+       .OrderByDescending ( static snap => snap.InstallDate )
+       .Select ( snap => new RemoveSnapInfo ( ApiClient, snap.Name, snap.Revision, Purge.IsPresent, cts.Token ) )
+       .ToList ( );
+
+    if ( snapsToRemove.Count == 0 )
+    {
+      // There are no disabled snaps to remove.
+      return null;
+    }
+
+    // Remove whatever we came up with in parallel, storing the results in a ConcurrentBag.
+    ConcurrentBag<SnapApiAsyncResponse> responses = [ ];
+    Parallel.ForEach (
+                      snapsToRemove,
+                      ( ) => responses,
+                      static ( snapRemovalInfo, _, responseBag ) =>
+                      {
+                        if ( RemoveSingleSnap ( snapRemovalInfo ) is { } nonNullResult )
+                        {
+                          responseBag.Add ( nonNullResult );
+                        }
+
+                        return responseBag;
+                      },
+                      static _ => { }
+                     );
+
+    return responses;
+  }
+
+  private static SnapApiAsyncResponse? RemoveSingleSnap ( RemoveSnapInfo removalData )
+  {
+    ( ISnapdRestClient client, string packageName, string revision, bool purge, CancellationToken cancellationToken ) = removalData;
     return client
           .RemoveSnapAsync ( packageName, revision, purge, 5000, cancellationToken )
           .GetAwaiter ( )
           .GetResult ( );
   }
 
-  private record struct RemoveSnapInfo ( SnapdClient Client, string Name, string Revision, bool Purge, CancellationToken CancellationToken );
-}
-
-public sealed partial record SnapToRemove : IParsable<SnapToRemove>
-{
-  private readonly string _revision;
-
-  private readonly string _version;
-
-  [SetsRequiredMembers]
-  public SnapToRemove ( string Name, string Version = "*", string Revision = "*" )
+  private ConcurrentBag<SnapApiAsyncResponse>? RemoveSnapPackages ( )
   {
-    ArgumentException.ThrowIfNullOrWhiteSpace ( Name );
-    this.Name     = Name;
-    this.Version  = Version;
-    this.Revision = Revision;
-  }
+    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( CmdletCancellationTokenSource.Token );
 
-  public required string Name { get; init; }
+    cts.Token.ThrowIfCancellationRequested ( );
 
-  public required string Revision
-  {
-    get => _revision;
-    [MemberNotNull ( nameof (_revision) )]
-    init => _revision = string.IsNullOrWhiteSpace ( value ) ? "*" : value;
-  }
-
-  public required string Version
-  {
-    get => _version;
-    [MemberNotNull ( nameof (_version) )]
-    init => _version = string.IsNullOrWhiteSpace ( value ) ? "*" : value;
-  }
-
-  [GeneratedRegex ( @"(?<Name>^[^\s/\\]{2,})(/(?<Version>[^\s/\\]+)(/(?<Revision>(\d+)|(\*)))?)?$" )]
-  private static partial Regex ParseRegex { get; }
-
-  /// <inheritdoc />
-  public static SnapToRemove Parse ( string? s, IFormatProvider? provider = null )
-  {
-    if ( ParseRegex.Matches ( s ) is not { Count: > 0 } matches )
+    // Validate that there is at least one snap name provided (covered by the implied null check) and that none of the names are null/empty/whitespace.
+    if ( Snaps?.Any ( string.IsNullOrWhiteSpace ) is not false )
     {
-      throw new FormatException ( "Snap format not recognized. Must be of the form name[/version[/revision]]" );
+      ThrowTerminatingError (
+                             new (
+                                  new ArgumentException ( "Snap names cannot be null, empty, or whitespace." ),
+                                  "InvalidSnapName",
+                                  ErrorCategory.InvalidArgument,
+                                  Snaps
+                                 )
+                            );
+      return null;
     }
 
-    Match longestMatch = matches.MaxBy ( static match => match.Length ) ?? matches [ 0 ];
-    return new (
-                longestMatch.Groups [ "Name" ].Value,
-                longestMatch.Groups [ "Version" ].Success ? longestMatch.Groups [ "Version" ].Value : "*",
-                longestMatch.Groups [ "Revision" ].Success ? longestMatch.Groups [ "Revision" ].Value : "*"
-               );
-  }
-
-  /// <inheritdoc />
-  public static bool TryParse ( [NotNullWhen ( true )] string? s, IFormatProvider? provider, [NotNullWhen ( true )] out SnapToRemove? result )
-  {
-    try
+    if ( Snaps is not { Length: > 0 } oneOrMoreRequestedSnapNames )
     {
-      result = Parse ( s, provider ?? CultureInfo.InvariantCulture );
-      return true;
+      // No snaps specified, so the only operation we support is to remove all that are disabled
+      if ( Disabled.IsPresent && All.IsPresent )
+      {
+        // Both -Disabled and -All were specified, but no snap names were provided.
+        // Remove all packages with status=installed.
+        return RemoveAllDisabledSnaps ( cts );
+      }
+
+      // If either the -All or -Disabled parameter were not specified, bail out.
+      ThrowTerminatingError (
+                             new (
+                                  new NotSupportedException ( "Unsupported input options. Must specify one or more snap package names or else provide both the -All and -Disabled parameters." ),
+                                  "UnsupportedSnapRemovalOptions",
+                                  ErrorCategory.InvalidArgument,
+                                  this
+                                 )
+                            );
+      return null;
     }
-    catch ( FormatException )
+
+    switch ( ParameterSetName )
     {
-      result = null;
-      return false;
+      case SingleSnapRevisionParameterSetName:
+      {
+        // If the single snap parameter set is active, we can just pass the input on.
+        SnapApiAsyncResponse? response = RemoveSingleSnap ( new ( ApiClient, oneOrMoreRequestedSnapNames [ 0 ], Revision.ToString ( "D", NumberFormatInfo.InvariantInfo ), Purge.IsPresent, cts.Token ) );
+
+        if ( response is null )
+        {
+          return null;
+        }
+
+        return [ response ];
+      }
     }
+
+    return null;
   }
 
-  public void Deconstruct ( out string Name, out string Version, out string Revision )
-  {
-    Name     = this.Name;
-    Version  = this.Version;
-    Revision = this.Revision;
-  }
-
-  public static implicit operator string ( SnapToRemove snap )
-  {
-    return string.Create (
-                          snap.Name.Length + snap.Version.Length + snap.Revision.Length + 2,
-                          snap,
-                          static ( span, theSnap ) =>
-                          {
-                            int position      = 0;
-                            int versionLength = theSnap.Version.Length;
-
-                            span [ theSnap.Name.Length ] = span [ theSnap.Name.Length + 1 + versionLength ] = '/';
-                            theSnap.Name.AsSpan ( ).CopyTo ( span [ position..( position      += theSnap.Name.Length ) ] );
-                            theSnap.Version.AsSpan ( ).CopyTo ( span [ ++position..( position += versionLength ) ] );
-                            theSnap.Revision.AsSpan ( ).CopyTo ( span [ ++position.. ] );
-                          }
-                         );
-  }
-
-  /// <inheritdoc />
-  public override string ToString ( )
-  {
-    return this;
-  }
+  private record struct RemoveSnapInfo ( ISnapdRestClient Client, string Name, string Revision, bool Purge, CancellationToken CancellationToken );
 }
