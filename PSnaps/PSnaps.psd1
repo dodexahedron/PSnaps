@@ -12,14 +12,14 @@
   RequiredAssemblies = @('System.Management.Automation','System.Globalization')
   ScriptsToProcess = @()
   TypesToProcess = @()
-  FormatsToProcess = @('./Formatting/Publisher.Format.ps1xml','./Formatting/GetSnapResponseResult.Format.ps1xml','./Formatting/RemoveSnapResult.Format.ps1xml','./Formatting/SnapPachakge.Format.ps1xml')
+  FormatsToProcess = @('Formatting\Publisher.Format.ps1xml','Formatting\GetSnapResponseResult.Format.ps1xml','Formatting\RemoveSnapResult.Format.ps1xml','Formatting\SnapPackage.Format.ps1xml')
   NestedModules = @()
   FunctionsToExport = @()
   CmdletsToExport = @('Get-SnapPackage','Install-SnapPackage','Remove-SnapPackage','Set-SnapdClient','Get-SnapdClient')
   VariablesToExport = @()
   AliasesToExport = @()
-  ModuleList = @('PSnaps.dll')
-  FileList = @('./PSnaps.dll','./PSnaps.psd1','./Formatting/Publisher.Format.ps1xml','./Formatting/GetSnapResponseResult.Format.ps1xml','./Formatting/RemoveSnapResult.Format.ps1xml','./Formatting/SnapPackage.Format.ps1xml')
+  ModuleList = @('PSnaps')
+  FileList = @('PSnaps.dll','PSnaps.psd1','Formatting\Publisher.Format.ps1xml','Formatting\GetSnapResponseResult.Format.ps1xml','Formatting\RemoveSnapResult.Format.ps1xml','Formatting\SnapPackage.Format.ps1xml')
 
   PrivateData = @{
     PSData = @{
