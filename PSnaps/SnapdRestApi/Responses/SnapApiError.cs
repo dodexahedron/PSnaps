@@ -15,4 +15,5 @@ public sealed record SnapApiError (
   [property: JsonPropertyName ( "kind" )]
   string? Kind = null,
   [property: JsonPropertyName ( "value" )]
-  object? Value = null );
+  object? Value = null
+);

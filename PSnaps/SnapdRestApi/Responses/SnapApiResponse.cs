@@ -28,30 +28,21 @@ namespace PSnaps.SnapdRestApi.Responses;
 [JsonDerivedType ( typeof( SnapApiSyncResponse ),  "sync" )]
 [JsonDerivedType ( typeof( SnapApiAsyncResponse ), "async" )]
 [JsonDerivedType ( typeof( SnapApiErrorResponse ), "error" )]
-public record SnapApiResponse : IHaveStatus<int, string>
+[PublicAPI]
+public record SnapApiResponse
 {
-  /// <summary>
-  ///   A status code. Generally corresponds to the HTTP status code of the response.
-  /// </summary>
-  [JsonPropertyName ( "status-code" )]
-  public required int StatusCode { get; set; }
+  [JsonPropertyName ( "maintenance" )]
+  public MaintenanceInfo? Maintenance { get; set; }
 
   /// <summary>
   ///   Textual status description.
   /// </summary>
   [JsonPropertyName ( "status" )]
-  public required string Status { get; set; }
+  public string? Status { get; set; }
 
-  [JsonPropertyName ( "maintenance" )]
-  public MaintenanceInfo? Maintenance { get; set; }
-
-  [PublicAPI]
-  public sealed record MaintenanceInfo
-  {
-    [JsonPropertyName ( "message" )]
-    public required string Message { get; set; }
-
-    [JsonPropertyName ( "kind" )]
-    public required string Kind { get; set; }
-  }
+  /// <summary>
+  ///   A status code. Generally corresponds to the HTTP status code of the response.
+  /// </summary>
+  [JsonPropertyName ( "status-code" )]
+  public int StatusCode { get; set; }
 }
