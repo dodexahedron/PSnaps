@@ -6,19 +6,17 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-using PSnaps.SnapdRestApi.Responses;
-
 namespace PSnaps.SnapCore;
 
 /// <summary>
 ///   Represents a Snap package.
 /// </summary>
 [PublicAPI]
-[JsonPolymorphic ( TypeDiscriminatorPropertyName = "type" )]
+[JsonPolymorphic ( TypeDiscriminatorPropertyName = "type", UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToNearestAncestor, IgnoreUnrecognizedTypeDiscriminators = true )]
 [JsonDerivedType ( typeof( BaseSnap ),  "base" )]
 [JsonDerivedType ( typeof( AppSnap ),   "app" )]
 [JsonDerivedType ( typeof( SnapdSnap ), "snapd" )]
-public record SnapPackage : IHaveStatus<PackageStatus>, IComparable<SnapPackage>, IComparable, IComparisonOperators<SnapPackage, SnapPackage, bool>
+public record SnapPackage : IComparable<SnapPackage>, IComparable, IComparisonOperators<SnapPackage, SnapPackage, bool>
 {
   [JsonPropertyName ( "channel" )]
   public required string Channel { get; set; }
@@ -30,7 +28,7 @@ public record SnapPackage : IHaveStatus<PackageStatus>, IComparable<SnapPackage>
   public Component[]? Components { get; set; }
 
   [JsonPropertyName ( "confinement" )]
-  public Confinement Confinement { get; set; }
+  public ConfinementKind? Confinement { get; set; }
 
   [JsonPropertyName ( "contact" )]
   public string? Contact { get; set; }
@@ -51,8 +49,15 @@ public record SnapPackage : IHaveStatus<PackageStatus>, IComparable<SnapPackage>
   [JsonPropertyName ( "icon" )]
   public string? Icon { get; set; }
 
+  /// <summary>
+  ///   Gets the idempotent identifier for the <see cref="SnapPackage" /> instance.
+  /// </summary>
+  /// <remarks>
+  ///   This property is used by <see cref="GetHashCode" /> and MUST be unique in collections keyed on instances of
+  ///   <see cref="SnapPackage" />.
+  /// </remarks>
   [JsonPropertyName ( "id" )]
-  public required string Id { get; set; }
+  public required string Id { get; init; }
 
   [JsonPropertyName ( "ignore-validation" )]
   public bool IgnoreValidation { get; set; }
@@ -91,6 +96,9 @@ public record SnapPackage : IHaveStatus<PackageStatus>, IComparable<SnapPackage>
   [JsonPropertyName ( "revision" )]
   public required string Revision { get; set; }
 
+  [JsonPropertyName ( "status" )]
+  public PackageStatus Status { get; set; }
+
   [JsonPropertyName ( "summary" )]
   public string? Summary { get; set; }
 
@@ -113,6 +121,22 @@ public record SnapPackage : IHaveStatus<PackageStatus>, IComparable<SnapPackage>
   }
 
   /// <inheritdoc />
+  /// <remarks>
+  ///   <para>
+  ///     Sorting order is as follows:<br />
+  ///     1. Reference equality immediately returns 0.<br />
+  ///     2. Other object <see langword="null" /> immediately returns 1 (<see langword="null" /> comes first).<br />
+  ///     3. <see cref="Name" /><br />
+  ///     4. <see cref="TrackingChannel" /><br />
+  ///     5. <see cref="Version" /><br />
+  ///     6. <see cref="Revision" /><br />
+  ///     7. <see cref="InstallDate" />
+  ///   </para>
+  ///   <para>
+  ///     All string property comparisons are performed as ordinal and case-insensitive.<br />
+  ///     Date comparison is by DateTimeOffset value.
+  ///   </para>
+  /// </remarks>
   public int CompareTo ( SnapPackage? other )
   {
     if ( ReferenceEquals ( this, other ) )
@@ -125,38 +149,73 @@ public record SnapPackage : IHaveStatus<PackageStatus>, IComparable<SnapPackage>
       return 1;
     }
 
-    int nameComparison = string.Compare ( Name, other.Name, StringComparison.Ordinal );
+    int comparisonResult = string.Compare ( Name, other.Name, StringComparison.OrdinalIgnoreCase );
 
-    if ( nameComparison != 0 )
+    if ( comparisonResult != 0 )
     {
-      return nameComparison;
+      return comparisonResult;
     }
 
-    int trackingChannelComparison = string.Compare ( TrackingChannel, other.TrackingChannel, StringComparison.Ordinal );
+    comparisonResult = string.Compare ( TrackingChannel, other.TrackingChannel, StringComparison.OrdinalIgnoreCase );
 
-    return trackingChannelComparison != 0 ? trackingChannelComparison : string.Compare ( Revision, other.Revision, StringComparison.Ordinal );
+    if ( comparisonResult != 0 )
+    {
+      return comparisonResult;
+    }
+
+    comparisonResult = string.Compare ( Version, other.Version, StringComparison.OrdinalIgnoreCase );
+
+    if ( comparisonResult != 0 )
+    {
+      return comparisonResult;
+    }
+
+    comparisonResult = string.Compare ( Revision, other.Revision, StringComparison.OrdinalIgnoreCase );
+
+    if ( comparisonResult != 0 )
+    {
+      return comparisonResult;
+    }
+
+    return DateTimeOffset.Compare ( InstallDate, other.InstallDate );
   }
 
   public static bool operator > ( SnapPackage? left, SnapPackage? right )
   {
-    return Comparer<SnapPackage>.Default.Compare ( left, right ) > 0;
+    return Compare ( left, right ) > 0;
   }
 
   public static bool operator >= ( SnapPackage? left, SnapPackage? right )
   {
-    return Comparer<SnapPackage>.Default.Compare ( left, right ) >= 0;
+    return Compare ( left, right ) >= 0;
   }
 
   public static bool operator < ( SnapPackage? left, SnapPackage? right )
   {
-    return Comparer<SnapPackage>.Default.Compare ( left, right ) < 0;
+    return Compare ( left, right ) < 0;
   }
 
   public static bool operator <= ( SnapPackage? left, SnapPackage? right )
   {
-    return Comparer<SnapPackage>.Default.Compare ( left, right ) <= 0;
+    return Compare ( left, right ) <= 0;
   }
 
-  [JsonPropertyName ( "status" )]
-  public PackageStatus Status { get; set; }
+  public static int Compare ( SnapPackage? left, SnapPackage? right )
+  {
+    return ( left, right ) switch
+           {
+             (not null, _)    => left.CompareTo ( right ),
+             (null, null)     => 0,
+             (null, not null) => -1
+           };
+  }
+
+  /// <inheritdoc />
+  /// <remarks>
+  ///   The <see cref="Id" /> of the <see cref="SnapPackage" /> is the basis of the hash code, as it is idempotent.
+  /// </remarks>
+  public override int GetHashCode ( )
+  {
+    return Id.GetHashCode ( );
+  }
 }
