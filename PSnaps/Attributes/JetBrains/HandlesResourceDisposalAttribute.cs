@@ -13,49 +13,23 @@
 
    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 namespace JetBrains.Annotations;
 
 /// <summary>
-/// Indicates that the resource disposal must be handled at the use site,
-/// meaning that the resource ownership is transferred to the caller.
-/// This annotation can be used to annotate disposable types or their constructors individually to enable
-/// the IDE code analysis for resource disposal in every context where the new instance of this type is created.
-/// Factory methods and <c>out</c> parameters can also be annotated to indicate that the return value
-/// of the disposable type needs handling.
+/// Indicates that the method or class instance acquires resource ownership and will dispose it after use.
 /// </summary>
 /// <remarks>
-/// Annotation of input parameters with this attribute is meaningless.<br/>
-/// Constructors inherit this attribute from their type if it is annotated,
-/// but not from the base constructors they delegate to (if any).<br/>
-/// Resource disposal is expected via <c>using (resource)</c> statement,
-/// <c>using var</c> declaration, explicit <c>Dispose()</c> call, or passing the resource as an argument
-/// to a parameter annotated with the <see cref="HandlesResourceDisposalAttribute"/> attribute.
+/// Annotation of <c>out</c> parameters with this attribute is meaningless.<br/>
+/// When an instance method is annotated with this attribute,
+/// it means that it is handling the resource disposal of the corresponding resource instance.<br/>
+/// When a field or a property is annotated with this attribute, it means that this type owns the resource
+/// and will handle the resource disposal properly (e.g. in own <c>IDisposable</c> implementation).
 /// </remarks>
 [AttributeUsage(
-                 AttributeTargets.Class
-               | AttributeTargets.Struct
-               | AttributeTargets.Constructor
-               | AttributeTargets.Method
-               | AttributeTargets.Parameter)]
+                 AttributeTargets.Method
+               | AttributeTargets.Parameter
+               | AttributeTargets.Field
+               | AttributeTargets.Property)]
 [Conditional("JETBRAINS_ANNOTATIONS")]
 [ExcludeFromCodeCoverage]
-internal sealed class MustDisposeResourceAttribute : Attribute
-{
-  public MustDisposeResourceAttribute()
-  {
-    Value = true;
-  }
-
-  public MustDisposeResourceAttribute(bool value)
-  {
-    Value = value;
-  }
-
-  /// <summary>
-  /// When set to <c>false</c>, disposing of the resource is not obligatory.
-  /// The main use-case for explicit <c>[MustDisposeResource(false)]</c> annotation
-  /// is to loosen the annotation for inheritors.
-  /// </summary>
-  public bool Value { get; }
-}
+public sealed class HandlesResourceDisposalAttribute : Attribute { }
