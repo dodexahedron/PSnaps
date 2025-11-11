@@ -13,6 +13,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 ///   Basic metadata about a snap "App."
 /// </summary>
+[PublicAPI]
 public sealed record App
 {
   [JsonPropertyName ( "daemon" )]

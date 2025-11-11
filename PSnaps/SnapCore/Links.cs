@@ -10,6 +10,7 @@ namespace PSnaps.SnapCore;
 
 using System.Text.Json.Serialization;
 
+[PublicAPI]
 public sealed record Links
 {
   [JsonPropertyName ( "contact" )]

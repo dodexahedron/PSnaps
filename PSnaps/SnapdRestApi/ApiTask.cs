@@ -8,9 +8,6 @@
 
 namespace PSnaps.SnapdRestApi;
 
-using System.Text.Json.Serialization;
-using JetBrains.Annotations;
-
 /// <summary>
 ///   Represents a high-level API "task," which typically corresponds to a single high-level user command, and may contain one or
 ///   more "actions," with <see cref="Progress" /> reporting available per action.

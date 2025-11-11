@@ -8,7 +8,8 @@
 
 namespace PSnaps.SnapCore;
 
-public enum Confinement
+[PublicAPI]
+public enum ConfinementKind
 {
   [JsonStringEnumMemberName ( "none" )]
   None,

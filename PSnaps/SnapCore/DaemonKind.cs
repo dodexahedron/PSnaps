@@ -8,8 +8,7 @@
 
 namespace PSnaps.SnapCore;
 
-using System.Text.Json.Serialization;
-
+[PublicAPI]
 public enum DaemonKind
 {
   [JsonStringEnumMemberName ( "simple" )]

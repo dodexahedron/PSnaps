@@ -8,6 +8,7 @@
 
 namespace PSnaps.SnapCore;
 
+[PublicAPI]
 public enum ComponentKind
 {
   [JsonStringEnumMemberName ( "standard" )]
