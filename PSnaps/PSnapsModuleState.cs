@@ -15,8 +15,8 @@ using OldClientNewClientPair = (ISnapdRestClient? oldClient, ISnapdRestClient? n
 
 public static class PSnapsModuleState
 {
-  private static readonly CancellationTokenSource Cts = new ( );
-  private static          ISnapdRestClient?       _client;
+  private static readonly CancellationTokenSource Cts     = new ( );
+  private static          ISnapdRestClient?       _client = new SnapdClient ( );
 
   /// <summary>
   ///   Atomically gets or sets the client to be used by the module for future operations via
