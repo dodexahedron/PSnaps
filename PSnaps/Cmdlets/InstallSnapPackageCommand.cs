@@ -15,37 +15,39 @@ namespace PSnaps.Cmdlets;
 [PublicAPI]
 [Cmdlet ( VerbsLifecycle.Install, "SnapPackage", ConfirmImpact = ConfirmImpact.Medium )]
 [OutputType ( typeof( SnapApiResponse ) )]
-public class InstallSnapPackageCommand : Cmdlet
+public class InstallSnapPackageCommand : SnapdClientCmdlet
 {
   [Parameter ( Mandatory = true, Position = 0 )]
   [ValidateCount ( 1, int.MaxValue )]
   [ValidateNotNullOrWhiteSpace]
   [ValidateLength ( 2, int.MaxValue )]
-  public required string[] Name
-  {
-    [CollectionAccess ( CollectionAccessType.Read )]
-    get;
-    set;
-  }
-
-  [Parameter ( Mandatory = false )]
-  public TransactionMode TransactionMode { get; set; }
+  public required string[] Snaps { get; set; }
 
   [Parameter ( Mandatory = false )]
   public SwitchParameter RestartIfRequired { get; set; }
 
-  [Parameter ( Mandatory = false, DontShow = true )]
-  public int Timeout { get; set; } = 30000;
+  [Parameter ( Mandatory = false )]
+  public TransactionMode TransactionMode { get; set; }
 
+  [ExcludeFromCodeCoverage]
   protected override void ProcessRecord ( )
   {
-    using CancellationTokenSource cts = new ( );
+    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( CmdletCancellationTokenSource.Token );
 
     try
     {
-      using SnapdClient client = new ( );
-      WriteObject ( client.InstallMultipleSnapsAsync ( Name, TransactionMode, RestartIfRequired.IsPresent, Timeout, cts.Token ).GetAwaiter ( ).GetResult ( ) );
-      GC.KeepAlive ( client );
+      SnapApiResponse? response =
+        ApiClient.InstallMultipleSnapsAsync (
+                                             Snaps,
+                                             TransactionMode,
+                                             RestartIfRequired.IsPresent,
+                                             Timeout,
+                                             cts.Token
+                                            )
+                 .GetAwaiter ( )
+                 .GetResult ( );
+
+      WriteObject ( response );
     }
     catch ( Exception e )
     {
