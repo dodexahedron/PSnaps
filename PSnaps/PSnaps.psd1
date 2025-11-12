@@ -34,7 +34,7 @@
       Tags = @('snap','snapd','linux')
       LicenseUri = 'https://github.com/dodexahedron/PSnaps/blob/master/LICENSE'
       ProjectUri = 'https://github.com/dodexahedron/PSnaps'
-      # IconUri = ''
+      IconUri = 'https://github.com/dodexahedron/PSnaps/blob/master/PSnaps/PSnapsIcon.png'
       ReleaseNotes = 'Early development version. Functionality and API surface are subject to change.'
       Prerelease = 'Alpha'
       RequireLicenseAcceptance = $false
