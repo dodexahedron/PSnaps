@@ -1,5 +1,5 @@
 @{
-  RootModule = 'lib\net9.0\PSnaps.dll'
+  RootModule = 'PSnaps.dll'
   ModuleVersion = '0.3.3'
   CompatiblePSEditions = @('Core')
   GUID = '7a389ff6-dd4f-4486-b430-802de6fcc65c'
@@ -20,18 +20,20 @@
   AliasesToExport = @('Remove-Snap', 'Remove-Snaps', 'Remove-SnapPackages','Uninstall-Snap', 'Uninstall-Snaps', 'Uninstall-SnapPackages')
   ModuleList = @()
   FileList = @(
-    'lib\net9.0\PSnaps.dll',
+    'PSnaps.dll',
     'PSnaps.psd1',
     'Formatting\Publisher.Format.ps1xml',
     'Formatting\GetSnapResponseResult.Format.ps1xml',
     'Formatting\RemoveSnapResult.Format.ps1xml',
     'Formatting\SnapPackage.Format.ps1xml',
-    'PSnapsIcon.png'
+    'PSnapsIcon.png',
+    'README.md',
+    'LICENSE'
   )
 
   PrivateData = @{
     PSData = @{
-      Tags = @('snap','snapd','linux')
+      Tags = @('snap','snapd','linux','PSEdition_Core')
       LicenseUri = 'https://github.com/dodexahedron/PSnaps/blob/master/LICENSE'
       ProjectUri = 'https://github.com/dodexahedron/PSnaps'
       IconUri = 'https://github.com/dodexahedron/PSnaps/blob/master/PSnaps/PSnapsIcon.png'
