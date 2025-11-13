@@ -10,8 +10,8 @@
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <WarningLevel>8</WarningLevel>
-    <VersionPrefix>0.3.3</VersionPrefix>
-    <VersionSuffix>Alpha</VersionSuffix>
+    <VersionPrefix>0.4.2</VersionPrefix>
+    <VersionSuffix>Beta1</VersionSuffix>
     <DebugType>portable</DebugType>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
@@ -42,40 +42,34 @@
     <None Remove="Formatting\Publisher.Format.ps1xml" />
     <None Remove="Formatting\RemoveSnapPackageResult.Format.ps1xml" />
     <None Remove="Formatting\SnapPackage.Format.ps1xml" />
-    <None Remove="PSnaps.psd1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Formatting\SnapPackage.Format.ps1xml">
+    <None Include="Formatting\SnapPackage.Format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Pack>True</Pack>
       <PackagePath>\Formatting</PackagePath>
-    </Content>
-    <Content Include="Formatting\RemoveSnapResult.Format.ps1xml">
+    </None>
+    <None Include="Formatting\RemoveSnapResult.Format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>\Formatting</PackagePath>
       <Pack>True</Pack>
-    </Content>
-    <Content Include="Formatting\GetSnapResponseResult.Format.ps1xml">
+    </None>
+    <None Include="Formatting\GetSnapResponseResult.Format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Pack>True</Pack>
       <PackagePath>\Formatting</PackagePath>
-    </Content>
-    <Content Include="Formatting\Publisher.Format.ps1xml">
+    </None>
+    <None Include="Formatting\Publisher.Format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Pack>True</Pack>
       <PackagePath>\Formatting</PackagePath>
-    </Content>
-    <Content Include="PSnaps.psd1">
+    </None>
+    <None Include="..\README.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
-    </Content>
-    <Content Include="..\README.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </Content>
+    </None>
     <None Include="..\LICENSE">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Pack>True</Pack>
@@ -102,5 +96,5 @@
     <InternalsVisibleTo Include="PSnaps.Tests" />
   </ItemGroup>
   
-
+  <Import Project="PSModuleManifest.targets" />
 </Project>

@@ -1,0 +1,86 @@
+<Project>
+
+  <!-- Target to generate module manifest -->
+  <Target Name="_CreateModuleManifest" AfterTargets="Build">
+    <PropertyGroup>
+      <_ModuleName>PSnaps</_ModuleName>
+      <_ModuleVersion>$(VersionPrefix)-$(VersionSuffix)</_ModuleVersion>
+      <_ModuleOutputFolder>$(OutputPath)</_ModuleOutputFolder>
+      <_PackageDir>$(MSBuildProjectDirectory)\package\$(_ModuleName)-$(_ModuleVersion)</_PackageDir>
+      <_RootModuleFile>$(_ModuleName).dll</_RootModuleFile>
+      <_ModuleIconFile>$(PackageIcon)</_ModuleIconFile>
+      <_ModuleReadmeFile>README.md</_ModuleReadmeFile>
+      <_ModuleLicenseFile>LICENSE</_ModuleLicenseFile>
+      <_ModuleManifestFile>$(_ModuleName).psd1</_ModuleManifestFile>
+      <_ModuleAssembly>$(_ModuleOutputFolder)\$(_RootModuleFile)</_ModuleAssembly>
+    </PropertyGroup>
+    <ItemGroup>
+      <_ModuleFormattingFiles Include="Formatting\*.ps1xml" />
+      <_ModuleFiles Include="$(_ModuleManifestFile)" />
+      <_ModuleFiles Include="$(_RootModuleFile)" />
+      <_ModuleFiles Include="Formatting\*.ps1xml" />
+      <_ModuleFiles Include="$(_ModuleIconFile)" />
+      <_ModuleFiles Include="$(_ModuleLicenseFile)" />
+      <_ModuleFiles Include="$(_ModuleReadmeFile)" />
+    </ItemGroup>
+    <ItemGroup>
+      <_AliasesToExport Include="Remove-Snap" />
+      <_AliasesToExport Include="Remove-Snaps" />
+      <_AliasesToExport Include="Remove-SnapPackage" />
+      <_AliasesToExport Include="Uninstall-Snap" />
+      <_AliasesToExport Include="Uninstall-Snaps" />
+      <_AliasesToExport Include="Uninstall-SnapPackages" />
+    </ItemGroup>
+    <ItemGroup>
+      <_CmdletsToExport Include="Get-SnapPackage"/>
+      <_CmdletsToExport Include="Install-SnapPackage"/>
+      <_CmdletsToExport Include="Uninstall-SnapPackage"/>
+      <_CmdletsToExport Include="Get-SnapdClient"/>
+      <_CmdletsToExport Include="Set-SnapdClient"/>
+    </ItemGroup>
+    <PropertyGroup>
+      <_ManifestFormatsToProcess>@(_ModuleFormattingFiles->'%27%(Identity)%27', ',')</_ManifestFormatsToProcess>
+      <_ManifestFileList>@(_ModuleFiles->'%27%(Identity)%27', ',')</_ManifestFileList>
+      <_ManifestAliasesToExport>@(_AliasesToExport->'%27%(Filename)%27', ',')</_ManifestAliasesToExport>
+      <_ManifestCmdletsToExport>@(_CmdletsToExport->'%27%(Filename)%27', ',')</_ManifestCmdletsToExport>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(OutputPath)$(_ModuleName).psd1" Overwrite="true" Lines="
+%40{
+  RootModule = %27$(_RootModuleFile)%27
+  ModuleVersion = %27$(VersionPrefix)%27
+  CompatiblePSEditions = %40%28%27Core%27%29
+  GUID = %277a389ff6-dd4f-4486-b430-802de6fcc65c%27
+  Author = %27$(Authors)%27
+  CompanyName = %27%27
+  Copyright = %27$(Copyright)%27
+  Description = %27$(Description)%27
+  PowerShellVersion = %277.5.4%27
+  RequiredModules = %40%28%29
+  RequiredAssemblies = %40%28%27System.Management.Automation%27,%27System.Globalization%27%29
+  ScriptsToProcess = %40%28%29
+  TypesToProcess = %40%28%29
+  FormatsToProcess = %40%28$(_ManifestFormatsToProcess)%29
+  NestedModules = %40%28%29
+  FunctionsToExport = %40%28%29
+  CmdletsToExport = %40%28$(_ManifestCmdletsToExport)%29
+  VariablesToExport = %40%28%29
+  AliasesToExport = %40%28$(_ManifestAliasesToExport)%29
+  ModuleList = %40%28%29
+  FileList = %40%28$(_ManifestFileList)%29
+  PrivateData = %40{
+    PSData = %40{
+      Tags = %40%28%27snap%27,%27snapd%27,%27linux%27,%27PSEdition_Core%27%29
+      LicenseUri = %27$(PackageProjectUrl)/blob/master/LICENSE%27
+      ProjectUri = %27$(PackageProjectUrl)%27
+      IconUri = %27$(PackageProjectUrl)/blob/master/PSnaps/PSnapsIcon.png%27
+      ReleaseNotes = %27$(PackageReleaseNotes)%27
+      Prerelease = %27$(VersionSuffix)%27
+      RequireLicenseAcceptance = %24false
+      ExternalModuleDependencies = %40%28%29
+      }
+    }
+  # HelpInfoURI = ''
+}" />
+  </Target>
+
+</Project>
