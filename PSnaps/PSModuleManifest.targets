@@ -103,7 +103,7 @@
       Tags = %40%28$(_ManifestTags)%29
       LicenseUri = %27$(PackageProjectUrl)/blob/master/$(_ModuleLicenseFileName)%27
       ProjectUri = %27$(PackageProjectUrl)%27
-      IconUri = %27$(PackageProjectUrl)/blob/master/PSnaps/PSnapsIcon.png%27
+      IconUri = %27$(PackageProjectUrl)/blob/master/PSnaps/$(_ModuleIconFile)%27
       ReleaseNotes = %27$(PackageReleaseNotes)%27
       Prerelease = %27$(VersionSuffix)%27
       RequireLicenseAcceptance = %24false
