@@ -15,6 +15,43 @@ namespace PSnaps.Tests.SnapCore;
 [Parallelizable ( ParallelScope.All )]
 public class SnapPackageTests
 {
+  private static IEnumerable<SnapPackage> BasicPackageCollection
+  {
+    get
+    {
+      yield return new ( )
+                   {
+                     Channel         = "Channel",
+                     Description     = "Description",
+                     Id              = "Id1",
+                     Name            = "Package1",
+                     Revision        = "0",
+                     TrackingChannel = "stable",
+                     Version         = "1.0.0"
+                   };
+      yield return new ( )
+                   {
+                     Channel         = "Channel",
+                     Description     = "Description",
+                     Id              = "Id2",
+                     Name            = "Package2",
+                     Revision        = "0",
+                     TrackingChannel = "stable",
+                     Version         = "1.0.0"
+                   };
+      yield return new ( )
+                   {
+                     Channel         = "Channel",
+                     Description     = "Description",
+                     Id              = "Id3",
+                     Name            = "Package3",
+                     Revision        = "0",
+                     TrackingChannel = "stable",
+                     Version         = "1.0.0"
+                   };
+    }
+  }
+
   private static IEnumerable<TestCaseData<SnapPackage?, SnapPackage?>> CompareTo_ExpectedOrdering_Cases
   {
     get
@@ -187,6 +224,17 @@ public class SnapPackageTests
                               };
     object testPackageAsObject = testPackage;
     return testPackage.CompareTo ( testPackageAsObject );
+  }
+
+  [Test]
+  public void GetHashCode_ReturnsHashCodeOfIdProperty ( [ValueSource ( nameof (BasicPackageCollection) )] SnapPackage snap )
+  {
+    Assume.That ( snap,    Is.Not.Null );
+    Assume.That ( snap.Id, Is.Not.Null );
+    Assume.That ( snap.Id, Is.Not.Empty );
+    Assume.That ( snap.Id, Is.Not.WhiteSpace );
+
+    Assert.That ( snap.GetHashCode ( ), Is.EqualTo ( snap.Id.GetHashCode ( ) ) );
   }
 
   [Test]
