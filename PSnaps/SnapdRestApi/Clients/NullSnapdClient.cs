@@ -46,9 +46,9 @@ public sealed class NullSnapdClient : ISnapdRestClient
   }
 
   /// <inheritdoc />
-  public Task<SnapApiResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, bool restartIfRequired = false, int timeout = 30000, CancellationToken cancellationToken = default )
+  public Task<SnapApiAsyncResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, int timeout = 30000, CancellationToken cancellationToken = default )
   {
-    return Task.FromResult<SnapApiResponse?> ( null );
+    return Task.FromResult<SnapApiAsyncResponse?> ( null );
   }
 
   /// <inheritdoc />

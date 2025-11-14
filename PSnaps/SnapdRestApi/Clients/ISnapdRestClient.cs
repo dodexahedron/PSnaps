@@ -53,7 +53,23 @@ public interface ISnapdRestClient : IDisposable
   /// </returns>
   Task<List<SnapPackage>?> GetSnapsAsync ( string[] snapNames, bool includeInactive = false, int timeout = 10000, CancellationToken cancellationToken = default );
 
-  Task<SnapApiResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, bool restartIfRequired = false, int timeout = 30000, CancellationToken cancellationToken = default );
+  /// <summary>
+  ///   Installs all of the specified snap packages.
+  /// </summary>
+  /// <param name="snapNames">The names of the packages to install.</param>
+  /// <param name="transactionMode">
+  ///   Specifies the transaction mode to use for the installation operation.<br />
+  ///   If <see cref="TransactionMode.PerPackage" /> (default for PSnaps as well as snapd), each package installation uses an isolated
+  ///   transaction and failures do not affect other installations (barring dependency issues).<br />
+  ///   If <see cref="TransactionMode.AllPackage" />, then all packages are installed in one transaction, and all must succeed or else
+  ///   all installations will be rolled back.
+  /// </param>
+  /// <param name="timeout"></param>
+  /// <param name="cancellationToken"></param>
+  /// <returns>
+  ///   A <see cref="SnapApiAsyncResponse" /> containing the change ID, which can be used to retrieve status of the operation.
+  /// </returns>
+  Task<SnapApiAsyncResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, int timeout = 30000, CancellationToken cancellationToken = default );
 
   /// <summary>
   ///   Removes multiple snap packages via a POST to the <c>/v2/snaps</c> API endpoint.

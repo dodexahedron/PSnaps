@@ -130,13 +130,14 @@ public record SnapdClient : ISnapdRestClient
     return snapPackages is null ? null : [ ..snapPackages ];
   }
 
-  public async Task<SnapApiResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, bool restartIfRequired = false, int timeout = 30000, CancellationToken cancellationToken = default )
+  /// <inheritdoc />
+  public async Task<SnapApiAsyncResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, int timeout = 30000, CancellationToken cancellationToken = default )
   {
-    SnapApiResponse? snapApiResponse = await PostAsync (
+    SnapApiAsyncResponse? snapApiResponse = await PostAsync (
                                                         "snaps",
-                                                        new ( snapNames, transactionMode, restartIfRequired ),
+                                                        new ( snapNames, transactionMode ),
                                                         SnapApiJsonSerializerContext.Default.InstallMultipleSnapsPostData,
-                                                        SnapApiJsonSerializerContext.Default.SnapApiResponse,
+                                                        SnapApiJsonSerializerContext.Default.SnapApiAsyncResponse,
                                                         timeout,
                                                         cancellationToken
                                                        );

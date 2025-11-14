@@ -99,7 +99,7 @@ public class MockSnapdClient ( CancellationToken realCancellationToken = default
   }
 
   /// <inheritdoc />
-  public async Task<SnapApiResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, bool restartIfRequired = false, int timeout = 30000, CancellationToken cancellationToken = default )
+  public async Task<SnapApiAsyncResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, int timeout = 30000, CancellationToken cancellationToken = default )
   {
     ObjectDisposedException.ThrowIf ( _cts is null, this );
     using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _cts.Token, cancellationToken );

@@ -18,13 +18,10 @@ namespace PSnaps.SnapdRestApi.Requests;
 /// </remarks>
 /// <param name="Snaps">An array of one or more snap package names to install.</param>
 /// <param name="Transaction">The transaction mode for the operation.</param>
-/// <param name="SystemRestartImmediate">If a restart is required, specifies whether to perform the restart or not.</param>
 [UsedImplicitly ( ImplicitUseTargetFlags.WithMembers )]
 public sealed record InstallMultipleSnapsPostData (
   [property: JsonPropertyName ( "snaps" )]
   string[] Snaps,
   [property: JsonPropertyName ( "transaction" )]
-  TransactionMode Transaction = TransactionMode.PerPackage,
-  [property: JsonPropertyName ( "system-restart-immediate" )]
-  bool SystemRestartImmediate = false
+  TransactionMode Transaction = TransactionMode.PerPackage
 ) : SnapsPostData ( SnapRequestActionKind.Install );
