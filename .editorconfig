@@ -8,3 +8,8 @@ resharper_check_namespace_highlighting=none
 resharper_namespace_match_file_location=false
 dotnet_style_namespace_match_folder = false
 
+[PSnaps/SnapCore/{*Kind,Component,App*,MediaAsset,PackageStatus,Publisher}.cs]
+dotnet_diagnostic.cs1591.severity=silent
+
+[PSnaps/SnapCore/*.cs]
+dotnet_diagnostic.ide0079.severity=silent
