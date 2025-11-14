@@ -7,14 +7,12 @@
     <RootNamespace>PSnaps</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <WarningLevel>8</WarningLevel>
     <VersionPrefix>0.4.2</VersionPrefix>
     <VersionSuffix>Beta1</VersionSuffix>
     <DebugType>portable</DebugType>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -35,6 +33,8 @@
     <Version>$(AssemblyVersion)</Version>
     <PackageIcon>PSnapsIcon.png</PackageIcon>
     <ApplicationIcon>PSnapsIcon.ico</ApplicationIcon>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
