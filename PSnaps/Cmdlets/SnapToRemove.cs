@@ -11,12 +11,21 @@ using System.Text.RegularExpressions;
 
 namespace PSnaps.Cmdlets;
 
+/// <summary>
+///   Describes a package to remove in sufficient detail to remove a specific instance of a package.
+/// </summary>
 public sealed partial record SnapToRemove : IParsable<SnapToRemove>
 {
   private readonly string _revision;
 
   private readonly string _version;
 
+  /// <summary>
+  ///   Creates a new <see cref="SnapToRemove" /> instance initialized with the specified properties.
+  /// </summary>
+  /// <param name="Name"></param>
+  /// <param name="Version"></param>
+  /// <param name="Revision"></param>
   [SetsRequiredMembers]
   public SnapToRemove ( string Name, string Version = "*", string Revision = "*" )
   {
@@ -26,8 +35,17 @@ public sealed partial record SnapToRemove : IParsable<SnapToRemove>
     this.Revision = Revision;
   }
 
+  /// <summary>
+  ///   The name of the snap package to remove. Case-insensitive.
+  /// </summary>
   public required string Name { get; init; }
 
+  /// <summary>
+  ///   The revision of the snap package to remove.
+  /// </summary>
+  /// <remarks>
+  ///   Must be either a numeric value as a string or the special value <c>*</c>, which PSnaps uses to mean all revisions.
+  /// </remarks>
   public required string Revision
   {
     get => _revision;
@@ -35,6 +53,13 @@ public sealed partial record SnapToRemove : IParsable<SnapToRemove>
     init => _revision = string.IsNullOrWhiteSpace ( value ) ? "*" : value;
   }
 
+  /// <summary>
+  ///   The version of the snap package to remove.
+  /// </summary>
+  /// <remarks>
+  ///   Must be either an exactly matching string as an installed version of the specified snap package, or the special value <c>*</c>,
+  ///   which PSnaps uses to mean all versions.
+  /// </remarks>
   public required string Version
   {
     get => _version;
@@ -78,6 +103,18 @@ public sealed partial record SnapToRemove : IParsable<SnapToRemove>
     }
   }
 
+  /// <summary>
+  ///   Deconstructor.
+  /// </summary>
+  /// <param name="Name">
+  ///   <see cref="Name" />
+  /// </param>
+  /// <param name="Version">
+  ///   <see cref="Version" />
+  /// </param>
+  /// <param name="Revision">
+  ///   <see cref="Revision" />
+  /// </param>
   [SuppressMessage ( "ReSharper", "InconsistentNaming",   Justification = "It's a deconstructor..." )]
   [SuppressMessage ( "ReSharper", "ParameterHidesMember", Justification = "It's a deconstructor..." )]
   public void Deconstruct ( out string Name, out string Version, out string Revision )
@@ -87,6 +124,11 @@ public sealed partial record SnapToRemove : IParsable<SnapToRemove>
     Revision = this.Revision;
   }
 
+  /// <summary>
+  ///   Implicit no-allocation conversion to <see langword="string" />.
+  /// </summary>
+  /// <param name="snap"></param>
+  /// <returns></returns>
   public static implicit operator string ( SnapToRemove snap )
   {
     return string.Create (

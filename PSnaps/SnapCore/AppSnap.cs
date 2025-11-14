@@ -8,6 +8,9 @@
 
 namespace PSnaps.SnapCore;
 
+/// <summary>
+///   A <see cref="SnapPackage" /> with type=app.
+/// </summary>
 [PublicAPI]
 public sealed record AppSnap : SnapPackage
 {

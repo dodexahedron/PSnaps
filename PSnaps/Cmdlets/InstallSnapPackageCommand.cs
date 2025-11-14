@@ -12,23 +12,34 @@ using PSnaps.SnapdRestApi.Responses;
 
 namespace PSnaps.Cmdlets;
 
+/// <summary>
+///   Installs one or more snap packages.
+/// </summary>
 [PublicAPI]
 [Cmdlet ( VerbsLifecycle.Install, "SnapPackage", ConfirmImpact = ConfirmImpact.Medium )]
 [OutputType ( typeof( SnapApiResponse ) )]
 public class InstallSnapPackageCommand : SnapdClientCmdlet
 {
+  /// <summary>
+  ///   One or more names of snap packages to install.
+  /// </summary>
   [Parameter ( Mandatory = true, Position = 0 )]
   [ValidateCount ( 1, int.MaxValue )]
   [ValidateNotNullOrWhiteSpace]
   [ValidateLength ( 2, int.MaxValue )]
   public required string[] Snaps { get; set; }
 
-  [Parameter ( Mandatory = false )]
-  public SwitchParameter RestartIfRequired { get; set; }
-
+  /// <summary>
+  ///   Specifies the transaction mode to use for the installation operation.<br />
+  ///   If <see cref="TransactionMode.PerPackage" /> (default for PSnaps as well as snapd), each package installation uses an isolated
+  ///   transaction and failures do not affect other installations (barring dependency issues).<br />
+  ///   If <see cref="TransactionMode.AllPackage" />, then all packages are installed in one transaction, and all must succeed or else
+  ///   all installations will be rolled back.
+  /// </summary>
   [Parameter ( Mandatory = false )]
   public TransactionMode TransactionMode { get; set; }
 
+  /// <inheritdoc />
   [ExcludeFromCodeCoverage]
   protected override void ProcessRecord ( )
   {

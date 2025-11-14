@@ -11,22 +11,33 @@ using PSnaps.SnapdRestApi.Clients;
 
 namespace PSnaps.Cmdlets;
 
+/// <summary>
+///   Gets one or more snap packages depending on input.
+/// </summary>
 [PublicAPI]
 [Cmdlet ( VerbsCommon.Get, "SnapPackage", ConfirmImpact = ConfirmImpact.None )]
 [OutputType ( typeof( List<SnapPackage> ) )]
 public sealed class GetSnapPackageCommand : SnapdClientCmdlet
 {
+  /// <summary>
+  ///   Specifies whether to get all packages, including those with status==inactive.
+  /// </summary>
   [Parameter ( Mandatory = false )]
   [Alias ( "IncludeInactive" )]
   public SwitchParameter All { get; set; }
 
+  /// <summary>
+  ///   One or more snap package names. If not present, the -All switch must be used.
+  /// </summary>
   [Parameter ( Mandatory = false, Position = 0 )]
   public string[]? Name { get; set; }
 
   /// <summary>
   ///   Gets snap packages according to user input.
   /// </summary>
-  /// <param name="apiClient">The <see cref="ISnapdRestClient" /> to use for the operation.</param>
+  /// <param name="apiClient">
+  ///   The <see cref="ISnapdRestClient" /> to use for the operation.
+  /// </param>
   /// <param name="snapNames">
   ///   An array of zero or more snap package names.<br />If empty or <see langword="null" />, <paramref name="all" /> must be true or
   ///   no results will be returned.
@@ -93,6 +104,7 @@ public sealed class GetSnapPackageCommand : SnapdClientCmdlet
     return allSnaps;
   }
 
+  /// <inheritdoc />
   [ExcludeFromCodeCoverage]
   protected override void ProcessRecord ( )
   {

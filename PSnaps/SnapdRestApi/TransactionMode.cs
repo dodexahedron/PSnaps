@@ -8,6 +8,9 @@
 
 namespace PSnaps.SnapdRestApi;
 
+/// <summary>
+///   An enumeration of transaction modes for certain change operations.
+/// </summary>
 [PublicAPI]
 public enum TransactionMode
 {

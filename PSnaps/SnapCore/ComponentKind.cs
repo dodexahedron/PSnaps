@@ -8,12 +8,21 @@
 
 namespace PSnaps.SnapCore;
 
+/// <summary>
+///   An enum of possible values for the <see cref="Component.Type" /> property.
+/// </summary>
 [PublicAPI]
 public enum ComponentKind
 {
+  /// <summary>
+  ///   Corresponds to the value "standard" in the snapd API.
+  /// </summary>
   [JsonStringEnumMemberName ( "standard" )]
   Standard,
 
+  /// <summary>
+  ///   Corresponds to the value "kernel-modules" in the snapd API.
+  /// </summary>
   [JsonStringEnumMemberName ( "kernel-modules" )]
   KernelModules
 }

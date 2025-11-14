@@ -8,4 +8,7 @@
 
 namespace PSnaps.SnapCore;
 
+/// <summary>
+///   A <see cref="SnapPackage" /> with type=snapd.
+/// </summary>
 public sealed record SnapdSnap : SnapPackage;

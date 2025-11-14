@@ -6,24 +6,34 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-using System.Management.Automation;
-using PSnaps.SnapdRestApi.Clients;
-
 namespace PSnaps.Cmdlets;
 
+/// <summary>
+///   Cmdlet that sets the <see cref="ISnapdRestClient" /> instance that the module will use for all future
+///   operations.
+/// </summary>
+/// <remarks>
+///   Should not typically need to be used outside of testing unless you have created an alternative implementation of the client.
+/// </remarks>
 [Cmdlet ( VerbsCommon.Set, Noun, ConfirmImpact = ConfirmImpact.Low )]
 [OutputType ( typeof( ISnapdRestClient ) )]
 [PublicAPI]
 public sealed class SetSnapdClientCommand : PSCmdlet
 {
-  public const  string Noun                = "SnapdClient";
   private const string InterfaceTypeName   = $"{PSnapsNamespaceName}.{nameof (ISnapdRestClient)}";
+  private const string Noun                = "SnapdClient";
   private const string PSnapsNamespaceName = nameof (PSnaps);
 
+  /// <summary>
+  ///   A constructed and valid instance of an <see cref="ISnapdRestClient" /> to use for future operations by the PSnaps module.
+  /// </summary>
   [Parameter ( Mandatory = true, Position = 0, HelpMessage = $"A constructed and valid instance of an [{InterfaceTypeName}] to use for future operations by the PSnaps module.", ValueFromPipeline = true )]
   [ValidateNotNull]
   public required ISnapdRestClient? Client { get; set; }
 
+  /// <summary>
+  ///   If set, the previous client object will will NOT be disposed. Default behavior is to dispose of the previous client object.
+  /// </summary>
   [Parameter ( Mandatory = false, HelpMessage = "If set, the previous client object will will NOT be disposed. Default behavior is to dispose of the previous client object." )]
   public SwitchParameter DoNotDisposeOldClient { get; set; }
 

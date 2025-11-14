@@ -8,6 +8,12 @@
 
 namespace PSnaps.SnapdRestApi.Requests;
 
+/// <summary>
+///   Post data object used when calling the /v2/snaps endpoint with a "remove" action and multiple snaps.
+/// </summary>
+/// <param name="Snaps">An array of snap package names to remove.</param>
+/// <param name="Purge">Whether to include the purge parameter in the request.</param>
+[PublicAPI]
 public sealed record RemoveMultipleSnapsPostData (
   [property: JsonPropertyName ( "snaps" )]
   string[] Snaps,

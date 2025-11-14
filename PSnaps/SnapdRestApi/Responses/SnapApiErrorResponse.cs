@@ -8,6 +8,10 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
+/// <summary>
+///   The type of response received from snapd when an operation fails.
+/// </summary>
+/// <param name="Result"></param>
 public sealed record SnapApiErrorResponse (
   [property: JsonPropertyName ( "result" )]
   SnapApiError Result

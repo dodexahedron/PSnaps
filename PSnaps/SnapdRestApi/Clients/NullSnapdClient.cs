@@ -21,6 +21,12 @@ public sealed class NullSnapdClient : ISnapdRestClient
   {
   }
 
+#pragma warning disable CS8766
+  // Suppressing the warning for mismatched nullability attributes because null is intended here, and we want the analyzer to work anyway.
+  /// <inheritdoc />
+  public Uri? SnapdUnixSocketUri => null;
+#pragma warning restore CS8766
+
   /// <inheritdoc />
   public Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 30000, CancellationToken cancellationToken = default )
   {

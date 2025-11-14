@@ -11,6 +11,9 @@ using PSnaps.SnapdRestApi.Clients;
 
 namespace PSnaps.Cmdlets;
 
+/// <summary>
+///   Gets the current instance of the <see cref="ISnapdRestClient" /> in use by the module and writes it to the pipeline.
+/// </summary>
 [Cmdlet ( VerbsCommon.Get, Noun )]
 [OutputType ( typeof( ISnapdRestClient ) )]
 [PublicAPI]

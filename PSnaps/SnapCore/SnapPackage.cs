@@ -180,26 +180,31 @@ public record SnapPackage : IComparable<SnapPackage>, IComparable, IComparisonOp
     return DateTimeOffset.Compare ( InstallDate, other.InstallDate );
   }
 
+  /// <inheritdoc />
   public static bool operator > ( SnapPackage? left, SnapPackage? right )
   {
     return Compare ( left, right ) > 0;
   }
 
+  /// <inheritdoc />
   public static bool operator >= ( SnapPackage? left, SnapPackage? right )
   {
     return Compare ( left, right ) >= 0;
   }
 
+  /// <inheritdoc />
   public static bool operator < ( SnapPackage? left, SnapPackage? right )
   {
     return Compare ( left, right ) < 0;
   }
 
+  /// <inheritdoc />
   public static bool operator <= ( SnapPackage? left, SnapPackage? right )
   {
     return Compare ( left, right ) <= 0;
   }
 
+  /// <inheritdoc cref="IComparer{T}.Compare(T?, T?)" />
   public static int Compare ( SnapPackage? left, SnapPackage? right )
   {
     return ( left, right ) switch

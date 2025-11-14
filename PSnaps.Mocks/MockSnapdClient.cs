@@ -44,6 +44,9 @@ public class MockSnapdClient ( CancellationToken realCancellationToken = default
   }
 
   /// <inheritdoc />
+  public Uri SnapdUnixSocketUri { get; } = new ( ISnapdRestClient.DefaultSnapdUnixSocketPath, UriKind.Absolute );
+
+  /// <inheritdoc />
   [SuppressMessage ( "ReSharper", "StringLiteralTypo" )]
   public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 30000, CancellationToken cancellationToken = default )
   {

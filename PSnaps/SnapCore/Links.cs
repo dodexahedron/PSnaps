@@ -10,6 +10,9 @@ namespace PSnaps.SnapCore;
 
 using System.Text.Json.Serialization;
 
+/// <summary>
+///   Corresponds to the links property of snap packages, in the snapd API.
+/// </summary>
 [PublicAPI]
 public sealed record Links
 {

@@ -10,10 +10,27 @@ using PSnaps.SnapdRestApi.Responses;
 
 namespace PSnaps.SnapdRestApi.Clients;
 
+/// <summary>
+///   Interface representing the minimum functionality expected of a snapd client, by the library and module cmdlets.
+/// </summary>
+[PublicAPI]
 public interface ISnapdRestClient : IDisposable
 {
-  public const string DefaultApiBaseUriV2        = "http://localhost/v2/";
+  /// <summary>
+  ///   The base URI that snapd uses for the v2 API.<br />
+  ///   All requests go to URIs below this base URI.
+  /// </summary>
+  public const string DefaultApiBaseUriV2 = "http://localhost/v2/";
+
+  /// <summary>
+  ///   The URI to the default snapd Unix Domain Socket listener on Ubuntu.
+  /// </summary>
   public const string DefaultSnapdUnixSocketPath = "unix:///run/snapd.socket";
+
+  /// <summary>
+  ///   Gets the URI of the snapd Unix Domain Socket.
+  /// </summary>
+  Uri SnapdUnixSocketUri { get; }
 
   /// <summary>
   ///   Gets all snap packages via the <c>/v2/snaps?select=all</c> API call.
@@ -29,10 +46,38 @@ public interface ISnapdRestClient : IDisposable
   /// <returns>
   ///   An array of <see cref="SnapPackage" /> objects, deserialized from the <c>result</c> property of the API's JSON response.
   /// </returns>
-  Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 30000, CancellationToken cancellationToken = default );
+  Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 10000, CancellationToken cancellationToken = default );
 
-  Task<ChangeSet?> GetChangesAsync ( string actionId, int timeout = 30000, CancellationToken cancellationToken = default );
+  /// <summary>
+  ///   Gets a <see cref="ChangeSet" />, by id, providing status of a previously-submitted snapd async request, such as most requests
+  ///   that make a change.
+  /// </summary>
+  /// <param name="actionId">
+  ///   The identifier of the action, as returned in a <see cref="SnapApiAsyncResponse" />, as a <see cref="string" />.
+  /// </param>
+  /// <param name="timeout">A timeout, in milliseconds, for the GET request. Default is 10 seconds.</param>
+  /// <param name="cancellationToken">
+  ///   A cancellation token to use for the operation, which will also be linked to the client's cancellation token source.
+  /// </param>
+  Task<ChangeSet?> GetChangesAsync ( string actionId, int timeout = 10000, CancellationToken cancellationToken = default );
 
+  /// <summary>
+  ///   Gets a single snap package by name, optionally including inactive versions if <paramref name="includeInactive" /> is
+  ///   <see langword="true" />.
+  /// </summary>
+  /// <param name="snapName">The name of the snap package. This parameter is not case sensitive.</param>
+  /// <param name="includeInactive">
+  ///   If <see langword="true" />, returns all local instances of the snap package having status of either <c>active</c> or
+  ///   <c>installed</c> (inactive).<br />
+  ///   If <see langword="false" /> (default), only returns the <c>active</c> instance of the snap package.
+  /// </param>
+  /// <param name="timeout">A timeout, in milliseconds, for the GET request. Default is 10 seconds.</param>
+  /// <param name="cancellationToken">
+  ///   A cancellation token to use for the operation, which will also be linked to the client's cancellation token source.
+  /// </param>
+  /// <returns>
+  ///   An array of <see cref="SnapPackage" /> (even if there is only one result) or <see langword="null" />, if there were no results.
+  /// </returns>
   Task<SnapPackage[]?> GetSingleSnapAsync ( string snapName, bool includeInactive = false, int timeout = 10000, CancellationToken cancellationToken = default );
 
   /// <summary>
