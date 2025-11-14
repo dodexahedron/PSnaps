@@ -35,6 +35,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Version>$(AssemblyVersion)</Version>
     <PackageIcon>PSnapsIcon.png</PackageIcon>
+    <ApplicationIcon>PSnapsIcon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,6 +43,10 @@
     <None Remove="Formatting\Publisher.Format.ps1xml" />
     <None Remove="Formatting\RemoveSnapPackageResult.Format.ps1xml" />
     <None Remove="Formatting\SnapPackage.Format.ps1xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="PSnapsIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
