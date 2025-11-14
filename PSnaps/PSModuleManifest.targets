@@ -2,6 +2,7 @@
 
   <!-- Target to generate module manifest -->
   <Target Name="_CreateModuleManifest" AfterTargets="Build">
+    <!-- Properties used in multiple substitutions and package-level properties. -->
     <PropertyGroup>
       <_ModuleName>PSnaps</_ModuleName>
       <_ModuleVersion>$(VersionPrefix)-$(VersionSuffix)</_ModuleVersion>
@@ -10,19 +11,31 @@
       <_RootModuleFile>$(_ModuleName).dll</_RootModuleFile>
       <_ModuleIconFile>$(PackageIcon)</_ModuleIconFile>
       <_ModuleReadmeFile>README.md</_ModuleReadmeFile>
-      <_ModuleLicenseFile>LICENSE</_ModuleLicenseFile>
-      <_ModuleManifestFile>$(_ModuleName).psd1</_ModuleManifestFile>
+      <_ModuleLicenseFileName>LICENSE</_ModuleLicenseFileName>
+      <_ModuleManifestFileName>$(_ModuleName).psd1</_ModuleManifestFileName>
       <_ModuleAssembly>$(_ModuleOutputFolder)\$(_RootModuleFile)</_ModuleAssembly>
     </PropertyGroup>
+    <!-- Files to be included in the manifest. -->
     <ItemGroup>
       <_ModuleFormattingFiles Include="Formatting\*.ps1xml" />
-      <_ModuleFiles Include="$(_ModuleManifestFile)" />
+    </ItemGroup>
+    <ItemGroup>
+      <_ModuleFiles Include="$(_ModuleManifestFileName)" />
       <_ModuleFiles Include="$(_RootModuleFile)" />
       <_ModuleFiles Include="Formatting\*.ps1xml" />
       <_ModuleFiles Include="$(_ModuleIconFile)" />
-      <_ModuleFiles Include="$(_ModuleLicenseFile)" />
+      <_ModuleFiles Include="$(_ModuleLicenseFileName)" />
       <_ModuleFiles Include="$(_ModuleReadmeFile)" />
     </ItemGroup>
+    <!-- Cmdlets to export in the manifest. -->
+    <ItemGroup>
+      <_CmdletsToExport Include="Get-SnapPackage" />
+      <_CmdletsToExport Include="Install-SnapPackage" />
+      <_CmdletsToExport Include="Uninstall-SnapPackage" />
+      <_CmdletsToExport Include="Get-SnapdClient" />
+      <_CmdletsToExport Include="Set-SnapdClient" />
+    </ItemGroup>
+    <!-- Aliases for cmdlets to export in the manifest. -->
     <ItemGroup>
       <_AliasesToExport Include="Remove-Snap" />
       <_AliasesToExport Include="Remove-Snaps" />
@@ -31,20 +44,38 @@
       <_AliasesToExport Include="Uninstall-Snaps" />
       <_AliasesToExport Include="Uninstall-SnapPackages" />
     </ItemGroup>
+    <!-- Tags for the manifest. -->
     <ItemGroup>
-      <_CmdletsToExport Include="Get-SnapPackage"/>
-      <_CmdletsToExport Include="Install-SnapPackage"/>
-      <_CmdletsToExport Include="Uninstall-SnapPackage"/>
-      <_CmdletsToExport Include="Get-SnapdClient"/>
-      <_CmdletsToExport Include="Set-SnapdClient"/>
+      <_Tags Include="snap" />
+      <_Tags Include="snapd" />
+      <_Tags Include="Linux" />
+      <_Tags Include="PSEdition_Core" />
     </ItemGroup>
+    <!-- 
+       Flattening the itemgroups above into properties that can be used in the WriteLinesToFile task, and formatting
+       them appropriately for how the manifest needs them to be.
+       Note that escaping quotes is necessary, and is done with %27 for single quotes.
+    -->
     <PropertyGroup>
       <_ManifestFormatsToProcess>@(_ModuleFormattingFiles->'%27%(Identity)%27', ',')</_ManifestFormatsToProcess>
       <_ManifestFileList>@(_ModuleFiles->'%27%(Identity)%27', ',')</_ManifestFileList>
       <_ManifestAliasesToExport>@(_AliasesToExport->'%27%(Filename)%27', ',')</_ManifestAliasesToExport>
       <_ManifestCmdletsToExport>@(_CmdletsToExport->'%27%(Filename)%27', ',')</_ManifestCmdletsToExport>
+      <_ManifestTags>@(_Tags->'%27%(Filename)%27', ',')</_ManifestTags>
     </PropertyGroup>
-    <WriteLinesToFile File="$(OutputPath)$(_ModuleName).psd1" Overwrite="true" Lines="
+    <!-- 
+      This task takes the properties above and some from the csproj and substitutes them where appropriate
+      in the PowerShell module manifest, which gets written to ModuleName.psd1 on build.
+      As above, escaping of MSBuild reserved metacharacters is necessary.
+      %40 = @
+      %27 = '
+      %28 = (
+      %29 = )
+      Examples online of substitution using xml-escaped values are invalid, as the semicolon is also a reserved
+      metacharacter for MSBuild and gets interpreted as a list item separator if you use it in the Lines attribute.
+    -->
+    <WriteLinesToFile File="$(OutputPath)$(_ModuleName).psd1" Overwrite="true"
+                      Lines="
 %40{
   RootModule = %27$(_RootModuleFile)%27
   ModuleVersion = %27$(VersionPrefix)%27
@@ -69,8 +100,8 @@
   FileList = %40%28$(_ManifestFileList)%29
   PrivateData = %40{
     PSData = %40{
-      Tags = %40%28%27snap%27,%27snapd%27,%27linux%27,%27PSEdition_Core%27%29
-      LicenseUri = %27$(PackageProjectUrl)/blob/master/LICENSE%27
+      Tags = %40%28$(_ManifestTags)%29
+      LicenseUri = %27$(PackageProjectUrl)/blob/master/$(_ModuleLicenseFileName)%27
       ProjectUri = %27$(PackageProjectUrl)%27
       IconUri = %27$(PackageProjectUrl)/blob/master/PSnaps/PSnapsIcon.png%27
       ReleaseNotes = %27$(PackageReleaseNotes)%27
