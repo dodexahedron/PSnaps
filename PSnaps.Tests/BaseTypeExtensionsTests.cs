@@ -11,10 +11,10 @@ namespace PSnaps.Tests;
 [TestFixture]
 public class BaseTypeExtensionsTests
 {
-  public static string[][] InputStrings = [ [ "String 1", "String 2", "String C", "Fourth String", "String 5 has \'single quotes\', and also a comma." ] ];
+  public static string[][] InputStrings = [ [ "String 1", "String 2", "String C", "Fourth String", "String 5 has \'single quotes\', and also a comma." ], [ "Only one string" ] ];
 
   [Test]
-  public void StringArray_WrapAndJoin_AllOutputComponentsInCorrectPositions ( [ValueSource ( nameof (InputStrings) )] string[] input, [Values ( ',', ':', ' ', ';' )] char separator, [Values ( '\'', '"', ':', ' ' ),] char wrapper )
+  public void StringArray_WrapAndJoin_AllOutputComponentsInCorrectPositions ( [ValueSource ( nameof (InputStrings) )] string[] input, [Values ( ',', ':', ' ', ';' )] char separator, [Values ( '\'', '"', ':', ' ' )] char wrapper )
   {
     Assume.That ( input,                          Is.Not.Null );
     Assume.That ( input,                          Is.Not.Empty );
@@ -63,7 +63,7 @@ public class BaseTypeExtensionsTests
         char startWrapper = output [ startWrapperIndex ];
         Assert.That ( startWrapper, Is.EqualTo ( wrapper ) );
         char endWrapper = output [ endWrapperIndex ];
-        Assert.That ( endWrapper,   Is.EqualTo ( wrapper ) );
+        Assert.That ( endWrapper, Is.EqualTo ( wrapper ) );
       }
 
       // Check that the current input element exists verbatim at the expected location.
@@ -85,4 +85,24 @@ public class BaseTypeExtensionsTests
     Assume.That ( outputStringIndex, Is.EqualTo ( output.Length - 1 ) );
   }
 
+  [Test]
+  public void StringArray_WrapAndJoin_HugeArrayOfEmptyStrings_ThrowsArgumentOutOfRangeException ( )
+  {
+    // Don't worry about the huge array allocation. The compiler is smart enough to skip it since it can validate the math ahead of time.
+    string[] hugeInputArray = new string[0x20000000];
+    Assert.That ( ( ) => hugeInputArray.WrapAndJoin ( ), Throws.TypeOf<ArgumentOutOfRangeException> ( ).With.InnerException.TypeOf<InsufficientMemoryException> ( ) );
+  }
+
+  [Test]
+  public void StringArray_WrapAndJoin_LargeArrayOfNonEmptyStrings_ThrowsArgumentOutOfRangeException ( )
+  {
+    // Don't worry about the huge array allocation. The compiler is smart enough to skip it since it can validate the math ahead of time.
+    // Also, there's only one instance of the string, so this array is the same size as the other large array test, and the string is the only thing allocated.
+    string stringOf128Characters = new ( 'A', 128 );
+
+    // Can use a smaller array than for the other test. This value is exactly the size of the other array divided by 128.
+    string[] hugeInputArray = new string[0x800000];
+    Array.Fill ( hugeInputArray, stringOf128Characters );
+    Assert.That ( ( ) => hugeInputArray.WrapAndJoin ( ), Throws.TypeOf<ArgumentOutOfRangeException> ( ).With.InnerException.TypeOf<InsufficientMemoryException> ( ) );
+  }
 }
