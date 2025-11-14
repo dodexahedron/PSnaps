@@ -8,8 +8,6 @@
 
 using System.Collections.Concurrent;
 using System.Globalization;
-using System.Management.Automation;
-using PSnaps.SnapdRestApi.Clients;
 using PSnaps.SnapdRestApi.Responses;
 
 namespace PSnaps.Cmdlets;

@@ -6,9 +6,6 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-using System.Management.Automation;
-using PSnaps.SnapdRestApi.Clients;
-
 namespace PSnaps.Cmdlets;
 
 /// <summary>
@@ -77,11 +74,12 @@ public sealed class GetSnapPackageCommand : SnapdClientCmdlet
     if ( snapNames is { Length: > 0 } )
     {
       // Retrieve each snap in parallel and collect the results.
-      return apiClient.GetSnapsAsync ( snapNames, all, timeout, cts.Token )
-                      .GetAwaiter ( )
-                      .GetResult ( )
-                      ?.Order ( )
-                      .ToList ( );
+      return apiClient
+            .GetSnapsAsync ( snapNames, all, timeout, cts.Token )
+            .GetAwaiter ( )
+            .GetResult ( )
+           ?.Order ( )
+            .ToList ( );
     }
 
     cts.Token.ThrowIfCancellationRequested ( );
@@ -94,11 +92,12 @@ public sealed class GetSnapPackageCommand : SnapdClientCmdlet
 
     // Retrieve all snaps.
     List<SnapPackage> allSnaps
-      = apiClient.GetAllSnapsAsync ( timeout, cts.Token )
-                 .GetAwaiter ( )
-                 .GetResult ( )
-                ?.Order ( )
-                 .ToList ( )
+      = apiClient
+       .GetAllSnapsAsync ( timeout, cts.Token )
+       .GetAwaiter ( )
+       .GetResult ( )
+      ?.Order ( )
+       .ToList ( )
      ?? [ ];
 
     return allSnaps;

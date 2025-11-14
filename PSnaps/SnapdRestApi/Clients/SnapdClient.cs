@@ -15,6 +15,9 @@ using PSnaps.SnapdRestApi.Responses;
 
 namespace PSnaps.SnapdRestApi.Clients;
 
+/// <summary>
+///   Default implementation of the <see cref="ISnapdRestClient" /> interface, used by the module for normal operation.
+/// </summary>
 [PublicAPI]
 [MustDisposeResource]
 [SupportedOSPlatform ( "linux" )]
@@ -24,10 +27,28 @@ public record SnapdClient : ISnapdRestClient
   private readonly CancellationTokenSource _snapdClientCancellationTokenSource;
   private          long                    _nonZeroMeansDisposed;
 
+  /// <summary>
+  ///   Creates an instance of <see cref="SnapdClient" /> with default URIs and a <see cref="CancellationToken" /> that is not linked
+  ///   to any parent <see cref="CancellationToken" />s.
+  /// </summary>
   public SnapdClient ( ) : this ( ISnapdRestClient.DefaultApiBaseUriV2 )
   {
   }
 
+  /// <summary>
+  ///   Creates an instance of <see cref="SnapdClient" /> with the specified or default URIs and <see cref="CancellationToken" />.
+  /// </summary>
+  /// <param name="absoluteBaseUri">
+  ///   If specified, overrides the absolute base URI the client will use when making requests over the snapd socket.
+  /// </param>
+  /// <param name="socketPath">
+  ///   If specified, overrides the absolute URI to the snapd Unix Domain Socket.<br />
+  ///   Must be of the form unix:///path/to/socket, or a fully-qualified file path without scheme token.
+  /// </param>
+  /// <param name="cancellationToken">
+  ///   If specified, the new instance of <see cref="SnapdClient" /> will link its token source to the provided
+  ///   <see cref="CancellationToken" />.
+  /// </param>
   public SnapdClient (
     string            absoluteBaseUri   = ISnapdRestClient.DefaultApiBaseUriV2,
     string            socketPath        = ISnapdRestClient.DefaultSnapdUnixSocketPath,
@@ -36,8 +57,7 @@ public record SnapdClient : ISnapdRestClient
   {
     _snapdClientCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource ( cancellationToken );
     BaseUri                             = new ( absoluteBaseUri, UriKind.Absolute );
-    SnapdSocketPath                     = socketPath;
-    SnapdUnixSocketUri                  = new ( SnapdSocketPath, UriKind.Absolute );
+    SnapdUnixSocketUri                  = new ( socketPath, UriKind.Absolute );
 
     _httpClient = new (
                        new SocketsHttpHandler
@@ -63,12 +83,16 @@ public record SnapdClient : ISnapdRestClient
                   };
   }
 
+  /// <summary>
+  ///   Gets the base URI for the snapd API.
+  /// </summary>
+  /// <remarks>Default is provided by <see cref="ISnapdRestClient.DefaultApiBaseUriV2" />.</remarks>
   public Uri BaseUri { get; init; }
 
-  public string SnapdSocketPath { get; init; }
-
+  /// <inheritdoc />
   public Uri SnapdUnixSocketUri { get; }
 
+  /// <inheritdoc />
   public virtual void Dispose ( )
   {
     if ( Interlocked.CompareExchange ( ref _nonZeroMeansDisposed, -1L, 0L ) != 0L )
@@ -94,19 +118,22 @@ public record SnapdClient : ISnapdRestClient
     GC.SuppressFinalize ( this );
   }
 
+  /// <inheritdoc />
   [CollectionAccess ( CollectionAccessType.UpdatedContent )]
-  public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 30000, CancellationToken cancellationToken = default )
+  public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 10000, CancellationToken cancellationToken = default )
   {
     return await GetResultAsync ( "snaps?select=all", SnapApiJsonSerializerContext.Default.IHaveResultSnapPackageArray, timeout, cancellationToken );
   }
 
-  public async Task<ChangeSet?> GetChangesAsync ( string actionId, int timeout = 30000, CancellationToken cancellationToken = default )
+  /// <inheritdoc />
+  public async Task<ChangeSet?> GetChangesAsync ( string actionId, int timeout = 10000, CancellationToken cancellationToken = default )
   {
     return await GetResultAsync ( $"changes/{actionId}", SnapApiJsonSerializerContext.Default.IHaveResultChangeSet, timeout, cancellationToken );
   }
 
+  /// <inheritdoc />
   [CollectionAccess ( CollectionAccessType.UpdatedContent )]
-  public async Task<SnapPackage[]?> GetSingleSnapAsync ( string snapName, bool includeInactive = false, int timeout = 30000, CancellationToken cancellationToken = default )
+  public async Task<SnapPackage[]?> GetSingleSnapAsync ( string snapName, bool includeInactive = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
     return await GetResultAsync (
                                  $"snaps/{snapName}{( includeInactive ? "?select=all" : string.Empty )}",
@@ -172,7 +199,7 @@ public record SnapdClient : ISnapdRestClient
             .ConfigureAwait ( false );
   }
 
-  public async Task<TResult?> GetResultAsync<TResult> ( string path, JsonTypeInfo<IHaveResult<TResult>> jsonSerializationTypeInfo, int timeout, CancellationToken cancellationToken = default )
+  private async Task<TResult?> GetResultAsync<TResult> ( string path, JsonTypeInfo<IHaveResult<TResult>> jsonSerializationTypeInfo, int timeout, CancellationToken cancellationToken = default )
     where TResult : class
   {
     using CancellationTokenSource taskCts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
@@ -180,16 +207,17 @@ public record SnapdClient : ISnapdRestClient
     taskCts.CancelAfter ( timeout );
 
     IHaveResult<TResult>? response =
-      await _httpClient.GetFromJsonAsync (
-                                          path,
-                                          jsonSerializationTypeInfo,
-                                          taskCts.Token
-                                         )
-                       .ConfigureAwait ( true );
+      await _httpClient
+           .GetFromJsonAsync (
+                              path,
+                              jsonSerializationTypeInfo,
+                              taskCts.Token
+                             )
+           .ConfigureAwait ( true );
     return response?.Result;
   }
 
-  public async Task<TResponse?> PostAsync<TResponse, TPostData> ( string path, TPostData postData, JsonTypeInfo<TPostData> postDataJsonTypeInfo, JsonTypeInfo<TResponse> responseJsonTypeInfo, int timeout = 30000, CancellationToken cancellationToken = default )
+  private async Task<TResponse?> PostAsync<TResponse, TPostData> ( string path, TPostData postData, JsonTypeInfo<TPostData> postDataJsonTypeInfo, JsonTypeInfo<TResponse> responseJsonTypeInfo, int timeout = 30000, CancellationToken cancellationToken = default )
     where TResponse : SnapApiResponse
   {
     using CancellationTokenSource taskCts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );

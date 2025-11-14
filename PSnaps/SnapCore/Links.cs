@@ -6,15 +6,18 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
+#pragma warning disable CS1591
+
 namespace PSnaps.SnapCore;
 
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 /// <summary>
 ///   Corresponds to the links property of snap packages, in the snapd API.
 /// </summary>
 [PublicAPI]
-public sealed record Links
+public sealed class Links : IEqualityOperators<Links, Links, bool>, IEquatable<Links>
 {
   [JsonPropertyName ( "contact" )]
   public string[]? Contact { get; set; }

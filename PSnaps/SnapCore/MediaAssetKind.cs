@@ -6,6 +6,7 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace PSnaps.SnapCore;
 
 [PublicAPI]

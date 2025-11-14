@@ -6,6 +6,8 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
 namespace PSnaps.SnapCore;
 
 /// <summary>
@@ -22,9 +24,11 @@ public record SnapPackage : IComparable<SnapPackage>, IComparable, IComparisonOp
   public required string Channel { get; set; }
 
   [JsonPropertyName ( "common-ids" )]
+  [SuppressMessage ( "ReSharper", "TypeWithSuspiciousEqualityIsUsedInRecord.Global", Justification = "Reference equality is fine for the purposes of this module." )]
   public string[]? CommonIds { get; set; }
 
   [JsonPropertyName ( "components" )]
+  [SuppressMessage ( "ReSharper", "TypeWithSuspiciousEqualityIsUsedInRecord.Global", Justification = "Reference equality is fine for the purposes of this module." )]
   public Component[]? Components { get; set; }
 
   [JsonPropertyName ( "confinement" )]
@@ -79,6 +83,7 @@ public record SnapPackage : IComparable<SnapPackage>, IComparable, IComparisonOp
   public Links? Links { get; set; }
 
   [JsonPropertyName ( "media" )]
+  [SuppressMessage ( "ReSharper", "TypeWithSuspiciousEqualityIsUsedInRecord.Global", Justification = "Reference equality is fine for the purposes of this module." )]
   public MediaAsset[]? Media { get; set; }
 
   [JsonPropertyName ( "mounted-from" )]
@@ -172,12 +177,7 @@ public record SnapPackage : IComparable<SnapPackage>, IComparable, IComparisonOp
 
     comparisonResult = string.Compare ( Revision, other.Revision, StringComparison.OrdinalIgnoreCase );
 
-    if ( comparisonResult != 0 )
-    {
-      return comparisonResult;
-    }
-
-    return DateTimeOffset.Compare ( InstallDate, other.InstallDate );
+    return comparisonResult != 0 ? comparisonResult : DateTimeOffset.Compare ( InstallDate, other.InstallDate );
   }
 
   /// <inheritdoc />

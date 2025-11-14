@@ -6,8 +6,6 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
-using System.Management.Automation;
-using PSnaps.SnapdRestApi;
 using PSnaps.SnapdRestApi.Responses;
 
 namespace PSnaps.Cmdlets;
@@ -18,7 +16,7 @@ namespace PSnaps.Cmdlets;
 [PublicAPI]
 [Cmdlet ( VerbsLifecycle.Install, "SnapPackage", ConfirmImpact = ConfirmImpact.Medium )]
 [OutputType ( typeof( SnapApiResponse ) )]
-public class InstallSnapPackageCommand : SnapdClientCmdlet
+public sealed class InstallSnapPackageCommand : SnapdClientCmdlet
 {
   /// <summary>
   ///   One or more names of snap packages to install.
@@ -48,15 +46,15 @@ public class InstallSnapPackageCommand : SnapdClientCmdlet
     try
     {
       SnapApiResponse? response =
-        ApiClient.InstallMultipleSnapsAsync (
-                                             Snaps,
-                                             TransactionMode,
-                                             RestartIfRequired.IsPresent,
-                                             Timeout,
-                                             cts.Token
-                                            )
-                 .GetAwaiter ( )
-                 .GetResult ( );
+        ApiClient
+         .InstallMultipleSnapsAsync (
+                                     Snaps,
+                                     TransactionMode,
+                                     Timeout,
+                                     cts.Token
+                                    )
+         .GetAwaiter ( )
+         .GetResult ( );
 
       WriteObject ( response );
     }
