@@ -22,7 +22,6 @@
     <Description>A PowerShell module and .net library for management of Snap packages on Linux. Requires PS 7.5.4 or greater and .net 9.0 or greater.</Description>
     <Copyright>2025 Brandon Thetford. All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/dodexahedron/PSnaps</PackageProjectUrl>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/dodexahedron/PSnaps</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>snap;snapd;Linux;PSEdition_Core</PackageTags>
