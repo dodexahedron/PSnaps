@@ -11,6 +11,9 @@ using PSnaps.SnapdRestApi.Responses;
 
 namespace PSnaps.SnapdRestApi;
 
+/// <summary>
+///   Type for source-generated JSON serialization of snapd API-related types.
+/// </summary>
 [JsonSourceGenerationOptions (
                                GenerationMode = JsonSourceGenerationMode.Default,
                                RespectNullableAnnotations = true,
@@ -20,7 +23,6 @@ namespace PSnaps.SnapdRestApi;
                                UnknownTypeHandling = JsonUnknownTypeHandling.JsonNode
                              )]
 [JsonSerializable ( typeof( App[] ) )]
-[JsonSerializable ( typeof( GetSnapsResponse ) )]
 [JsonSerializable ( typeof( IHaveResult<ChangeSet> ) )]
 [JsonSerializable ( typeof( IHaveResult<SnapPackage> ) )]
 [JsonSerializable ( typeof( IHaveResult<SnapPackage[]> ) )]

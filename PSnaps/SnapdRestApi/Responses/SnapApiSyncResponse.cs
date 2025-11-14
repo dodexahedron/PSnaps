@@ -12,5 +12,4 @@ namespace PSnaps.SnapdRestApi.Responses;
 ///   A synchronous API response, typically returned in response to a GET request.
 /// </summary>
 [JsonPolymorphic ( UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToNearestAncestor )]
-[JsonDerivedType ( typeof( GetSnapsResponse ) )]
 public record SnapApiSyncResponse : SnapApiResponse;
