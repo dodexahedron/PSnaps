@@ -31,9 +31,10 @@ namespace PSnaps.SnapdRestApi.Responses;
 [PublicAPI]
 public record SnapApiResponse
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
   [JsonPropertyName ( "maintenance" )]
   public MaintenanceInfo? Maintenance { get; set; }
-
+#pragma warning restore CS1591
   /// <summary>
   ///   Textual status description.
   /// </summary>
