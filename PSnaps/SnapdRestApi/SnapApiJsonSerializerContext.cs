@@ -25,7 +25,6 @@ namespace PSnaps.SnapdRestApi;
 [JsonSerializable ( typeof( IHaveResult<SnapPackage> ) )]
 [JsonSerializable ( typeof( IHaveResult<SnapPackage[]> ) )]
 [JsonSerializable ( typeof( InstallMultipleSnapsPostData ) )]
-[JsonSerializable ( typeof( RemoveSnapResult ) )]
 [JsonSerializable ( typeof( RemoveSingleSnapPostData ) )]
 [JsonSerializable ( typeof( RemoveMultipleSnapsPostData ) )]
 [JsonSerializable ( typeof( SnapApiResponse ) )]
