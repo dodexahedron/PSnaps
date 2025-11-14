@@ -8,10 +8,18 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
+/// <summary>
+///   A generic interface enabling type-specific handling of implementing responses that have a <see cref="Result" /> property.
+/// </summary>
+/// <typeparam name="T">
+///   The type of the <see cref="Result" /> property.<br />
+///   This type parameter is covariant.
+/// </typeparam>
 [JsonPolymorphic ( UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToNearestAncestor )]
 [JsonDerivedType ( typeof( IHaveResult<SnapPackage[]> ) )]
 public interface IHaveResult<out T>
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
   [JsonPropertyName ( "result" )]
   public T? Result { get; }
 }

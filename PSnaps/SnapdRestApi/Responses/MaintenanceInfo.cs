@@ -8,6 +8,12 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
+/// <summary>
+///   Additional information that may be included with some responses.
+/// </summary>
+/// <remarks>
+///   This data is not currently used by PSnaps.
+/// </remarks>
 [PublicAPI]
 public sealed record MaintenanceInfo
 {

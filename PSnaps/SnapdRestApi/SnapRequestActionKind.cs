@@ -6,6 +6,7 @@
 // A copy of the license is also available in the repository on GitHub at https://github.com/dodexahedron/PSnaps/blob/master/LICENSE.
 #endregion
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 namespace PSnaps.SnapdRestApi;
 
 /// <summary>
@@ -17,30 +18,38 @@ public enum SnapRequestActionKind
   [JsonStringEnumMemberName ( "install" )]
   Install,
 
+  ///<remarks>Not currently used by PSnaps.</remarks>
   [JsonStringEnumMemberName ( "refresh" )]
   Refresh,
 
+  ///<remarks>Not currently used by PSnaps.</remarks>
   [JsonStringEnumMemberName ( "revert" )]
   Revert,
 
   [JsonStringEnumMemberName ( "remove" )]
   Remove,
 
+  ///<remarks>Not currently used by PSnaps.</remarks>
   [JsonStringEnumMemberName ( "hold" )]
   Hold,
 
+  ///<remarks>Not currently used by PSnaps.</remarks>
   [JsonStringEnumMemberName ( "unhold" )]
   Unhold,
 
+  ///<remarks>Not currently used by PSnaps.</remarks>
   [JsonStringEnumMemberName ( "enable" )]
   Enable,
 
+  ///<remarks>Not currently used by PSnaps.</remarks>
   [JsonStringEnumMemberName ( "disable" )]
   Disable,
 
+  ///<remarks>Not currently used by PSnaps.</remarks>
   [JsonStringEnumMemberName ( "switch" )]
   Switch,
 
+  ///<remarks>Not currently used by PSnaps.</remarks>
   [JsonStringEnumMemberName ( "snapshot" )]
   Snapshot
 }

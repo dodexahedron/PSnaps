@@ -8,6 +8,12 @@
 
 namespace PSnaps.SnapdRestApi.Responses;
 
+/// <summary>
+///   An error response from the snapd API.
+/// </summary>
+/// <param name="Message">A message describing the error.</param>
+/// <param name="Kind">The type of error.</param>
+/// <param name="Value">Any additional error information provided in the response.</param>
 [PublicAPI]
 public sealed record SnapApiError (
   [property: JsonPropertyName ( "message" )]

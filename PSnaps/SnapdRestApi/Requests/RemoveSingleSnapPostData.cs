@@ -8,10 +8,15 @@
 
 namespace PSnaps.SnapdRestApi.Requests;
 
+/// <summary>
+///   POST data used when removing a single snap package.
+/// </summary>
+/// <param name="Name">The name of the snap being removed.</param>
+/// <param name="Revision">The revision of the snap being removed.</param>
+/// <param name="Purge">Whether to include the purge parameter.</param>
 [PublicAPI]
 public sealed record RemoveSingleSnapPostData (
-  [property: JsonIgnore]
-  string? Name,
+  [property: JsonIgnore] string? Name,
   [property: JsonPropertyName ( "revision" )]
   string Revision,
   [property: JsonPropertyName ( "purge" )]
