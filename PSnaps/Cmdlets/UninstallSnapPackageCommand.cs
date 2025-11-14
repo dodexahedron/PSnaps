@@ -12,14 +12,17 @@ using PSnaps.SnapdRestApi.Responses;
 
 namespace PSnaps.Cmdlets;
 
+/// <summary>
+///   Removes one or more specified snap packages.
+/// </summary>
 [PublicAPI]
 [Cmdlet ( VerbsLifecycle.Uninstall, "SnapPackage", ConfirmImpact = ConfirmImpact.Medium, DefaultParameterSetName = SingleSnapAllRevisionsParameterSetName )]
 [Alias ( "Remove-Snap", "Remove-Snaps", "Remove-SnapPackages", "Uninstall-Snap", "Uninstall-Snaps", "Uninstall-SnapPackages" )]
 [OutputType ( typeof( IEnumerable<SnapApiAsyncResponse> ) )]
 public class UninstallSnapPackageCommand : SnapdClientCmdlet
 {
-  private const string AllSnapsParameterSet                = "AllSnaps";
-  private const string CleanUpAllDisabledSnapsParameterSet = nameof (CleanUpAllDisabledSnaps);
+  private const string AllSnapsParameterSet = "AllSnaps";
+  //private const string CleanUpAllDisabledSnapsParameterSet = nameof (CleanUpAllDisabledSnaps);
 
   /// <summary>
   ///   This parameter set is for removal of multiple snaps, by name.
@@ -36,33 +39,50 @@ public class UninstallSnapPackageCommand : SnapdClientCmdlet
   /// </summary>
   private const string SingleSnapRevisionParameterSetName = "SingleSnapByRevision";
 
+  /// <summary>
+  ///   If specified, all revisions of the specified snaps will be included for removal.
+  /// </summary>
   [Parameter ( Mandatory = true, ParameterSetName = AllSnapsParameterSet )]
   public SwitchParameter All { get; set; }
 
-  [Parameter ( Mandatory = true, ParameterSetName = CleanUpAllDisabledSnapsParameterSet )]
-  public SwitchParameter CleanUpAllDisabledSnaps { get; set; }
+  // TODO: Implement this
+  //[Parameter ( Mandatory = true, ParameterSetName = CleanUpAllDisabledSnapsParameterSet )]
+  //public SwitchParameter CleanUpAllDisabledSnaps { get; set; }
 
+  /// <summary>
+  ///   If specified, ONLY the revisions of the specified snap package(s) with status==installed will be removed.
+  /// </summary>
   [Parameter ( Mandatory = false, ParameterSetName = AllSnapsParameterSet )]
   [Parameter ( Mandatory = false, ParameterSetName = MultipleNamedSnapsParameterSetName )]
   public SwitchParameter Disabled { get; set; }
 
+  /// <summary>
+  ///   If specified, the purge parameter will be included with the removal request.
+  /// </summary>
   [Parameter ( Mandatory = false, ParameterSetName = AllSnapsParameterSet )]
-  [Parameter ( Mandatory = false, ParameterSetName = CleanUpAllDisabledSnapsParameterSet )]
+  //[Parameter ( Mandatory = false, ParameterSetName = CleanUpAllDisabledSnapsParameterSet )]
   [Parameter ( Mandatory = false, ParameterSetName = MultipleNamedSnapsParameterSetName )]
   [Parameter ( Mandatory = false, ParameterSetName = SingleSnapAllRevisionsParameterSetName )]
   [Parameter ( Mandatory = false, ParameterSetName = SingleSnapRevisionParameterSetName )]
   public SwitchParameter Purge { get; set; }
 
+  /// <summary>
+  ///   The revision of the specified snap package to remove.
+  /// </summary>
   [Parameter ( Mandatory = true, Position = 1, ParameterSetName = SingleSnapRevisionParameterSetName )]
   [ValidateRange ( ValidateRangeKind.NonNegative )]
   public int Revision { get; set; }
 
+  /// <summary>
+  ///   One or more snap package names to remove from the system.
+  /// </summary>
   [Parameter ( Mandatory = true, Position = 0, ParameterSetName = MultipleNamedSnapsParameterSetName )]
   [Parameter ( Mandatory = true, Position = 0, ParameterSetName = SingleSnapAllRevisionsParameterSetName )]
   [Parameter ( Mandatory = true, Position = 0, ParameterSetName = SingleSnapRevisionParameterSetName )]
   [ValidateLength ( 2, int.MaxValue )]
   public string[]? Snaps { get; set; }
 
+  /// <inheritdoc />
   [ExcludeFromCodeCoverage]
   protected override void ProcessRecord ( )
   {
