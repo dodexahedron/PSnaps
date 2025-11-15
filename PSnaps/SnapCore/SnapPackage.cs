@@ -204,7 +204,7 @@ public record SnapPackage : IComparable<SnapPackage>, IComparable, IComparisonOp
     return Compare ( left, right ) <= 0;
   }
 
-  /// <inheritdoc cref="IComparer{T}.Compare(T?, T?)" />
+  /// <inheritdoc cref="IComparer{T}.Compare(T, T)" />
   public static int Compare ( SnapPackage? left, SnapPackage? right )
   {
     return ( left, right ) switch
