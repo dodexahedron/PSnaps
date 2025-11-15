@@ -115,4 +115,28 @@
 }" />
   </Target>
 
+  <Target Name="_UpdateNuspec" AfterTargets="_CreateModuleManifest" DependsOnTargets="_CreateModuleManifest">
+    <PropertyGroup>
+      <NuspecNamespaces>
+        <Namespace Prefix="nuspec" Uri="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd"/>
+      </NuspecNamespaces>
+    </PropertyGroup>
+    <Exec Command="git rev-parse --short HEAD" 
+          ConsoleToMSBuild="true" 
+          IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
+    </Exec>
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:repository/@commit" Value="$(GitCommitHash)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:icon" Value="$(_ModuleIconFile)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:id" Value="$(_ModuleName)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:version" Value="$(_ModuleVersion)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:description" Value="$(Description)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:readme" Value="$(_ModuleReadmeFile)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:releasenotes" Value="$(PackageReleaseNotes)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:tags" Value="@(_Tags->'%(Filename)',' ')" />
+    <!-- The line break in the Value attribute is intentional and is taken literally by the XmlPoke task, so that the elements get written one per line. -->
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:files" Value="@(_ModuleFiles->'&lt;file src=&quot;%(Identity)&quot; target=&quot;%(Identity)&quot; /&gt;', '
+        ')" />
+  </Target>
+
 </Project>
