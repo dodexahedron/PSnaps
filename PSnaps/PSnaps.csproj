@@ -45,7 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="PSnapsIcon.ico" />
+    <Content Include="PSnapsIcon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
