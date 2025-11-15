@@ -50,6 +50,7 @@
       <_Tags Include="snapd" />
       <_Tags Include="Linux" />
       <_Tags Include="PSEdition_Core" />
+      <_Tags Include="PSModule" />
     </ItemGroup>
     <!-- 
        Flattening the itemgroups above into properties that can be used in the WriteLinesToFile task, and formatting
