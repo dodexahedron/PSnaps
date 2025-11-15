@@ -8,13 +8,15 @@
       <_ModuleVersion>$(VersionPrefix)-$(VersionSuffix)</_ModuleVersion>
       <_ModuleOutputFolder>$(OutputPath)</_ModuleOutputFolder>
       <_PackageDir>$(MSBuildProjectDirectory)\package\$(_ModuleName)-$(_ModuleVersion)</_PackageDir>
-      <_RootModuleFile>$(_ModuleName).dll</_RootModuleFile>
+      <_RootModuleFile>lib\net9.0\$(_ModuleName).dll</_RootModuleFile>
       <_ModuleIconFile>$(PackageIcon)</_ModuleIconFile>
       <_ModuleReadmeFile>README.md</_ModuleReadmeFile>
       <_ModuleLicenseFileName>LICENSE</_ModuleLicenseFileName>
       <_ModuleManifestFileName>$(_ModuleName).psd1</_ModuleManifestFileName>
       <_ModuleAssembly>$(_ModuleOutputFolder)\$(_RootModuleFile)</_ModuleAssembly>
     </PropertyGroup>
+    <MakeDir Directories="$(OutputPath)lib\net9.0" />
+    <Move SourceFiles="$(_ModuleOutputFolder)$(_ModuleName).dll" DestinationFolder="$(_ModuleOutputFolder)lib\net9.0" />
     <!-- Files to be included in the manifest. -->
     <ItemGroup>
       <_ModuleFormattingFiles Include="Formatting\*.ps1xml" />
