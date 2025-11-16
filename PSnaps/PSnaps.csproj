@@ -32,7 +32,6 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Version>$(AssemblyVersion)</Version>
     <PackageIcon>PSnapsIcon.png</PackageIcon>
-    <ApplicationIcon>PSnapsIcon.ico</ApplicationIcon>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
@@ -42,12 +41,6 @@
     <None Remove="Formatting\Publisher.Format.ps1xml" />
     <None Remove="Formatting\RemoveSnapPackageResult.Format.ps1xml" />
     <None Remove="Formatting\SnapPackage.Format.ps1xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="PSnapsIcon.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -72,17 +65,22 @@
       <PackagePath>\Formatting</PackagePath>
     </None>
     <None Include="..\README.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
     <None Include="..\LICENSE">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
     <None Update="PSnaps.nuspec">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="PSnapsIcon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
     <None Update="PSnapsIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

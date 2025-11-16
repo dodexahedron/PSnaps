@@ -1,41 +1,94 @@
 <Project>
+  <!-- High-level properties used by these targets. -->
+  <PropertyGroup>
+    <_ModuleName>$(AssemblyName)</_ModuleName>
+    <_ModuleVersion>$(VersionPrefix)-$(VersionSuffix)</_ModuleVersion>
+  </PropertyGroup>
+  
+  <!-- Specific file names (not paths) of important files that are used in a few places. -->
+  <!-- Actual paths to these files in the package are formed later on. -->
+  <PropertyGroup>
+    <_RootModuleFileName>$(_ModuleName).dll</_RootModuleFileName>
+    <_ModuleIconIcoFileName>$(_ModuleName)Icon.ico</_ModuleIconIcoFileName>
+    <_ModuleIconPngFileName>$(_ModuleName)Icon.png</_ModuleIconPngFileName>
+    <_ModuleLicenseFileName>LICENSE</_ModuleLicenseFileName>
+    <_ModuleManifestFileName>$(_ModuleName).psd1</_ModuleManifestFileName>
+    <_ModuleNuspecFileName>$(_ModuleName).nuspec</_ModuleNuspecFileName>
+    <_ModuleReadmeFileName>README.md</_ModuleReadmeFileName>
+  </PropertyGroup>
+  
+  <!-- Directory structure for the packaged module. -->
+  <!--
+    /
+    /lib/
+    /lib/net9.0/
+    /Formatting/
+  -->
+  <PropertyGroup>
+    <_PackagingDir>$(SolutionDir)Packaging\</_PackagingDir>
+    <_PackageRootDir>$(_PackagingDir)$(_ModuleName)-$(_ModuleVersion)\</_PackageRootDir>
+    <_PackageLibDir>$(_PackageRootDir)lib\net9.0\</_PackageLibDir>
+    <_PackageFormattingDir>$(_PackageRootDir)Formatting\</_PackageFormattingDir>
+  </PropertyGroup>
+
+  <!--This target creates the packaging directories and copies files from the build directory into them, as appropriate. -->
+  <Target Name="_CopyBuildArtifactsToPackagingDir" AfterTargets="Build">
+    <PropertyGroup>
+      <_ModuleProjectOutputDir>$(OutDir)</_ModuleProjectOutputDir>
+    </PropertyGroup>
+
+    <!-- Create the directories if they do not exist. -->
+    <MakeDir Directories="$(_PackageFormattingDir);$(_PackageLibDir)" />
+
+    <!-- Collect files to be copied from the build output directory into lists to feed to Copy tasks. -->
+    <ItemGroup Label="_FilesFromBuildOutput">
+
+      <_PackageRootDirFiles       Include="$(_ModuleProjectOutputDir)*" Exclude="$(_ModuleProjectOutputDir)PSnaps.deps.json;$(_ModuleProjectOutputDir)PSnaps.pdb;$(_ModuleProjectOutputDir)$(_ModuleName).dll" />
+
+      <_PackageLibDirFiles        Include="$(_ModuleProjectOutputDir)$(_ModuleName).dll" />
+
+      <_PackageFormattingDirFiles Include="$(_ModuleProjectOutputDir)Formatting\*.ps1xml" />
+
+      <_PackageNuspecFile       Include="$(_ModuleProjectOutputDir)$(_ModuleNuspecFileName)" />
+    </ItemGroup>
+    
+    <Message Importance="High" Text="$(_PackageRootDir)" />
+    <!-- Empty out the destination directory, since we generate new files and don't want them double-counted. -->
+    <Delete Files="$(_PackageRootDir)$(_ModuleManifestFileName)" />
+
+    <!-- Hard link everything but the nuspec file, since we will be modifying it. -->
+    <Copy SourceFiles="@(_PackageRootDirFiles)" DestinationFolder="$(_PackageRootDir)" UseHardlinksIfPossible="true" />
+    <Copy SourceFiles="@(_PackageFormattingDirFiles)" DestinationFolder="$(_PackageFormattingDir)" UseHardlinksIfPossible="true" />
+    <Copy SourceFiles="@(_PackageLibDirFiles)" DestinationFolder="$(_PackageLibDir)" UseHardlinksIfPossible="true" />
+    <Copy SourceFiles="@(_PackageNuspecFile)" DestinationFolder="$(_PackageRootDir)" UseHardlinksIfPossible="false" />
+
+  </Target>
 
   <!-- Target to generate module manifest -->
-  <Target Name="_CreateModuleManifest" AfterTargets="Build">
-    <!-- Properties used in multiple substitutions and package-level properties. -->
+  <Target Name="_CreateModuleManifestAndUpdateNuspec" AfterTargets="_CopyBuildArtifactsToPackagingDir">
+    <AssignTargetPath RootFolder="$(_PackageRootDir)" />
     <PropertyGroup>
-      <_ModuleName>PSnaps</_ModuleName>
-      <_ModuleVersion>$(VersionPrefix)-$(VersionSuffix)</_ModuleVersion>
-      <_ModuleOutputFolder>$(OutputPath)</_ModuleOutputFolder>
-      <_PackageDir>$(MSBuildProjectDirectory)\package\$(_ModuleName)-$(_ModuleVersion)</_PackageDir>
-      <_RootModuleFile>lib\net9.0\$(_ModuleName).dll</_RootModuleFile>
-      <_ModuleIconFile>$(PackageIcon)</_ModuleIconFile>
-      <_ModuleReadmeFile>README.md</_ModuleReadmeFile>
-      <_ModuleLicenseFileName>LICENSE</_ModuleLicenseFileName>
-      <_ModuleManifestFileName>$(_ModuleName).psd1</_ModuleManifestFileName>
-      <_ModuleAssembly>$(_ModuleOutputFolder)\$(_RootModuleFile)</_ModuleAssembly>
+      <_ManifestRootDir></_ManifestRootDir>
+      <_ManifestLibDir>lib\net9.0\</_ManifestLibDir>
+      <_ManifestFormattingDir>Formatting\</_ManifestFormattingDir>
     </PropertyGroup>
-    <MakeDir Directories="$(OutputPath)lib\net9.0" />
-    <Move SourceFiles="$(_ModuleOutputFolder)$(_ModuleName).dll" DestinationFolder="$(_ModuleOutputFolder)lib\net9.0" />
+
     <!-- Files to be included in the manifest. -->
     <ItemGroup>
-      <_ModuleFormattingFiles Include="Formatting\*.ps1xml" />
+      <_ManifestFormatsToProcess Include="$(_ManifestFormattingDir)*.ps1xml" />
     </ItemGroup>
     <ItemGroup>
-      <_ModuleFiles Include="$(_ModuleManifestFileName)" />
-      <_ModuleFiles Include="$(_RootModuleFile)" />
-      <_ModuleFiles Include="Formatting\*.ps1xml" />
-      <_ModuleFiles Include="$(_ModuleIconFile)" />
-      <_ModuleFiles Include="$(_ModuleLicenseFileName)" />
-      <_ModuleFiles Include="$(_ModuleReadmeFile)" />
+      <_ManifestFiles Include="$(_PackageRootDir)\**" />
+      <!-- This file doesn't exist yet, so we need to add it explicitly. -->
+      <_ManifestFiles Include="$(_ManifestRootDir)$(_ModuleManifestFileName)" />
     </ItemGroup>
     <!-- Cmdlets to export in the manifest. -->
     <ItemGroup>
-      <_CmdletsToExport Include="Get-SnapPackage" />
-      <_CmdletsToExport Include="Install-SnapPackage" />
-      <_CmdletsToExport Include="Uninstall-SnapPackage" />
-      <_CmdletsToExport Include="Get-SnapdClient" />
-      <_CmdletsToExport Include="Set-SnapdClient" />
+      <_ManifestCmdletsToExport Include="Get-SnapPackage" />
+      <_ManifestCmdletsToExport Include="Install-SnapPackage" />
+      <_ManifestCmdletsToExport Include="Uninstall-SnapPackage" />
+      <_ManifestCmdletsToExport Include="Get-SnapdClient" />
+      <_ManifestCmdletsToExport Include="Set-SnapdClient" />
     </ItemGroup>
     <!-- Aliases for cmdlets to export in the manifest. -->
     <ItemGroup>
@@ -60,10 +113,14 @@
        Note that escaping quotes is necessary, and is done with %27 for single quotes.
     -->
     <PropertyGroup>
-      <_ManifestFormatsToProcess>@(_ModuleFormattingFiles->'%27%(Identity)%27', ',')</_ManifestFormatsToProcess>
-      <_ManifestFileList>@(_ModuleFiles->'%27%(Identity)%27', ',')</_ManifestFileList>
-      <_ManifestAliasesToExport>@(_AliasesToExport->'%27%(Filename)%27', ',')</_ManifestAliasesToExport>
-      <_ManifestCmdletsToExport>@(_CmdletsToExport->'%27%(Filename)%27', ',')</_ManifestCmdletsToExport>
+      <_ManifestFormatsToProcess>@(_ManifestFormatsToProcess->'%27%(Identity)%27', '
+    ')</_ManifestFormatsToProcess>
+      <_ManifestFileList>@(_ManifestFiles->'%27%(RecursiveDir)%(Filename)%(Extension)%27', '
+    ')</_ManifestFileList>
+      <_ManifestAliasesToExport>@(_AliasesToExport->'%27%(Filename)%27', '
+    ')</_ManifestAliasesToExport>
+      <_ManifestCmdletsToExport>@(_ManifestCmdletsToExport->'%27%(Filename)%27', '
+    ')</_ManifestCmdletsToExport>
       <_ManifestTags>@(_Tags->'%27%(Filename)%27', ',')</_ManifestTags>
     </PropertyGroup>
     <!-- 
@@ -77,10 +134,10 @@
       Examples online of substitution using xml-escaped values are invalid, as the semicolon is also a reserved
       metacharacter for MSBuild and gets interpreted as a list item separator if you use it in the Lines attribute.
     -->
-    <WriteLinesToFile File="$(OutputPath)$(_ModuleName).psd1" Overwrite="true"
+    <WriteLinesToFile File="$(_PackageRootDir)$(_ModuleManifestFileName)" Overwrite="true"
                       Lines="
 %40{
-  RootModule = %27$(_RootModuleFile)%27
+  RootModule = %27$(_ManifestLibDir)$(_RootModuleFileName)%27
   ModuleVersion = %27$(VersionPrefix)%27
   CompatiblePSEditions = %40%28%27Core%27%29
   GUID = %277a389ff6-dd4f-4486-b430-802de6fcc65c%27
@@ -93,20 +150,28 @@
   RequiredAssemblies = %40%28%27System.Management.Automation%27,%27System.Globalization%27%29
   ScriptsToProcess = %40%28%29
   TypesToProcess = %40%28%29
-  FormatsToProcess = %40%28$(_ManifestFormatsToProcess)%29
+  FormatsToProcess = %40%28
+    $(_ManifestFormatsToProcess)
+  %29
   NestedModules = %40%28%29
   FunctionsToExport = %40%28%29
-  CmdletsToExport = %40%28$(_ManifestCmdletsToExport)%29
+  CmdletsToExport = %40%28
+    $(_ManifestCmdletsToExport)
+  %29
   VariablesToExport = %40%28%29
-  AliasesToExport = %40%28$(_ManifestAliasesToExport)%29
+  AliasesToExport = %40%28
+    $(_ManifestAliasesToExport)
+  %29
   ModuleList = %40%28%29
-  FileList = %40%28$(_ManifestFileList)%29
+  FileList = %40%28
+    $(_ManifestFileList)
+  %29
   PrivateData = %40{
     PSData = %40{
       Tags = %40%28$(_ManifestTags)%29
       LicenseUri = %27$(PackageProjectUrl)/blob/master/$(_ModuleLicenseFileName)%27
       ProjectUri = %27$(PackageProjectUrl)%27
-      IconUri = %27$(PackageProjectUrl)/blob/master/PSnaps/$(_ModuleIconFile)%27
+      IconUri = %27$(PackageProjectUrl)/blob/master/PSnaps/$(_ModuleIconPngFileName)%27
       ReleaseNotes = %27$(PackageReleaseNotes)%27
       Prerelease = %27$(VersionSuffix)%27
       RequireLicenseAcceptance = %24false
@@ -115,30 +180,41 @@
     }
   # HelpInfoURI = ''
 }" />
-  </Target>
 
-  <Target Name="_UpdateNuspec" AfterTargets="_CreateModuleManifest" DependsOnTargets="_CreateModuleManifest">
     <PropertyGroup>
       <NuspecNamespaces>
-        <Namespace Prefix="nuspec" Uri="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd"/>
+        <Namespace Prefix="nuspec" Uri="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd" />
       </NuspecNamespaces>
     </PropertyGroup>
-    <Exec Command="git rev-parse --short HEAD" 
-          ConsoleToMSBuild="true" 
+    <Exec Command="git rev-parse --short HEAD"
+          ConsoleToMSBuild="true"
           IgnoreExitCode="true">
       <Output TaskParameter="ConsoleOutput" PropertyName="GitCommitHash" />
     </Exec>
-    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:repository/@commit" Value="$(GitCommitHash)" />
-    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:icon" Value="$(_ModuleIconFile)" />
-    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:id" Value="$(_ModuleName)" />
-    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:version" Value="$(_ModuleVersion)" />
-    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:description" Value="$(Description)" />
-    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:readme" Value="$(_ModuleReadmeFile)" />
-    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:releasenotes" Value="$(PackageReleaseNotes)" />
-    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:tags" Value="@(_Tags->'%(Filename)',' ')" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_PackageRootDir)PSnaps.nuspec"
+             Query="/nuspec:package/nuspec:metadata/nuspec:repository/@commit" Value="$(GitCommitHash)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_PackageRootDir)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:icon"
+             Value="$(_ModuleIconPngFileName)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_PackageRootDir)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:id"
+             Value="$(_ModuleName)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_PackageRootDir)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:version"
+             Value="$(_ModuleVersion)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_PackageRootDir)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:description"
+             Value="$(Description)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_PackageRootDir)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:readme"
+             Value="$(_ModuleReadmeFileName)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_PackageRootDir)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:releaseNotes"
+             Value="$(PackageReleaseNotes)" />
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_PackageRootDir)PSnaps.nuspec" Query="/nuspec:package/nuspec:metadata/nuspec:tags"
+             Value="@(_Tags->'%(Filename)',' ')" />
     <!-- The line break in the Value attribute is intentional and is taken literally by the XmlPoke task, so that the elements get written one per line. -->
-    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_ModuleOutputFolder)PSnaps.nuspec" Query="/nuspec:package/nuspec:files" Value="@(_ModuleFiles->'&lt;file src=&quot;%(Identity)&quot; target=&quot;%(Identity)&quot; /&gt;', '
+    <XmlPoke Namespaces="$(NuspecNamespaces)" XmlInputPath="$(_PackageRootDir)PSnaps.nuspec" Query="/nuspec:package/nuspec:files"
+             Value="@(_ManifestFiles->'&lt;file src=&quot;%(RecursiveDir)%(Filename)%(Extension)&quot; target=&quot;%(RecursiveDir)%(Filename)%(Extension)&quot; /&gt;', '
         ')" />
+  </Target>
+  
+  <Target Name="_PackFromNuspec" AfterTargets="_CreateModuleManifestAndUpdateNuspec">
+    <Exec Command="nuget pack $(_PackageRootDir)PSnaps.nuspec -OutputDirectory $(_PackagingDir)" WorkingDirectory="$(_PackageRootDir)" />
   </Target>
 
 </Project>
