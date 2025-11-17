@@ -9,7 +9,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <WarningLevel>9</WarningLevel>
-    <VersionPrefix>0.14.0</VersionPrefix>
+    <VersionPrefix>0.15.0</VersionPrefix>
     <VersionSuffix>Beta1</VersionSuffix>
     <DebugType>portable</DebugType>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
@@ -25,6 +25,7 @@
     <PackageTags>snap;snapd;Linux;PSEdition_Core;PSModule</PackageTags>
     <PackageReleaseNotes>
       Early development version. Functionality and API surface are subject to change.
+      0.15.0-Beta1: Altered SnapPackage formatting to remove the grouping that was not as helpful as predicted.
       0.14.0-Beta1: Fixed serialization issues with responses containing SnapPackage objects.
     </PackageReleaseNotes>
     <NeutralLanguage>en-US</NeutralLanguage>

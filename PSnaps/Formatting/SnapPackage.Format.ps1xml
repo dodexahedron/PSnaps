@@ -6,9 +6,6 @@
       <ViewSelectedBy>
         <TypeName>PSnaps.SnapCore.SnapPackage</TypeName>
       </ViewSelectedBy>
-      <GroupBy>
-        <PropertyName>Name</PropertyName>
-      </GroupBy>
       <TableControl>
         <AutoSize>true</AutoSize>
         <TableHeaders>
