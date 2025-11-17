@@ -1,6 +1,6 @@
 @{
   RootModule = 'lib/net9.0/PSnaps.dll'
-  ModuleVersion = '0.15.0'
+  ModuleVersion = '0.16.0'
   CompatiblePSEditions = @('Core')
   GUID = '7a389ff6-dd4f-4486-b430-802de6fcc65c'
   Author = 'dodexahedron'
@@ -57,6 +57,7 @@
       ProjectUri = 'https://github.com/dodexahedron/PSnaps'
       IconUri = 'https://github.com/dodexahedron/PSnaps/blob/master/PSnaps/PSnapsIcon.png'
       ReleaseNotes = 'Early development version. Functionality and API surface are subject to change.
+0.16.0-Beta1: Corrected property name for Tracking column of SnapPackage formatting.
 0.15.0-Beta1: Altered SnapPackage formatting to remove the grouping that was not as helpful as predicted.
 0.14.0-Beta1: Fixed serialization issues with responses containing SnapPackage objects.'
       Prerelease = 'Beta1'
