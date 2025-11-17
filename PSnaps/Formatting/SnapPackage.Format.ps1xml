@@ -44,7 +44,7 @@
                 <PropertyName>Revision</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>Tracking</PropertyName>
+                <PropertyName>TrackingChannel</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>
