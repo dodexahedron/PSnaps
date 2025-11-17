@@ -12,4 +12,5 @@ namespace PSnaps.SnapCore;
 ///   A <see cref="SnapPackage" /> with type=base.
 /// </summary>
 [PublicAPI]
+[JsonSourceGenerationOptions ( AllowOutOfOrderMetadataProperties = true )]
 public sealed record BaseSnap : SnapPackage;

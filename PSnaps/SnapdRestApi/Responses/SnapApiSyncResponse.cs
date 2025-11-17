@@ -14,5 +14,6 @@ namespace PSnaps.SnapdRestApi.Responses;
 public sealed record SnapApiSyncResponse<TResult> : SnapApiResponse, IHaveResult<TResult>
 {
   /// <inheritdoc />
+  [JsonPropertyName ( "result" )]
   public TResult? Result { get; init; }
 }

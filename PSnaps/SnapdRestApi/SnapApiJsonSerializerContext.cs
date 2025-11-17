@@ -23,6 +23,8 @@ namespace PSnaps.SnapdRestApi;
                                UnknownTypeHandling = JsonUnknownTypeHandling.JsonNode
                              )]
 [JsonSerializable ( typeof( App[] ) )]
+[JsonSerializable ( typeof( AppSnap ) )]
+[JsonSerializable ( typeof( BaseSnap ) )]
 [JsonSerializable ( typeof( ChangeSet ) )]
 [JsonSerializable ( typeof( InstallMultipleSnapsPostData ) )]
 [JsonSerializable ( typeof( RemoveSingleSnapPostData ) )]
@@ -34,6 +36,7 @@ namespace PSnaps.SnapdRestApi;
 [JsonSerializable ( typeof( SnapApiSyncResponse<ChangeSet?> ) )]
 [JsonSerializable ( typeof( SnapPackage ) )]
 [JsonSerializable ( typeof( SnapPackage[] ) )]
+[JsonSerializable ( typeof( SnapdSnap ) )]
 [JsonSerializable ( typeof( SnapsPostData ) )]
 [JsonSerializable ( typeof( ConfinementKind ) )]
 [UsedImplicitly]

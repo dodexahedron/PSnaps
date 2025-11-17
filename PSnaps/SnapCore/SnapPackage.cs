@@ -18,6 +18,7 @@ namespace PSnaps.SnapCore;
 [JsonDerivedType ( typeof( BaseSnap ),  "base" )]
 [JsonDerivedType ( typeof( AppSnap ),   "app" )]
 [JsonDerivedType ( typeof( SnapdSnap ), "snapd" )]
+[JsonSourceGenerationOptions ( AllowOutOfOrderMetadataProperties = true )]
 public record SnapPackage : IComparable<SnapPackage>, IComparable, IComparisonOperators<SnapPackage, SnapPackage, bool>
 {
   [JsonPropertyName ( "channel" )]
