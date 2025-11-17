@@ -21,9 +21,5 @@ jobs:
         dotnet-version: ${{ matrix.dotnet-version }}
     - name: Build on dotnet ${{ matrix.dotnet-version }}
       run: dotnet build PSnaps/PSnaps.csproj
-      with:
-        dotnet-version: ${{ matrix.dotnet-version }}
     - name: Test on dotnet ${{ matrix.dotnet-version }}
       run: dotnet test --verbosity normal PSnaps.Tests/PSnaps.Tests.csproj
-      with:
-        dotnet-version: ${{ matrix.dotnet-version }}
