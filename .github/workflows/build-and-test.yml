@@ -1,0 +1,29 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-and-test:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '9.0.x', '10.0.x' ]
+    steps:
+    - uses: actions/checkout@v5
+    - name: Setup .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+    - name: Build on dotnet ${{ matrix.dotnet-version }}
+      run: dotnet build PSnaps/PSnaps.csproj
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+    - name: Test on dotnet ${{ matrix.dotnet-version }}
+      run: dotnet test --verbosity normal PSnaps.Tests/PSnaps.Tests.csproj
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
