@@ -107,7 +107,7 @@ public sealed class GetSnapPackageCommand : SnapdClientCmdlet
   [ExcludeFromCodeCoverage]
   protected override void ProcessRecord ( )
   {
-    WriteObject ( GetSnapPackages ( CmdletCancellationTokenSource.Token ) );
+    WriteObject ( GetSnapPackages ( CmdletCancellationTokenSource.Token ), false );
   }
 
   internal List<SnapPackage>? GetSnapPackages ( CancellationToken cancellationToken = default )

@@ -9,7 +9,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <WarningLevel>9</WarningLevel>
-    <VersionPrefix>0.13.0</VersionPrefix>
+    <VersionPrefix>0.14.0</VersionPrefix>
     <VersionSuffix>Beta1</VersionSuffix>
     <DebugType>portable</DebugType>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
@@ -23,7 +23,10 @@
     <RepositoryUrl>https://github.com/dodexahedron/PSnaps</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>snap;snapd;Linux;PSEdition_Core;PSModule</PackageTags>
-    <PackageReleaseNotes>Early development version. Functionality and API surface are subject to change.</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      Early development version. Functionality and API surface are subject to change.
+      0.14.0-Beta1: Fixed serialization issues with responses containing SnapPackage objects.
+    </PackageReleaseNotes>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>dodexahedron</Authors>
     <PackageReadmeFile>README.md</PackageReadmeFile>
