@@ -9,7 +9,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <WarningLevel>9</WarningLevel>
-    <VersionPrefix>0.12.0</VersionPrefix>
+    <VersionPrefix>0.13.0</VersionPrefix>
     <VersionSuffix>Beta1</VersionSuffix>
     <DebugType>portable</DebugType>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>

@@ -1,6 +1,6 @@
 @{
   RootModule = 'lib/net9.0/PSnaps.dll'
-  ModuleVersion = '0.12.0'
+  ModuleVersion = '0.13.0'
   CompatiblePSEditions = @('Core')
   GUID = '7a389ff6-dd4f-4486-b430-802de6fcc65c'
   Author = 'dodexahedron'

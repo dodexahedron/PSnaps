@@ -15,8 +15,6 @@ namespace PSnaps.SnapdRestApi.Responses;
 ///   The type of the <see cref="Result" /> property.<br />
 ///   This type parameter is covariant.
 /// </typeparam>
-[JsonPolymorphic ( UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToNearestAncestor )]
-[JsonDerivedType ( typeof( IHaveResult<SnapPackage[]> ) )]
 public interface IHaveResult<out T>
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
