@@ -19,15 +19,7 @@ namespace PSnaps.SnapdRestApi.Responses;
 ///     Error responses are typically returned if something is wrong with the request itself or if an operation failed immediately
 ///     when called.
 ///   </para>
-///   <para>
-///     This base type has no members except for the <c>type</c>, which is hidden by the source generator and used to determine which
-///     of the three types of responses something is.
-///   </para>
 /// </remarks>
-[JsonPolymorphic ( TypeDiscriminatorPropertyName = "type" )]
-[JsonDerivedType ( typeof( SnapApiSyncResponse ),  "sync" )]
-[JsonDerivedType ( typeof( SnapApiAsyncResponse ), "async" )]
-[JsonDerivedType ( typeof( SnapApiErrorResponse ), "error" )]
 [PublicAPI]
 public record SnapApiResponse
 {
@@ -46,4 +38,10 @@ public record SnapApiResponse
   /// </summary>
   [JsonPropertyName ( "status-code" )]
   public int StatusCode { get; set; }
+
+  /// <summary>
+  ///   The type of response: sync, async, or error.
+  /// </summary>
+  [JsonPropertyName ( "type" )]
+  public string? Type { get; set; }
 }

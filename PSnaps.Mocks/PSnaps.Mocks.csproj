@@ -32,4 +32,10 @@
     <Using Include="System.Text.Json" />
     <Using Include="System.Text.Json.Serialization" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SampleJSON\GetAllSnaps.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

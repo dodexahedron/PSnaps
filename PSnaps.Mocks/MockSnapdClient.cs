@@ -52,13 +52,14 @@ public class MockSnapdClient ( CancellationToken realCancellationToken = default
   {
     ObjectDisposedException.ThrowIf ( _cts is null, this );
     using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _cts.Token, cancellationToken );
-    cts.CancelAfter ( 5000 );
-    SnapPackage[] response = JsonSerializer
-     .Deserialize<SnapPackage[]> (
-                                  await File.ReadAllTextAsync ( "SnapPackageArray.json", cts.Token ),
-                                  SnapApiJsonSerializerContext.Default.SnapPackageArray
-                                 )!;
-    return response;
+    cts.CancelAfter ( timeout );
+    string jsonFromFile = await File.ReadAllTextAsync ( "SampleJSON/GetAllSnaps.json", cts.Token );
+    SnapApiSyncResponse<SnapPackage[]?> response = JsonSerializer
+     .Deserialize<SnapApiSyncResponse<SnapPackage[]?>> (
+                                                        jsonFromFile,
+                                                        SnapApiJsonSerializerContext.Default.SnapApiSyncResponseSnapPackageArray
+                                                       )!;
+    return response.Result;
   }
 
   /// <inheritdoc />

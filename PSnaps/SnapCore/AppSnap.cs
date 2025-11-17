@@ -13,6 +13,7 @@ namespace PSnaps.SnapCore;
 ///   A <see cref="SnapPackage" /> with type=app.
 /// </summary>
 [PublicAPI]
+[JsonSourceGenerationOptions ( AllowOutOfOrderMetadataProperties = true )]
 public sealed record AppSnap : SnapPackage
 {
   [JsonPropertyName ( "apps" )]

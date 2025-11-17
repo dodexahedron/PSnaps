@@ -1,6 +1,6 @@
 @{
   RootModule = 'lib/net9.0/PSnaps.dll'
-  ModuleVersion = '0.12.0'
+  ModuleVersion = '0.14.0'
   CompatiblePSEditions = @('Core')
   GUID = '7a389ff6-dd4f-4486-b430-802de6fcc65c'
   Author = 'dodexahedron'
@@ -56,7 +56,8 @@
       LicenseUri = 'https://github.com/dodexahedron/PSnaps/blob/master/LICENSE'
       ProjectUri = 'https://github.com/dodexahedron/PSnaps'
       IconUri = 'https://github.com/dodexahedron/PSnaps/blob/master/PSnaps/PSnapsIcon.png'
-      ReleaseNotes = 'Early development version. Functionality and API surface are subject to change.'
+      ReleaseNotes = 'Early development version. Functionality and API surface are subject to change.
+0.14.0-Beta1: Fixed serialization issues with responses containing SnapPackage objects.'
       Prerelease = 'Beta1'
       RequireLicenseAcceptance = $false
       ExternalModuleDependencies = @()

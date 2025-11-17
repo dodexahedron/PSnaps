@@ -11,4 +11,5 @@ namespace PSnaps.SnapCore;
 /// <summary>
 ///   A <see cref="SnapPackage" /> with type=snapd.
 /// </summary>
+[JsonSourceGenerationOptions ( AllowOutOfOrderMetadataProperties = true )]
 public sealed record SnapdSnap : SnapPackage;
