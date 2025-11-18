@@ -11,9 +11,12 @@ namespace PSnaps.SnapdRestApi.Responses;
 /// <summary>
 ///   A synchronous API response, typically returned in response to a GET request.
 /// </summary>
-public sealed record SnapApiSyncResponse<TResult> : SnapApiResponse, IHaveResult<TResult>
+/// <typeparam name="TResult">
+///   The expected <see cref="Type" /> of the <see cref="Result" /> contained in the <see cref="SnapApiSyncResponse{TResult}" />.
+/// </typeparam>
+public sealed record SnapApiSyncResponse<TResult> : SnapApiResponse
 {
-  /// <inheritdoc />
+  /// <summary>The result, if any, of the <see cref="SnapApiSyncResponse{TResult}" />.</summary>
   [JsonPropertyName ( "result" )]
   public TResult? Result { get; init; }
 }

@@ -15,4 +15,4 @@ namespace PSnaps.SnapdRestApi.Responses;
 public sealed record SnapApiErrorResponse (
   [property: JsonPropertyName ( "result" )]
   SnapApiError Result
-) : SnapApiResponse, IHaveResult<SnapApiError>, IEqualityOperators<SnapApiErrorResponse, SnapApiErrorResponse, bool>;
+) : SnapApiResponse, IEqualityOperators<SnapApiErrorResponse, SnapApiErrorResponse, bool>;
