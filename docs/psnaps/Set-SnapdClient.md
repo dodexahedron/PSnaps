@@ -13,40 +13,72 @@ title: Set-SnapdClient
 
 ## SYNOPSIS
 
-{{ Fill in the Synopsis }}
+Sets the client object the PSnaps module will use.
 
 ## SYNTAX
 
-### __AllParameterSets
+### AllParameterSets
 
 ```
 Set-SnapdClient [-Client] <ISnapdRestClient> [-DoNotDisposeOldClient] [<CommonParameters>]
 ```
 
-## ALIASES
-
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
-
 ## DESCRIPTION
 
-{{ Fill in the Description }}
+Sets the client object used by the PSnaps module for all interactions with the snapd REST API to the provided instance of a [PSnaps.SnapdRestApi.Clients.ISnapdClient] object, and returns a reference to the new instance.\
+The object must be fully constructed and ready for use.
+
+The client object that was previously in use will be disposed when calling this command, unless the `-DoNotDisposeOldClient` parameter is specified.
+
+This command is not usually needed in normal use, but can be used for testing purposes and for changing the configuration of the client, such as the socket path, if necessary.
 
 ## EXAMPLES
 
 ### Example 1
 
-{{ Add example description here }}
+Using the null client (which does nothing at all, discards all input, and outputs only null results):
 
+```powershell
+Set-SnapdClient [PSnaps.SnapdRestApi.Clients.NullSnapdClient]::new()
+```
+
+### Example 2
+
+Using the built-in SnapdClient, but with a different socket path:
+
+```powershell
+Set-SnapdClient [PSnaps.SnapdRestApi.Clients.SnapdClient]::new('unix:///usr/run/snapd/restapi.sock')
+```
+
+### Example 3
+
+Preserving the previous client so it can be reset later:
+
+```powershell
+# Save a reference to the current client for later use.
+$originalClient = Get-SnapdClient
+
+# Set a new client, as in Example 2, but provide the -DoNotDisposeOldClient parameter, so our $originalClient stays alive.
+$newClient = Set-SnapdClient [PSnaps.SnapdRestApi.Clients.SnapdClient]::new('unix:///usr/run/snapd/restapi.sock') -DoNotDisposeOldClient
+
+# ... Do some stuff, which will now use the new client.
+
+# Use our original client to reset things back to how they were before, automatically disposing the new client in the process.
+# Do not attempt to access $newClient again after this step, as it will have been disposed!
+Set-SnapdClient $originalClient
+
+# ... Do some stuff, which now will use the original client.
+
+```
 ## PARAMETERS
 
 ### -Client
 
-A constructed and valid instance of an [PSnaps.ISnapdRestClient] to use for future operations by the PSnaps module.
+A constructed and valid instance of a `[PSnaps.SnapdRestApi.Clients.ISnapdRestClient]` to use for future operations by the PSnaps module.
 
 ```yaml
 Type: PSnaps.SnapdRestApi.Clients.ISnapdRestClient
-DefaultValue: ''
+DefaultValue: 'An instance of [PSnaps.SnapdRestApi.Clients.SnapdClient] ready for normal use.'
 SupportsWildcards: false
 Aliases: []
 ParameterSets:
@@ -57,8 +89,8 @@ ParameterSets:
   ValueFromPipelineByPropertyName: false
   ValueFromRemainingArguments: false
 DontShow: false
-AcceptedValues: []
-HelpMessage: ''
+AcceptedValues: ['Any type implementing [PSnaps.SnapdRestApi.Clients.ISnapdRestClient]' ]
+HelpMessage: 'A constructed and valid instance of a `[PSnaps.SnapdRestApi.Clients.ISnapdRestClient]` to use for future operations by the PSnaps module.'
 ```
 
 ### -DoNotDisposeOldClient
@@ -67,7 +99,7 @@ If set, the previous client object will will NOT be disposed. Default behavior i
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-DefaultValue: ''
+DefaultValue: 'Not present'
 SupportsWildcards: false
 Aliases: []
 ParameterSets:
@@ -79,7 +111,7 @@ ParameterSets:
   ValueFromRemainingArguments: false
 DontShow: false
 AcceptedValues: []
-HelpMessage: ''
+HelpMessage: 'If set, the previous client object will will NOT be disposed. Default behavior is to dispose of the previous client object.'
 ```
 
 ### CommonParameters
@@ -93,19 +125,15 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### PSnaps.SnapdRestApi.Clients.ISnapdRestClient
 
-{{ Fill in the Description }}
+A constructed and valid instance of a `[PSnaps.SnapdRestApi.Clients.ISnapdRestClient]` to use for future operations by the PSnaps module.
 
 ## OUTPUTS
 
 ### PSnaps.SnapdRestApi.Clients.ISnapdRestClient
 
-{{ Fill in the Description }}
+A reference to the client that was provided to the command.
 
 ## NOTES
 
-{{ Fill in the Notes }}
-
-## RELATED LINKS
-
-{{ Fill in the related links here }}
-
+If you want to switch back to the previous client object without creating a new one, you should first run `Get-SnapdClient` and save it to a variable, and use the `-DoNotDisposeOldClient` switch parameter when calling `Set-SnapdClient`, so that the previous client will not be disposed when setting the new one.\
+You can then use that variable as input to this command to return to using the previous client.

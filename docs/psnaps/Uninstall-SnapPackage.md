@@ -13,7 +13,7 @@ title: Uninstall-SnapPackage
 
 ## SYNOPSIS
 
-{{ Fill in the Synopsis }}
+Uninstalls one or more installed snap packages from the system.
 
 ## SYNTAX
 
@@ -42,26 +42,46 @@ Uninstall-SnapPackage [-Snaps] <string[]> [-Revision] <int> [-Purge] [-Timeout <
  [<CommonParameters>]
 ```
 
-## ALIASES
-
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
-
 ## DESCRIPTION
 
-{{ Fill in the Description }}
+Uninstalls one or more installed snap packages from the system, according to the specified parameters.
 
 ## EXAMPLES
 
 ### Example 1
 
-{{ Add example description here }}
+Uninstall a single snap package completely (all installed revisions):
+```powershell
+Uninstall-SnapPackage lz4
+```
+
+### Example 2
+
+Uninstall only the inactive instances of a single snap package:
+```powershell
+Uninstall-SnapPackage lz4 -Disabled
+```
+
+### Example 3
+
+Uninstall only a specific revision of a single snap package:
+```powershell
+Uninstall-SnapPackage lz4 -Revision 4
+```
+
+### Example 4
+
+Uninstall all inactive revisions of all snap packages installed on the system:
+```powershell
+Uninstall-SnapPackage -All -Disabled
+```
+
 
 ## PARAMETERS
 
 ### -All
 
-{{ Fill All Description }}
+In combination with the `-Disabled` parameter, instructs PSnaps to request uninstallation of all inactive revisions of all snap packages installed on the system.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -82,7 +102,7 @@ HelpMessage: ''
 
 ### -Disabled
 
-{{ Fill Disabled Description }}
+Limits the operation to inactive revisions only.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -109,11 +129,12 @@ HelpMessage: ''
 
 ### -Purge
 
-{{ Fill Purge Description }}
+(Not yet implemented)\
+If specified, uninstallation requests will include the purge parameter.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-DefaultValue: ''
+DefaultValue: 'Not present'
 SupportsWildcards: false
 Aliases: []
 ParameterSets:
@@ -148,7 +169,7 @@ HelpMessage: ''
 
 ### -Revision
 
-{{ Fill Revision Description }}
+When uninstalling a single snap package, explicitly specifies a single revision of that snap to uninstall.
 
 ```yaml
 Type: System.Int32
@@ -169,7 +190,7 @@ HelpMessage: ''
 
 ### -Snaps
 
-{{ Fill Snaps Description }}
+One or more names of snap packages to uninstall.
 
 ```yaml
 Type: System.String[]
@@ -202,11 +223,11 @@ HelpMessage: ''
 
 ### -Timeout
 
-{{ Fill Timeout Description }}
+A timeout (in milliseconds) for the operation, to guard against the snapd REST API socket being unreachable or unresponsive.
 
 ```yaml
 Type: System.Int32
-DefaultValue: ''
+DefaultValue: '30000'
 SupportsWildcards: false
 Aliases: []
 ParameterSets:
@@ -217,8 +238,8 @@ ParameterSets:
   ValueFromPipelineByPropertyName: false
   ValueFromRemainingArguments: false
 DontShow: false
-AcceptedValues: []
-HelpMessage: ''
+AcceptedValues: [1,int.MaxValue]
+HelpMessage: 'A timeout (in milliseconds) for the operation, to guard against the snapd REST API socket being unreachable or unresponsive.'
 ```
 
 ### CommonParameters
@@ -232,19 +253,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### System.Collections.Generic.IEnumerable`1[[PSnaps.SnapdRestApi.Responses.SnapApiAsyncResponse
+### System.Collections.Generic.IEnumerable`1[[PSnaps.SnapdRestApi.Responses.SnapApiAsyncResponse]]
 
-{{ Fill in the Description }}
-
-### System.Collections.Generic.IEnumerable`1[[PSnaps.SnapdRestApi.Responses.SnapApiAsyncResponse, PSnaps, Version=0.17.0.0, Culture=neutral, PublicKeyToken=null]]
-
-{{ Fill in the Description }}
+A collection of one or more async response objects from snapd, containing the action ID(s) for the operation(s).
 
 ## NOTES
 
-{{ Fill in the Notes }}
-
-## RELATED LINKS
-
-{{ Fill in the related links here }}
-
+This operation is asynchronous in snapd.\
+The request should return quickly, while the actual operation may take longer.\
+Status of the operation is indicated in the initial response and, if an action ID is returned, detailed progress information can be retrieved using that ID.

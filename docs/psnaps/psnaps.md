@@ -32,9 +32,9 @@ Installs one or more specified snap packages.
 
 ### [Set-SnapdClient](Set-SnapdClient.md)
 
-{{ Fill in the Synopsis }}
+Sets the client object the PSnaps module will use.
 
 ### [Uninstall-SnapPackage](Uninstall-SnapPackage.md)
 
-{{ Fill in the Synopsis }}
+Uninstalls one or more installed snap packages from the system.
 

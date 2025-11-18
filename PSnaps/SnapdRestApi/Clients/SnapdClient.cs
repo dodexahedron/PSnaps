@@ -36,6 +36,14 @@ public record SnapdClient : ISnapdRestClient
   }
 
   /// <summary>
+  ///   Creates an instance of <see cref="SnapdClient" /> with an overridden path to the snapd REST API Unix Domain Socket.
+  /// </summary>
+  /// <param name="socketUri">The <c>unix:///path/to/the/snapd.socket</c> file.</param>
+  public SnapdClient ( string socketUri ) : this ( socketPath: socketUri )
+  {
+  }
+
+  /// <summary>
   ///   Creates an instance of <see cref="SnapdClient" /> with the specified or default URIs and <see cref="CancellationToken" />.
   /// </summary>
   /// <param name="absoluteBaseUri">
