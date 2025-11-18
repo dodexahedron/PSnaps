@@ -19,7 +19,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" PrivateAssets="All" />
     <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" PrivateAssets="All" />
   </ItemGroup>
 
