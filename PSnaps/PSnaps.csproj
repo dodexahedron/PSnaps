@@ -77,6 +77,12 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Include="..\docs\maml\psnaps\PSnaps.dll-Help.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\en-US</PackagePath>
+      <Visible>false</Visible>
+    </None>
   </ItemGroup>
   
   <ItemGroup>
