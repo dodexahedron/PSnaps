@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="utf-8"?>
+<helpItems xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" schema="maml" xmlns="http://msh">
+  <command:command>
+    <command:details>
+      <command:name>Get-SnapdClient</command:name>
+      <maml:description>
+        <maml:para>Gets the current snapd client in use by the PSnaps module.</maml:para>
+      </maml:description>
+      <command:verb>Get</command:verb>
+      <command:noun>SnapdClient</command:noun>
+    </command:details>
+    <maml:description>
+      <maml:para>Retrieves the instance of a [PSnaps.SnapdRestApi.Clients.ISnapdClient] that the PSnaps module is using for interaction with snapd.\ By default, this is an instance of [PSnaps.SnapdRestApi.Clients.SnapdClient].</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SnapdClient</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Timeout</maml:name>
+          <maml:description>
+            <maml:para>Not used by this cmdlet.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+        <maml:name>Timeout</maml:name>
+        <maml:description>
+          <maml:para>Not used by this cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------- Example 1 ---------</maml:title>
+        <maml:introduction>
+          <maml:para>```powershell
+Get-SnapdClient
+```
+Output:
+```text
+BaseUri              SnapdUnixSocketUri
+-------              ------------------
+http://localhost/v2/ unix:///run/snapd.socket
+```</maml:para>
+        </maml:introduction>
+        <dev:code />
+        <dev:remarks />
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version</maml:linkText>
+        <command:uri />
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command>
+    <command:details>
+      <command:name>Get-SnapPackage</command:name>
+      <maml:description>
+        <maml:para>Gets one or more snap packages, according to input options.</maml:para>
+      </maml:description>
+      <command:verb>Get</command:verb>
+      <command:noun>SnapPackage</command:noun>
+    </command:details>
+    <maml:description>
+      <maml:para>Gets one or more snap packages, according to input options, as instances of [PSnaps.SnapCore.SnapPackage].</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SnapPackage</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>All</maml:name>
+          <maml:description>
+            <maml:para>If one or more package names are specified, returns both active and inactive instances of the package(s) currently installed on the system.</maml:para>
+            <maml:para>If no named packages are specified, returns both active and inactive instances of ALL packages currently installed on the system.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>The name (not case sensitive) or names of one or more snap packages to include in output, if they exist.\
+Multiple inputs are specified as an array of strings.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.String[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Timeout</maml:name>
+          <maml:description>
+            <maml:para>A timeout (in milliseconds) for the operation, to guard against the snapd REST API socket being unreachable or unresponsive.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+        <maml:name>All</maml:name>
+        <maml:description>
+          <maml:para>If one or more package names are specified, returns both active and inactive instances of the package(s) currently installed on the system.</maml:para>
+          <maml:para>If no named packages are specified, returns both active and inactive instances of ALL packages currently installed on the system.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="none">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>The name (not case sensitive) or names of one or more snap packages to include in output, if they exist.\
+Multiple inputs are specified as an array of strings.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">System.String[]</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+        <maml:name>Timeout</maml:name>
+        <maml:description>
+          <maml:para>A timeout (in milliseconds) for the operation, to guard against the snapd REST API socket being unreachable or unresponsive.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <dev:name>System.Collections.Generic.List`1</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>Always</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------- Example 1 ---------</maml:title>
+        <maml:introduction>
+          <maml:para>To get all installed snap packages:
+```powershell
+Get-SnapPackage -All
+```
+Output:
+```text
+Name                                             Version Revision Tracking                   Publisher          Publisher Verified
+----                                             ------- -------- --------                   ---------          ------------------
+bare                                                 1.0        5 latest/stable              Canonical                 True
+core20                                          20250822     2682 latest/stable              Canonical                 True
+core22                                          20250923     2139 latest/stable              Canonical                 True
+core24                                          20251001     1225 latest/stable              Canonical                 True
+desktop-security-center                    0+git.d93b42d       99 1/stable/ubuntu-25.10      Canonical                 True
+firefox                                        144.0.2-1     7177 latest/stable/ubuntu-25.10 Mozilla                   True
+firefox                                          145.0-2     7298 latest/stable/ubuntu-25.10 Mozilla                   True
+firmware-updater                           0+git.0052f6b      210 1/stable/ubuntu-25.10      Canonical                 True
+gnome-42-2204             0+git.837775c-sdk0+git.7b07595      226 latest/stable              Canonical                 True
+gtk-common-themes                        0.1-81-g442e511     1535 latest/stable              Canonical                 True
+lz4                                                1.9.4        4 latest/stable              Edward Hope-Morley       False
+mesa-2404                                 25.0.7-snap211     1165 latest/stable/ubuntu-25.10 Canonical                 True
+powershell-preview                       7.6.0-preview.5      179 latest/stable              Canonical                 True
+prompting-client                           0+git.d542a5d      104 1/stable/ubuntu-25.10      Canonical                 True
+snap-store                                0+git.90575829     1270 2/stable/ubuntu-25.10      Canonical                 True
+snapd                                               2.72    25577 latest/stable              Canonical                 True
+snapd-desktop-integration                            0.9      315 latest/stable/ubuntu-25.10 Canonical                 True
+thunderbird                                 140.4.0esr-1      846 latest/stable/ubuntu-25.10 Canonical                 True
+```</maml:para>
+        </maml:introduction>
+        <dev:code />
+        <dev:remarks />
+      </command:example>
+      <command:example>
+        <maml:title>--------- Example 2 ---------</maml:title>
+        <maml:introduction>
+          <maml:para>To get a single snap package:
+```powershell
+Get-SnapPackage lz4
+```</maml:para>
+          <maml:para>&#x80;</maml:para>
+          <maml:para>Output:
+```text
+Name Version Revision Tracking      Publisher          Publisher Verified
+---- ------- -------- --------      ---------          ------------------
+lz4    1.9.4        4 latest/stable Edward Hope-Morley       False
+```</maml:para>
+        </maml:introduction>
+        <dev:code />
+        <dev:remarks />
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version</maml:linkText>
+        <command:uri />
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command>
+    <command:details>
+      <command:name>Install-SnapPackage</command:name>
+      <maml:description>
+        <maml:para>Installs one or more specified snap packages.</maml:para>
+      </maml:description>
+      <command:verb>Install</command:verb>
+      <command:noun>SnapPackage</command:noun>
+    </command:details>
+    <maml:description>
+      <maml:para>Installs one or more specified snap packages to the system.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Install-SnapPackage</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Timeout</maml:name>
+          <maml:description>
+            <maml:para>A timeout (in milliseconds) for the operation, to guard against the snapd REST API socket being unreachable or unresponsive.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>TransactionMode</maml:name>
+          <maml:description>
+            <maml:para>Specifies the transaction mode to use for the installation operation.\
+If `[TransactionMode]::PerPackage` (default for PSnaps as well as snapd), each package installation uses an isolated
+transaction and failures do not affect other installations (barring dependency issues).\
+If `[TransactionMode]::AllPackage`, then all packages are installed in one transaction, and all must succeed or else
+all installations will be rolled back.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">PSnaps.SnapdRestApi.TransactionMode</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+        <maml:name>Timeout</maml:name>
+        <maml:description>
+          <maml:para>A timeout (in milliseconds) for the operation, to guard against the snapd REST API socket being unreachable or unresponsive.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+        <maml:name>TransactionMode</maml:name>
+        <maml:description>
+          <maml:para>Specifies the transaction mode to use for the installation operation.\
+If `[TransactionMode]::PerPackage` (default for PSnaps as well as snapd), each package installation uses an isolated
+transaction and failures do not affect other installations (barring dependency issues).\
+If `[TransactionMode]::AllPackage`, then all packages are installed in one transaction, and all must succeed or else
+all installations will be rolled back.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">PSnaps.SnapdRestApi.TransactionMode</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <dev:name>PSnaps.SnapdRestApi.Responses.SnapApiAsyncResponse</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>An async response object from snapd, containing the action ID for the operation.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------- Example 1 ---------</maml:title>
+        <maml:introduction>
+          <maml:para>```powershell
+Install-SnapPackage core24
+```
+Output:\
+No output, currently.</maml:para>
+        </maml:introduction>
+        <dev:code />
+        <dev:remarks />
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version</maml:linkText>
+        <command:uri />
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command>
+    <command:details>
+      <command:name>Set-SnapdClient</command:name>
+      <maml:description>
+        <maml:para>Sets the client object the PSnaps module will use.</maml:para>
+      </maml:description>
+      <command:verb>Set</command:verb>
+      <command:noun>SnapdClient</command:noun>
+    </command:details>
+    <maml:description>
+      <maml:para>Sets the client object used by the PSnaps module for all interactions with the snapd REST API to the provided instance of a [PSnaps.SnapdRestApi.Clients.ISnapdClient] object, and returns a reference to the new instance.\ The object must be fully constructed and ready for use.</maml:para>
+      <maml:para>The client object that was previously in use will be disposed when calling this command, unless the `-DoNotDisposeOldClient` parameter is specified.</maml:para>
+      <maml:para>This command is not usually needed in normal use, but can be used for testing purposes and for changing the configuration of the client, such as the socket path, if necessary.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-SnapdClient</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="none">
+          <maml:name>Client</maml:name>
+          <maml:description>
+            <maml:para>A constructed and valid instance of a `[PSnaps.SnapdRestApi.Clients.ISnapdRestClient]` to use for future operations by the PSnaps module.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">PSnaps.SnapdRestApi.Clients.ISnapdRestClient</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>DoNotDisposeOldClient</maml:name>
+          <maml:description>
+            <maml:para>If set, the previous client object will will NOT be disposed. Default behavior is to dispose of the previous client object.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="none">
+        <maml:name>Client</maml:name>
+        <maml:description>
+          <maml:para>A constructed and valid instance of a `[PSnaps.SnapdRestApi.Clients.ISnapdRestClient]` to use for future operations by the PSnaps module.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">PSnaps.SnapdRestApi.Clients.ISnapdRestClient</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+        <maml:name>DoNotDisposeOldClient</maml:name>
+        <maml:description>
+          <maml:para>If set, the previous client object will will NOT be disposed. Default behavior is to dispose of the previous client object.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <dev:name>PSnaps.SnapdRestApi.Clients.ISnapdRestClient</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>A constructed and valid instance of a `[PSnaps.SnapdRestApi.Clients.ISnapdRestClient]` to use for future operations by the PSnaps module.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <dev:name>PSnaps.SnapdRestApi.Clients.ISnapdRestClient</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>A reference to the client that was provided to the command.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------- Example 1 ---------</maml:title>
+        <maml:introduction>
+          <maml:para>Using the null client (which does nothing at all, discards all input, and outputs only null results):</maml:para>
+          <maml:para>&#x80;</maml:para>
+          <maml:para>```powershell
+Set-SnapdClient [PSnaps.SnapdRestApi.Clients.NullSnapdClient]::new()
+```</maml:para>
+        </maml:introduction>
+        <dev:code />
+        <dev:remarks />
+      </command:example>
+      <command:example>
+        <maml:title>--------- Example 2 ---------</maml:title>
+        <maml:introduction>
+          <maml:para>Using the built-in SnapdClient, but with a different socket path:</maml:para>
+          <maml:para>&#x80;</maml:para>
+          <maml:para>```powershell
+Set-SnapdClient [PSnaps.SnapdRestApi.Clients.SnapdClient]::new('unix:///usr/run/snapd/restapi.sock')
+```</maml:para>
+        </maml:introduction>
+        <dev:code />
+        <dev:remarks />
+      </command:example>
+      <command:example>
+        <maml:title>--------- Example 3 ---------</maml:title>
+        <maml:introduction>
+          <maml:para>Preserving the previous client so it can be reset later:</maml:para>
+          <maml:para>&#x80;</maml:para>
+          <maml:para>```powershell
+# Save a reference to the current client for later use.
+$originalClient = Get-SnapdClient</maml:para>
+          <maml:para>&#x80;</maml:para>
+          <maml:para># Set a new client, as in Example 2, but provide the -DoNotDisposeOldClient parameter, so our $originalClient stays alive.
+$newClient = Set-SnapdClient [PSnaps.SnapdRestApi.Clients.SnapdClient]::new('unix:///usr/run/snapd/restapi.sock') -DoNotDisposeOldClient</maml:para>
+          <maml:para>&#x80;</maml:para>
+          <maml:para># ... Do some stuff, which will now use the new client.</maml:para>
+          <maml:para>&#x80;</maml:para>
+          <maml:para># Use our original client to reset things back to how they were before, automatically disposing the new client in the process.
+# Do not attempt to access $newClient again after this step, as it will have been disposed!
+Set-SnapdClient $originalClient</maml:para>
+          <maml:para>&#x80;</maml:para>
+          <maml:para># ... Do some stuff, which now will use the original client.</maml:para>
+          <maml:para>&#x80;</maml:para>
+          <maml:para>```</maml:para>
+        </maml:introduction>
+        <dev:code />
+        <dev:remarks />
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version</maml:linkText>
+        <command:uri />
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command>
+    <command:details>
+      <command:name>Uninstall-SnapPackage</command:name>
+      <maml:description>
+        <maml:para>Uninstalls one or more installed snap packages from the system.</maml:para>
+      </maml:description>
+      <command:verb>Uninstall</command:verb>
+      <command:noun>SnapPackage</command:noun>
+    </command:details>
+    <maml:description>
+      <maml:para>Uninstalls one or more installed snap packages from the system, according to the specified parameters.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Uninstall-SnapPackage</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Purge</maml:name>
+          <maml:description>
+            <maml:para>(Not yet implemented)\
+If specified, uninstallation requests will include the purge parameter.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="none">
+          <maml:name>Snaps</maml:name>
+          <maml:description>
+            <maml:para>One or more names of snap packages to uninstall.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Timeout</maml:name>
+          <maml:description>
+            <maml:para>A timeout (in milliseconds) for the operation, to guard against the snapd REST API socket being unreachable or unresponsive.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Uninstall-SnapPackage</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>All</maml:name>
+          <maml:description>
+            <maml:para>In combination with the `-Disabled` parameter, instructs PSnaps to request uninstallation of all inactive revisions of all snap packages installed on the system.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Disabled</maml:name>
+          <maml:description>
+            <maml:para>Limits the operation to inactive revisions only.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Purge</maml:name>
+          <maml:description>
+            <maml:para>(Not yet implemented)\
+If specified, uninstallation requests will include the purge parameter.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Timeout</maml:name>
+          <maml:description>
+            <maml:para>A timeout (in milliseconds) for the operation, to guard against the snapd REST API socket being unreachable or unresponsive.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Uninstall-SnapPackage</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Disabled</maml:name>
+          <maml:description>
+            <maml:para>Limits the operation to inactive revisions only.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Purge</maml:name>
+          <maml:description>
+            <maml:para>(Not yet implemented)\
+If specified, uninstallation requests will include the purge parameter.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="none">
+          <maml:name>Snaps</maml:name>
+          <maml:description>
+            <maml:para>One or more names of snap packages to uninstall.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Timeout</maml:name>
+          <maml:description>
+            <maml:para>A timeout (in milliseconds) for the operation, to guard against the snapd REST API socket being unreachable or unresponsive.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Uninstall-SnapPackage</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Purge</maml:name>
+          <maml:description>
+            <maml:para>(Not yet implemented)\
+If specified, uninstallation requests will include the purge parameter.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="none">
+          <maml:name>Revision</maml:name>
+          <maml:description>
+            <maml:para>When uninstalling a single snap package, explicitly specifies a single revision of that snap to uninstall.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">System.Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="none">
+          <maml:name>Snaps</maml:name>
+          <maml:description>
+            <maml:para>One or more names of snap packages to uninstall.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+          <maml:name>Timeout</maml:name>
+          <maml:description>
+            <maml:para>A timeout (in milliseconds) for the operation, to guard against the snapd REST API socket being unreachable or unresponsive.</maml:para>
+          </maml:description>
+          <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+        <maml:name>All</maml:name>
+        <maml:description>
+          <maml:para>In combination with the `-Disabled` parameter, instructs PSnaps to request uninstallation of all inactive revisions of all snap packages installed on the system.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+        <maml:name>Disabled</maml:name>
+        <maml:description>
+          <maml:para>Limits the operation to inactive revisions only.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+        <maml:name>Purge</maml:name>
+        <maml:description>
+          <maml:para>(Not yet implemented)\
+If specified, uninstallation requests will include the purge parameter.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">System.Management.Automation.SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="none">
+        <maml:name>Revision</maml:name>
+        <maml:description>
+          <maml:para>When uninstalling a single snap package, explicitly specifies a single revision of that snap to uninstall.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">System.Int32</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="0" aliases="none">
+        <maml:name>Snaps</maml:name>
+        <maml:description>
+          <maml:para>One or more names of snap packages to uninstall.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">System.String[]</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="Named" aliases="none">
+        <maml:name>Timeout</maml:name>
+        <maml:description>
+          <maml:para>A timeout (in milliseconds) for the operation, to guard against the snapd REST API socket being unreachable or unresponsive.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="true">System.Int32</command:parameterValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <dev:name>System.Collections.Generic.IEnumerable`1</dev:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>A collection of one or more async response objects from snapd, containing the action ID(s) for the operation(s).</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para />
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>--------- Example 1 ---------</maml:title>
+        <maml:introduction>
+          <maml:para>Uninstall a single snap package completely (all installed revisions):
+```powershell
+Uninstall-SnapPackage lz4
+```</maml:para>
+        </maml:introduction>
+        <dev:code />
+        <dev:remarks />
+      </command:example>
+      <command:example>
+        <maml:title>--------- Example 2 ---------</maml:title>
+        <maml:introduction>
+          <maml:para>Uninstall only the inactive instances of a single snap package:
+```powershell
+Uninstall-SnapPackage lz4 -Disabled
+```</maml:para>
+        </maml:introduction>
+        <dev:code />
+        <dev:remarks />
+      </command:example>
+      <command:example>
+        <maml:title>--------- Example 3 ---------</maml:title>
+        <maml:introduction>
+          <maml:para>Uninstall only a specific revision of a single snap package:
+```powershell
+Uninstall-SnapPackage lz4 -Revision 4
+```</maml:para>
+        </maml:introduction>
+        <dev:code />
+        <dev:remarks />
+      </command:example>
+      <command:example>
+        <maml:title>--------- Example 4 ---------</maml:title>
+        <maml:introduction>
+          <maml:para>Uninstall all inactive revisions of all snap packages installed on the system:
+```powershell
+Uninstall-SnapPackage -All -Disabled
+```</maml:para>
+        </maml:introduction>
+        <dev:code />
+        <dev:remarks />
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Online Version</maml:linkText>
+        <command:uri />
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+</helpItems>
