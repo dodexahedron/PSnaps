@@ -19,7 +19,8 @@ public static class PSnapsModuleState
 {
   private static readonly CancellationTokenSource Cts = new ( );
 
-  // TODO: Handle disposal of the client on module unload.
+  [SuppressMessage ( "Interoperability", "CA1416:Validate platform compatibility", Justification = "Don't really care here. The attribute is meant for API usages." )]
+  [SuppressMessage ( "ReSharper",        "NotDisposedResource",                    Justification = "Will be disposed by the runtime on module unload." )]
   private static ISnapdRestClient? _client = new SnapdClient ( );
 
   /// <summary>
