@@ -14,6 +14,7 @@ namespace PSnaps.Cmdlets;
 [PublicAPI]
 [Cmdlet ( VerbsCommon.Get, "SnapPackage", ConfirmImpact = ConfirmImpact.None )]
 [OutputType ( typeof( List<SnapPackage> ) )]
+[Alias ( "Get-Snap", "Get-Snaps", "Get-SnapPackages" )]
 public sealed class GetSnapPackageCommand : SnapdClientCmdlet
 {
   /// <summary>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <LangVersion>13</LangVersion>
     <AssemblyName>PSnaps</AssemblyName>
     <RootNamespace>PSnaps</RootNamespace>
@@ -9,7 +9,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <WarningLevel>9</WarningLevel>
-    <VersionPrefix>0.16.0</VersionPrefix>
+    <VersionPrefix>0.17.0</VersionPrefix>
     <VersionSuffix>Beta1</VersionSuffix>
     <DebugType>portable</DebugType>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
@@ -25,9 +25,9 @@
     <PackageTags>snap;snapd;Linux;PSEdition_Core;PSModule</PackageTags>
     <PackageReleaseNotes>
       Early development version. Functionality and API surface are subject to change.
+      0.17.0-Beta1: Adds multi-targeting for .net9/10 and PowerShell 7.5/7.6.
       0.16.0-Beta1: Corrected property name for Tracking column of SnapPackage formatting.
       0.15.0-Beta1: Altered SnapPackage formatting to remove the grouping that was not as helpful as predicted.
-      0.14.0-Beta1: Fixed serialization issues with responses containing SnapPackage objects.
     </PackageReleaseNotes>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Authors>dodexahedron</Authors>
@@ -42,10 +42,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Formatting\*.Format.ps1xml">
+    <None Include="Formatting\*.Format.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
+      <PackagePath>\Formatting</PackagePath>
     </None>
     <None Include="..\README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -57,20 +57,26 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Update="PSnapsIcon.*">
+    <None Include="PSnapsIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Update="PSnaps.psd1">
+    <None Include="PSnapsIcon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Management.Automation" Version="7.5.4" PrivateAssets="All" />
+    <None Include="PSnaps.psd1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="PSnaps.psm1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   
   <ItemGroup>
@@ -84,6 +90,13 @@
     <Using Include="System.Numerics" />
     <Using Include="System.Text.Json.Serialization" />
     <InternalsVisibleTo Include="PSnaps.Tests" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <PackageReference Include="System.Management.Automation" Version="7.6.0-preview.5" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+    <PackageReference Include="System.Management.Automation" Version="7.5.4" PrivateAssets="All" />
   </ItemGroup>
   
 </Project>

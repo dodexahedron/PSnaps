@@ -16,6 +16,7 @@ namespace PSnaps.Cmdlets;
 [PublicAPI]
 [Cmdlet ( VerbsLifecycle.Install, "SnapPackage", ConfirmImpact = ConfirmImpact.Medium )]
 [OutputType ( typeof( SnapApiResponse ) )]
+[Alias ( "Install-Snap" )]
 public sealed class InstallSnapPackageCommand : SnapdClientCmdlet
 {
   /// <summary>

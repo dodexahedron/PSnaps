@@ -6,6 +6,15 @@
     <File Path="LICENSE" />
     <File Path="README.md" />
   </Folder>
+  <Folder Name="/Solution Files/docs/" />
+  <Folder Name="/Solution Files/docs/psnaps/">
+    <File Path="docs/psnaps/Get-SnapdClient.md" />
+    <File Path="docs/psnaps/Get-SnapPackage.md" />
+    <File Path="docs/psnaps/Install-SnapPackage.md" />
+    <File Path="docs/psnaps/psnaps.md" />
+    <File Path="docs/psnaps/Set-SnapdClient.md" />
+    <File Path="docs/psnaps/Uninstall-SnapPackage.md" />
+  </Folder>
   <Project Path="PSnaps.Mocks/PSnaps.Mocks.csproj" Id="cafa6619-27b1-4a98-aa6e-232ef0208e2e" />
   <Project Path="PSnaps.Tests/PSnaps.Tests.csproj" Id="bc72995a-d1ca-4738-82e8-9d779ff4237b" />
   <Project Path="PSnaps/PSnaps.csproj" />

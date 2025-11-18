@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
-    <PackageReference Include="System.Management.Automation" Version="7.5.4" />
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,4 +38,5 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
 </Project>
