@@ -26,6 +26,7 @@
     <PackageReleaseNotes>
       Early development version. Functionality and API surface are subject to change.
       0.17.0-Beta1: Adds multi-targeting for .net9/10 and PowerShell 7.5/7.6.
+                    Adds module help XML.
       0.16.0-Beta1: Corrected property name for Tracking column of SnapPackage formatting.
       0.15.0-Beta1: Altered SnapPackage formatting to remove the grouping that was not as helpful as predicted.
     </PackageReleaseNotes>
@@ -74,17 +75,16 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="PSnaps.psm1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
     <None Include="..\docs\maml\psnaps\PSnaps.dll-Help.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>True</Pack>
       <PackagePath>\en-US</PackagePath>
       <Visible>false</Visible>
     </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="PowerShellStandard.Library" Version="5.1.1" PrivateAssets="All" />
   </ItemGroup>
   
   <ItemGroup>
@@ -98,13 +98,6 @@
     <Using Include="System.Numerics" />
     <Using Include="System.Text.Json.Serialization" />
     <InternalsVisibleTo Include="PSnaps.Tests" />
-  </ItemGroup>
-  
-  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-    <PackageReference Include="System.Management.Automation" Version="7.6.0-preview.5" PrivateAssets="All" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-    <PackageReference Include="System.Management.Automation" Version="7.5.4" PrivateAssets="All" />
   </ItemGroup>
   
 </Project>
