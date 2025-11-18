@@ -51,11 +51,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
+      <Visible>false</Visible>
     </None>
     <None Include="..\LICENSE">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
+      <Visible>false</Visible>
     </None>
     <None Include="PSnapsIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
