@@ -24,7 +24,7 @@ public sealed class InstallSnapPackageCommand : SnapdClientCmdlet
   /// </summary>
   [Parameter ( Mandatory = true, Position = 0 )]
   [ValidateCount ( 1, int.MaxValue )]
-  [ValidateNotNullOrWhiteSpace]
+  [ValidateNotNullOrEmpty]
   [ValidateLength ( 2, int.MaxValue )]
   public required string[] Snaps { get; set; }
 

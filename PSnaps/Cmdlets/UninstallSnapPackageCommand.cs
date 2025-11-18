@@ -70,7 +70,7 @@ public class UninstallSnapPackageCommand : SnapdClientCmdlet
   ///   The revision of the specified snap package to remove.
   /// </summary>
   [Parameter ( Mandatory = true, Position = 1, ParameterSetName = SingleSnapRevisionParameterSetName )]
-  [ValidateRange ( ValidateRangeKind.NonNegative )]
+  [ValidateRange ( 0, int.MaxValue )]
   public int Revision { get; set; }
 
   /// <summary>

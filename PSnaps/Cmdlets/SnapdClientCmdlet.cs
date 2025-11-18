@@ -19,7 +19,7 @@ public abstract class SnapdClientCmdlet : PSCmdlet
   /// </summary>
   /// <remarks>Default is 30 seconds.</remarks>
   [Parameter ( Mandatory = false )]
-  [ValidateRange ( ValidateRangeKind.Positive )]
+  [ValidateRange ( 1, int.MaxValue )]
   public virtual int Timeout { get; set; } = 30000;
 
   /// <summary>
