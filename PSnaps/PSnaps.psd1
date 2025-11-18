@@ -1,6 +1,6 @@
 @{
   RootModule = 'lib/net9.0/PSnaps.dll'
-  ModuleVersion = '0.16.0'
+  ModuleVersion = '0.17.0'
   CompatiblePSEditions = @('Core')
   GUID = '7a389ff6-dd4f-4486-b430-802de6fcc65c'
   Author = 'dodexahedron'
@@ -9,7 +9,7 @@
   Description = 'A PowerShell module and .net library for management of Snap packages on Linux. Requires PS 7.5.4 or greater and .net 9.0 or greater.'
   PowerShellVersion = '7.5.4'
   RequiredModules = @()
-  RequiredAssemblies = @('System.Management.Automation','System.Globalization')
+  RequiredAssemblies = @()
   ScriptsToProcess = @()
   TypesToProcess = @()
   FormatsToProcess = @(
@@ -40,6 +40,8 @@
   FileList = @(
     'lib/net9.0/PSnaps.dll'
     'lib/net9.0/PSnaps.xml'
+    'lib/net10.0/PSnaps.dll'
+    'lib/net10.0/PSnaps.xml'
     'Formatting/GetSnapResponseResult.Format.ps1xml'
     'Formatting/Publisher.Format.ps1xml'
     'Formatting/RemoveSnapResult.Format.ps1xml'
@@ -57,9 +59,10 @@
       ProjectUri = 'https://github.com/dodexahedron/PSnaps'
       IconUri = 'https://github.com/dodexahedron/PSnaps/blob/master/PSnaps/PSnapsIcon.png'
       ReleaseNotes = 'Early development version. Functionality and API surface are subject to change.
+0.17.0-Beta1: Adds multi-targeting for .net9/10 and PowerShell 7.5/7.6.
+              Adds module help XML.
 0.16.0-Beta1: Corrected property name for Tracking column of SnapPackage formatting.
-0.15.0-Beta1: Altered SnapPackage formatting to remove the grouping that was not as helpful as predicted.
-0.14.0-Beta1: Fixed serialization issues with responses containing SnapPackage objects.'
+0.15.0-Beta1: Altered SnapPackage formatting to remove the grouping that was not as helpful as predicted.'
       Prerelease = 'Beta1'
       RequireLicenseAcceptance = $false
       ExternalModuleDependencies = @()
