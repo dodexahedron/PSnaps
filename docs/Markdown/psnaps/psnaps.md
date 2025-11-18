@@ -1,7 +1,7 @@
 ---
 document type: module
 Help Version: 1.0.0.0
-HelpInfoUri: 
+HelpInfoUri: 'https://github.com/dodexahedron/PSnaps/tree/0.16.0-Beta1/docs/Help'
 Locale: en-US
 Module Guid: 7a389ff6-dd4f-4486-b430-802de6fcc65c
 Module Name: psnaps
@@ -16,7 +16,7 @@ title: psnaps Module
 
 A PowerShell module and .net library for management of Snap packages on Linux. Requires PS 7.5.4 or greater and .net 9.0 or greater.
 
-## psnaps
+## psnaps Cmdlets
 
 ### [Get-SnapdClient](Get-SnapdClient.md)
 
