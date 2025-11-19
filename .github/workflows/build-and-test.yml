@@ -20,26 +20,25 @@ jobs:
       uses: actions/setup-dotnet@v5
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
-    # - name: Build on dotnet ${{ matrix.dotnet-version }}
-      # run: dotnet build PSnaps/PSnaps.csproj
-    # - name: Test on dotnet ${{ matrix.dotnet-version }}
-      # run: dotnet test --verbosity normal PSnaps.Tests/PSnaps.Tests.csproj
+    - name: Build on dotnet ${{ matrix.dotnet-version }}
+      run: dotnet build PSnaps/PSnaps.csproj
+    - name: Test on dotnet ${{ matrix.dotnet-version }}
+      run: dotnet test --verbosity normal PSnaps.Tests/PSnaps.Tests.csproj
     - name: PS Module Validation
       shell: pwsh
       run: |
-        # sudo snap install powershell-preview --classic
+        sudo snap install powershell-preview --classic
         sudo systemctl restart snapd.service
         sudo systemctl restart snapd.socket
-        ls -al /run/snapd.socket
-        # pwsh-preview -c {
-          # dotnet pack ./PSnaps/PSnaps.csproj
-          # mkdir -pv ./NuGet/TestRepository
-          # Register-PSResourceRepository -Name TestRepository -Uri file://${pwd}/NuGet/TestRepository -Trusted:$true
-          # Publish-PSResource -NupkgPath ./PSnaps/bin/Release/*.nupkg -Repository TestRepository
-          # Install-PSResource -Name PSnaps -Repository TestRepository -Prerelease -AuthenticodeCheck:$false
-          # Import-Module PSnaps -ErrorAction Stop
-          # Get-Module PSnaps | fl *
-          # Get-SnapPackage -All
-          # Remove-Module PSnaps  -ErrorAction Stop
-        # }
+        sudo pwsh-preview -c {
+          dotnet pack ./PSnaps/PSnaps.csproj
+          mkdir -pv ./NuGet/TestRepository
+          Register-PSResourceRepository -Name TestRepository -Uri file://${pwd}/NuGet/TestRepository -Trusted:$true
+          Publish-PSResource -NupkgPath ./PSnaps/bin/Release/*.nupkg -Repository TestRepository
+          Install-PSResource -Name PSnaps -Repository TestRepository -Prerelease -AuthenticodeCheck:$false
+          Import-Module PSnaps -ErrorAction Stop
+          Get-Module PSnaps | fl *
+          Get-SnapPackage -All
+          Remove-Module PSnaps  -ErrorAction Stop
+        }
         
