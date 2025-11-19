@@ -20,7 +20,7 @@ namespace PSnaps.SnapdRestApi.Clients;
 /// </summary>
 [PublicAPI]
 [MustDisposeResource]
-public record SnapdClient : ISnapdRestClient
+public sealed record SnapdClient : ISnapdRestClient
 {
   private readonly HttpClient              _httpClient;
   private readonly CancellationTokenSource _snapdClientCancellationTokenSource;
@@ -122,7 +122,6 @@ public record SnapdClient : ISnapdRestClient
 
     _httpClient.Dispose ( );
     _snapdClientCancellationTokenSource.Dispose ( );
-    GC.SuppressFinalize ( this );
   }
 
   /// <inheritdoc />
