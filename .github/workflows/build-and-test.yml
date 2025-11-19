@@ -29,6 +29,7 @@ jobs:
       run: |
         sudo snap install powershell-preview --classic
         sudo snap install lz4
+        sudo systemctl daemon-reload
         sudo systemctl restart snapd.service
         sudo systemctl restart snapd.socket
         sudo pwsh-preview -c {
