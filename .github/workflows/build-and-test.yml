@@ -33,7 +33,7 @@ jobs:
         mkdir -pv ./NuGet/TestRepository
         Register-PSRepository -Name TestRepository -SourceLocation ./NuGet/TestRepository -InstallationPolicy:Trusted -ErrorAction Stop
         Publish-PSResource -NupkgPath ./PSnaps/bin/Release/*.nupkg -Repository TestRepository
-        Install-Module -Repository TestRepository -Name PSnaps -AllowPrerelease -ErrorAction Stop
+        Install-Module -Repository TestRepository -Name PSnaps -AllowPrerelease -ErrorAction Stop -SkipPublisherCheck
         Import-Module PSnaps -ErrorAction Stop
         Get-SnapPackage -All
         Remove-Module PSnaps  -ErrorAction Stop
