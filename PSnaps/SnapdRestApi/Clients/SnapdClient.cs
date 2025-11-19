@@ -30,17 +30,13 @@ public sealed record SnapdClient : ISnapdRestClient
   ///   Creates an instance of <see cref="SnapdClient" /> with default URIs and a <see cref="CancellationToken" /> that is not linked
   ///   to any parent <see cref="CancellationToken" />s.
   /// </summary>
-  public SnapdClient ( ) : this ( ISnapdRestClient.DefaultApiBaseUriV2 )
-  {
-  }
+  public SnapdClient ( ) : this ( ISnapdRestClient.DefaultApiBaseUriV2 ) { }
 
   /// <summary>
   ///   Creates an instance of <see cref="SnapdClient" /> with an overridden path to the snapd REST API Unix Domain Socket.
   /// </summary>
   /// <param name="socketUri">The <c>unix:///path/to/the/snapd.socket</c> file.</param>
-  public SnapdClient ( string socketUri ) : this ( socketPath: socketUri )
-  {
-  }
+  public SnapdClient ( string socketUri ) : this ( socketPath: socketUri ) { }
 
   /// <summary>
   ///   Creates an instance of <see cref="SnapdClient" /> with the specified or default URIs and <see cref="CancellationToken" />.
@@ -100,7 +96,8 @@ public sealed record SnapdClient : ISnapdRestClient
   public Uri SnapdUnixSocketUri { get; }
 
   /// <inheritdoc />
-  public virtual void Dispose ( )
+  [SuppressMessage ( "ReSharper", "EmptyGeneralCatchClause", Justification = "Dispose MUST succeed, and we do not care about any exceptions thrown by CTS.Cancel()." )]
+  public void Dispose ( )
   {
     if ( Interlocked.CompareExchange ( ref _nonZeroMeansDisposed, -1L, 0L ) != 0L )
     {
@@ -114,10 +111,7 @@ public sealed record SnapdClient : ISnapdRestClient
       {
         _snapdClientCancellationTokenSource.Cancel ( true );
       }
-      catch ( AggregateException )
-      {
-        // TODO: Decide if doing something other than eating this is appropriate.
-      }
+      catch { } // Just eat any exception. Nothing to do here.
     }
 
     _httpClient.Dispose ( );
@@ -129,6 +123,7 @@ public sealed record SnapdClient : ISnapdRestClient
   [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 10000, CancellationToken cancellationToken = default )
   {
+    ObjectDisposedException.ThrowIf ( Interlocked.Read ( ref _nonZeroMeansDisposed ) != 0, typeof( SnapdClient ) );
     return await GetResultAsync ( "snaps?select=all", SnapApiJsonSerializerContext.Default.SnapApiSyncResponseSnapPackageArray, timeout, cancellationToken );
   }
 
@@ -136,6 +131,7 @@ public sealed record SnapdClient : ISnapdRestClient
   [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<ChangeSet?> GetChangesAsync ( string actionId, int timeout = 10000, CancellationToken cancellationToken = default )
   {
+    ObjectDisposedException.ThrowIf ( Interlocked.Read ( ref _nonZeroMeansDisposed ) != 0, typeof( SnapdClient ) );
     return await GetResultAsync ( $"changes/{actionId}", SnapApiJsonSerializerContext.Default.SnapApiSyncResponseChangeSet, timeout, cancellationToken );
   }
 
@@ -144,6 +140,7 @@ public sealed record SnapdClient : ISnapdRestClient
   [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<SnapPackage[]?> GetSingleSnapAsync ( string snapName, bool includeInactive = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
+    ObjectDisposedException.ThrowIf ( Interlocked.Read ( ref _nonZeroMeansDisposed ) != 0, typeof( SnapdClient ) );
     return await GetResultAsync (
                                  $"snaps/{snapName}{( includeInactive ? "?select=all" : string.Empty )}",
                                  SnapApiJsonSerializerContext.Default.SnapApiSyncResponseSnapPackageArray,
@@ -157,6 +154,7 @@ public sealed record SnapdClient : ISnapdRestClient
   [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<List<SnapPackage>?> GetSnapsAsync ( string[] snapNames, bool includeInactive = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
+    ObjectDisposedException.ThrowIf ( Interlocked.Read ( ref _nonZeroMeansDisposed ) != 0, typeof( SnapdClient ) );
     SnapPackage[]? snapPackages = await GetResultAsync (
                                                         $"snaps?snaps={string.Join ( ',', snapNames )}{( includeInactive ? "&select=all" : string.Empty )}",
                                                         SnapApiJsonSerializerContext.Default.SnapApiSyncResponseSnapPackageArray,
@@ -171,6 +169,7 @@ public sealed record SnapdClient : ISnapdRestClient
   [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<SnapApiAsyncResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, int timeout = 30000, CancellationToken cancellationToken = default )
   {
+    ObjectDisposedException.ThrowIf ( Interlocked.Read ( ref _nonZeroMeansDisposed ) != 0, typeof( SnapdClient ) );
     SnapApiAsyncResponse? snapApiResponse = await PostAsync (
                                                              "snaps",
                                                              new ( snapNames, transactionMode ),
@@ -186,6 +185,7 @@ public sealed record SnapdClient : ISnapdRestClient
   [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<SnapApiAsyncResponse?> RemoveMultipleSnapsAsync ( string[] snapNames, bool purge = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
+    ObjectDisposedException.ThrowIf ( Interlocked.Read ( ref _nonZeroMeansDisposed ) != 0, typeof( SnapdClient ) );
     return await PostAsync (
                             "snaps",
                             new ( snapNames, purge ),
@@ -201,6 +201,7 @@ public sealed record SnapdClient : ISnapdRestClient
   [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<SnapApiAsyncResponse?> RemoveSnapAsync ( string name, string revision, bool purge = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
+    ObjectDisposedException.ThrowIf ( Interlocked.Read ( ref _nonZeroMeansDisposed ) != 0, typeof( SnapdClient ) );
     return await PostAsync (
                             $"snaps/{name}",
                             new ( name, revision, purge ),
@@ -216,6 +217,7 @@ public sealed record SnapdClient : ISnapdRestClient
   private async Task<TResult?> GetResultAsync<TResult> ( string path, JsonTypeInfo<SnapApiSyncResponse<TResult>> jsonSerializationTypeInfo, int timeout, CancellationToken cancellationToken = default )
     where TResult : class
   {
+    ObjectDisposedException.ThrowIf ( Interlocked.Read ( ref _nonZeroMeansDisposed ) != 0, typeof( SnapdClient ) );
     using CancellationTokenSource taskCts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
     taskCts.Token.ThrowIfCancellationRequested ( );
     taskCts.CancelAfter ( timeout );
@@ -235,6 +237,7 @@ public sealed record SnapdClient : ISnapdRestClient
   private async Task<TResponse?> PostAsync<TResponse, TPostData> ( string path, TPostData postData, JsonTypeInfo<TPostData> postDataJsonTypeInfo, JsonTypeInfo<TResponse> responseJsonTypeInfo, int timeout = 30000, CancellationToken cancellationToken = default )
     where TResponse : SnapApiResponse
   {
+    ObjectDisposedException.ThrowIf ( Interlocked.Read ( ref _nonZeroMeansDisposed ) != 0, typeof( SnapdClient ) );
     using CancellationTokenSource taskCts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
     taskCts.Token.ThrowIfCancellationRequested ( );
     taskCts.CancelAfter ( timeout );
