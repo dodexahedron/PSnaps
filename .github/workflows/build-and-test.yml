@@ -27,6 +27,11 @@ jobs:
     - name: PS Module Validation
       shell: pwsh
       run: |
+        $PSVersionTable | fl *
+        Get-Module PowerShellGet
+        Get-Module Microsoft.PowerShell.PSResourceGet
+        Get-Module
+        exit
         dotnet pack ./PSnaps/PSnaps.csproj
         mkdir -pv ./NuGet/TestRepository
         Register-PSRepository -Name TestRepository -SourceLocation ./NuGet/TestRepository -InstallationPolicy:Trusted -ErrorAction Stop
