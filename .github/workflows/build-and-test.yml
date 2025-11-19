@@ -17,10 +17,20 @@ jobs:
     steps:
     - uses: actions/checkout@v5
     - name: Setup .NET ${{ matrix.dotnet-version }}
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: ${{ matrix.dotnet-version }}
     - name: Build on dotnet ${{ matrix.dotnet-version }}
       run: dotnet build PSnaps/PSnaps.csproj
     - name: Test on dotnet ${{ matrix.dotnet-version }}
       run: dotnet test --verbosity normal PSnaps.Tests/PSnaps.Tests.csproj
+    - name: PS Module Validation
+      shell: pwsh
+      run: |
+        dotnet pack ./PSnaps/PSnaps.csproj
+        Register-PSRepository -Name TestRepository -SourceLocation ./NuGet/TestRepository -InstallationPolicy:Trusted -ErrorAction Stop
+        Publish-PSResource -NupkgPath ./PSnaps/bin/Release/*.nupkg -Repository TestRepository
+        Install-Module -Repository TestRepository -Name PSnaps -AllowPrerelease -ErrorAction Stop
+        Import-Module PSnaps -ErrorAction Stop
+        Get-SnapPackage -All
+        Remove-Module PSnaps  -ErrorAction Stop
