@@ -28,6 +28,7 @@ jobs:
       shell: pwsh
       run: |
         dotnet pack ./PSnaps/PSnaps.csproj
+        mkdir -pv ./NuGet/TestRepository
         Register-PSRepository -Name TestRepository -SourceLocation ./NuGet/TestRepository -InstallationPolicy:Trusted -ErrorAction Stop
         Publish-PSResource -NupkgPath ./PSnaps/bin/Release/*.nupkg -Repository TestRepository
         Install-Module -Repository TestRepository -Name PSnaps -AllowPrerelease -ErrorAction Stop
