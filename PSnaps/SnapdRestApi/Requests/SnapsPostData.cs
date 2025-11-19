@@ -17,6 +17,7 @@ public record SnapsPostData
   /// <summary>
   ///   Creates a default instance of <see cref="SnapsPostData" />.
   /// </summary>
+  [ExcludeFromCodeCoverage ( Justification = "Nothing to test." )]
   public SnapsPostData ( )
   {
   }

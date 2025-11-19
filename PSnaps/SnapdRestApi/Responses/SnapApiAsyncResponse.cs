@@ -20,6 +20,7 @@ namespace PSnaps.SnapdRestApi.Responses;
 ///   as a <see cref="ChangeSet" /> via the <c>changes/{id}</c> API endpoint.
 /// </remarks>
 [PublicAPI]
+[ExcludeFromCodeCoverage ( Justification = "Nothing to test." )]
 public sealed record SnapApiAsyncResponse (
   [property: JsonPropertyName ( "change" )]
   string Change

@@ -15,6 +15,7 @@ namespace PSnaps.SnapdRestApi.Requests;
 /// <param name="Revision">The revision of the snap being removed.</param>
 /// <param name="Purge">Whether to include the purge parameter.</param>
 [PublicAPI]
+[ExcludeFromCodeCoverage ( Justification = "Nothing to test." )]
 public sealed record RemoveSingleSnapPostData (
   [property: JsonIgnore] string? Name,
   [property: JsonPropertyName ( "revision" )]

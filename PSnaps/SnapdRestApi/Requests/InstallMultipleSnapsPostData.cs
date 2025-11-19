@@ -19,6 +19,7 @@ namespace PSnaps.SnapdRestApi.Requests;
 /// <param name="Snaps">An array of one or more snap package names to install.</param>
 /// <param name="Transaction">The transaction mode for the operation.</param>
 [UsedImplicitly ( ImplicitUseTargetFlags.WithMembers )]
+[ExcludeFromCodeCoverage ( Justification = "Nothing to test." )]
 public sealed record InstallMultipleSnapsPostData (
   [property: JsonPropertyName ( "snaps" )]
   string[] Snaps,

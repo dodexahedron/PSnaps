@@ -126,12 +126,14 @@ public sealed record SnapdClient : ISnapdRestClient
 
   /// <inheritdoc />
   [CollectionAccess ( CollectionAccessType.UpdatedContent )]
+  [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 10000, CancellationToken cancellationToken = default )
   {
     return await GetResultAsync ( "snaps?select=all", SnapApiJsonSerializerContext.Default.SnapApiSyncResponseSnapPackageArray, timeout, cancellationToken );
   }
 
   /// <inheritdoc />
+  [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<ChangeSet?> GetChangesAsync ( string actionId, int timeout = 10000, CancellationToken cancellationToken = default )
   {
     return await GetResultAsync ( $"changes/{actionId}", SnapApiJsonSerializerContext.Default.SnapApiSyncResponseChangeSet, timeout, cancellationToken );
@@ -139,6 +141,7 @@ public sealed record SnapdClient : ISnapdRestClient
 
   /// <inheritdoc />
   [CollectionAccess ( CollectionAccessType.UpdatedContent )]
+  [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<SnapPackage[]?> GetSingleSnapAsync ( string snapName, bool includeInactive = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
     return await GetResultAsync (
@@ -151,6 +154,7 @@ public sealed record SnapdClient : ISnapdRestClient
   }
 
   /// <inheritdoc />
+  [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<List<SnapPackage>?> GetSnapsAsync ( string[] snapNames, bool includeInactive = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
     SnapPackage[]? snapPackages = await GetResultAsync (
@@ -164,6 +168,7 @@ public sealed record SnapdClient : ISnapdRestClient
   }
 
   /// <inheritdoc />
+  [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<SnapApiAsyncResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, int timeout = 30000, CancellationToken cancellationToken = default )
   {
     SnapApiAsyncResponse? snapApiResponse = await PostAsync (
@@ -178,6 +183,7 @@ public sealed record SnapdClient : ISnapdRestClient
   }
 
   /// <inheritdoc />
+  [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<SnapApiAsyncResponse?> RemoveMultipleSnapsAsync ( string[] snapNames, bool purge = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
     return await PostAsync (
@@ -192,6 +198,7 @@ public sealed record SnapdClient : ISnapdRestClient
   }
 
   /// <inheritdoc />
+  [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   public async Task<SnapApiAsyncResponse?> RemoveSnapAsync ( string name, string revision, bool purge = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
     return await PostAsync (
@@ -205,6 +212,7 @@ public sealed record SnapdClient : ISnapdRestClient
             .ConfigureAwait ( false );
   }
 
+  [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   private async Task<TResult?> GetResultAsync<TResult> ( string path, JsonTypeInfo<SnapApiSyncResponse<TResult>> jsonSerializationTypeInfo, int timeout, CancellationToken cancellationToken = default )
     where TResult : class
   {
@@ -223,6 +231,7 @@ public sealed record SnapdClient : ISnapdRestClient
     return response?.Result;
   }
 
+  [ExcludeFromCodeCoverage ( Justification = "Nothing to test. This is a proxy method." )]
   private async Task<TResponse?> PostAsync<TResponse, TPostData> ( string path, TPostData postData, JsonTypeInfo<TPostData> postDataJsonTypeInfo, JsonTypeInfo<TResponse> responseJsonTypeInfo, int timeout = 30000, CancellationToken cancellationToken = default )
     where TResponse : SnapApiResponse
   {

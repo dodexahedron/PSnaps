@@ -15,6 +15,7 @@ namespace PSnaps.SnapdRestApi.Responses;
 /// <param name="Kind">The type of error.</param>
 /// <param name="Value">Any additional error information provided in the response.</param>
 [PublicAPI]
+[ExcludeFromCodeCoverage ( Justification = "Nothing to test." )]
 public sealed record SnapApiError (
   [property: JsonPropertyName ( "message" )]
   string Message,
