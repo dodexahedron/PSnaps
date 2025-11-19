@@ -35,6 +35,7 @@ jobs:
           Publish-PSResource -NupkgPath ./PSnaps/bin/Release/*.nupkg -Repository TestRepository
           Install-PSResource -Name PSnaps -Repository TestRepository -Prerelease -AuthenticodeCheck:$false
           Import-Module PSnaps -ErrorAction Stop
+          Get-Module PSnaps | fl *
           Get-SnapPackage -All
           Remove-Module PSnaps  -ErrorAction Stop
         }
