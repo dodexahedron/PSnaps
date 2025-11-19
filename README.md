@@ -1,6 +1,8 @@
 # PSnaps
 PowerShell module for managing Snap packages on Linux.
 
+[![Build and Test](https://github.com/dodexahedron/PSnaps/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/dodexahedron/PSnaps/actions/workflows/build-and-test.yml)
+
 ## Installation
 Install-Module PSnaps -AllowPrerelease
 
