@@ -14,7 +14,7 @@ namespace PSnaps.SnapdRestApi;
 ///   more "actions," with <see cref="Progress" /> reporting available per action.
 /// </summary>
 [PublicAPI]
-public record ApiTask
+public sealed record ApiTask
 {
   [JsonPropertyName ( "data" )]
   public TaskData? Data { get; set; }
@@ -45,7 +45,7 @@ public record ApiTask
   ///   of the request.
   /// </summary>
   [PublicAPI]
-  public class TaskProgress
+  public sealed class TaskProgress
   {
     /// <summary>
     ///   The number of actions in the task which have been completed.
@@ -71,7 +71,7 @@ public record ApiTask
   }
 
   [PublicAPI]
-  public class TaskData
+  public sealed class TaskData
   {
     [JsonPropertyName ( "affected-snaps" )]
     public string[]? AffectedSnaps { get; set; }
