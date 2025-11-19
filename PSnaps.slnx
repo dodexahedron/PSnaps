@@ -16,6 +16,9 @@
     <File Path="docs/Markdown/psnaps/Set-SnapdClient.md" />
     <File Path="docs/Markdown/psnaps/Uninstall-SnapPackage.md" />
   </Folder>
+  <Folder Name="/Solution Files/github/">
+    <File Path=".github/workflows/build-and-test.yml" />
+  </Folder>
   <Project Path="PSnaps.Mocks/PSnaps.Mocks.csproj" Id="cafa6619-27b1-4a98-aa6e-232ef0208e2e" />
   <Project Path="PSnaps.Tests/PSnaps.Tests.csproj" Id="bc72995a-d1ca-4738-82e8-9d779ff4237b" />
   <Project Path="PSnaps/PSnaps.csproj" />
