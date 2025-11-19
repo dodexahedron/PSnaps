@@ -9,7 +9,6 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Net.Sockets;
-using System.Runtime.Versioning;
 using System.Text.Json.Serialization.Metadata;
 using PSnaps.SnapdRestApi.Responses;
 
@@ -37,6 +36,15 @@ public sealed record SnapdClient : ISnapdRestClient
   /// </summary>
   /// <param name="socketUri">The <c>unix:///path/to/the/snapd.socket</c> file.</param>
   public SnapdClient ( string socketUri ) : this ( socketPath: socketUri ) { }
+
+  /// <summary>
+  ///   Creates an instance of <see cref="SnapdClient" /> with an overridden path to the snapd REST API Unix Domain Socket.
+  /// </summary>
+  /// <param name="baseUri">
+  ///   The absolute base URI the client will use when making requests over the snapd socket.
+  /// </param>
+  /// <param name="socketUri">The <c>unix:///path/to/the/snapd.socket</c> file.</param>
+  public SnapdClient ( string baseUri, string socketUri ) : this ( baseUri, socketPath: socketUri ) { }
 
   /// <summary>
   ///   Creates an instance of <see cref="SnapdClient" /> with the specified or default URIs and <see cref="CancellationToken" />.
