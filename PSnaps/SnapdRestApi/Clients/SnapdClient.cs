@@ -20,7 +20,6 @@ namespace PSnaps.SnapdRestApi.Clients;
 /// </summary>
 [PublicAPI]
 [MustDisposeResource]
-[SupportedOSPlatform ( "linux" )]
 public record SnapdClient : ISnapdRestClient
 {
   private readonly HttpClient              _httpClient;
