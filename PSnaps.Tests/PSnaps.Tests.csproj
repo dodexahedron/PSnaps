@@ -27,6 +27,13 @@
 
   <ItemGroup>
     <Using Include="NUnit.Framework" />
+    <Using Include="PSnaps" />
+    <Using Include="PSnaps.Cmdlets" />
+    <Using Include="PSnaps.Mocks" />
+    <Using Include="PSnaps.SnapCore" />
+    <Using Include="PSnaps.SnapdRestApi" />
+    <Using Include="PSnaps.SnapdRestApi.Clients" />
+    <Using Include="PSnaps.SnapdRestApi.Requests" />
   </ItemGroup>
 
 </Project>
