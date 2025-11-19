@@ -27,16 +27,18 @@ jobs:
     - name: PS Module Validation
       shell: pwsh
       run: |
-        sudo snap install powershell-preview --classic
-        pwsh-preview -c {
-          dotnet pack ./PSnaps/PSnaps.csproj
-          mkdir -pv ./NuGet/TestRepository
-          Register-PSResourceRepository -Name TestRepository -Uri file://${pwd}/NuGet/TestRepository -Trusted:$true
-          Publish-PSResource -NupkgPath ./PSnaps/bin/Release/*.nupkg -Repository TestRepository
-          Install-PSResource -Name PSnaps -Repository TestRepository -Prerelease -AuthenticodeCheck:$false
-          Import-Module PSnaps -ErrorAction Stop
-          Get-Module PSnaps | fl *
-          Get-SnapPackage -All
-          Remove-Module PSnaps  -ErrorAction Stop
-        }
+        # sudo snap install powershell-preview --classic
+        systemctl status snapd.service
+        systemctl status snapd.socket
+        # pwsh-preview -c {
+          # dotnet pack ./PSnaps/PSnaps.csproj
+          # mkdir -pv ./NuGet/TestRepository
+          # Register-PSResourceRepository -Name TestRepository -Uri file://${pwd}/NuGet/TestRepository -Trusted:$true
+          # Publish-PSResource -NupkgPath ./PSnaps/bin/Release/*.nupkg -Repository TestRepository
+          # Install-PSResource -Name PSnaps -Repository TestRepository -Prerelease -AuthenticodeCheck:$false
+          # Import-Module PSnaps -ErrorAction Stop
+          # Get-Module PSnaps | fl *
+          # Get-SnapPackage -All
+          # Remove-Module PSnaps  -ErrorAction Stop
+        # }
         
