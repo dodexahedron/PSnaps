@@ -27,7 +27,7 @@ jobs:
     - name: PS Module Validation
       shell: pwsh
       run: |
-        sudo snap install powershell-preview
+        sudo snap install powershell-preview --classic
         pwsh-preview -c {
         dotnet pack ./PSnaps/PSnaps.csproj
         mkdir -pv ./NuGet/TestRepository
