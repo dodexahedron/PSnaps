@@ -32,23 +32,37 @@ public sealed class SetSnapdClientCommand : PSCmdlet
   public required ISnapdRestClient? Client { get; set; }
 
   /// <summary>
-  ///   If set, the previous client object will will NOT be disposed. Default behavior is to dispose of the previous client object.
+  ///   If set, the previous client object will NOT be disposed. Default behavior is to dispose of the previous client object.
   /// </summary>
   [Parameter ( Mandatory = false, HelpMessage = "If set, the previous client object will will NOT be disposed. Default behavior is to dispose of the previous client object." )]
   public SwitchParameter DoNotDisposeOldClient { get; set; }
 
   /// <inheritdoc />
+  [ExcludeFromCodeCoverage]
   protected override void ProcessRecord ( )
   {
-    ArgumentNullException.ThrowIfNull ( Client );
+    SwapClient ( Client, DoNotDisposeOldClient.IsPresent );
 
-    ISnapdRestClient? oldClient = PSnapsModuleState.ExchangeSnapdClient ( Client );
+    WriteObject ( PSnapsModuleState.Client );
+  }
 
-    if ( !DoNotDisposeOldClient.IsPresent )
+  /// <summary>
+  ///   Performs the client swap, disposing the old client unless instructed not to.
+  /// </summary>
+  /// <param name="newClient">The new client to replace the old one.</param>
+  /// <param name="doNotDisposeOldClient">
+  ///   If <see langword="true" />, will not dispose the old client;<br />
+  ///   Otherwise, the old client will be disposed.
+  /// </param>
+  internal static void SwapClient ( ISnapdRestClient? newClient, bool doNotDisposeOldClient = false )
+  {
+    ArgumentNullException.ThrowIfNull ( newClient );
+
+    ISnapdRestClient? oldClient = PSnapsModuleState.ExchangeSnapdClient ( newClient );
+
+    if ( !doNotDisposeOldClient )
     {
       oldClient?.Dispose ( );
     }
-
-    WriteObject ( PSnapsModuleState.Client );
   }
 }
