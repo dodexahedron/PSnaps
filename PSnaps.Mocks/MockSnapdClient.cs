@@ -17,30 +17,33 @@ namespace PSnaps.Mocks;
 [PublicAPI]
 public class MockSnapdClient ( CancellationToken realCancellationToken = default ) : ISnapdRestClient
 {
-  private static JsonSerializerOptions _serializerOptions = new ( )
-                                                            {
-                                                              RespectNullableAnnotations           = true,
-                                                              RespectRequiredConstructorParameters = true,
-                                                              AllowOutOfOrderMetadataProperties    = true,
-                                                              UnmappedMemberHandling               = JsonUnmappedMemberHandling.Skip
-                                                            };
+  private readonly CancellationTokenSource _snapdClientCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource ( realCancellationToken );
 
-  private CancellationTokenSource? _cts = CancellationTokenSource.CreateLinkedTokenSource ( realCancellationToken );
+  private long _nonZeroMeansDisposed;
 
   /// <inheritdoc />
   public void Dispose ( )
   {
-    CancellationTokenSource? cts = Interlocked.Exchange ( ref _cts, null );
+    if ( Interlocked.CompareExchange ( ref _nonZeroMeansDisposed, -1L, 0L ) != 0L )
+    {
+      // Already disposed or being disposed.
+      return;
+    }
 
-    if ( cts is not null )
+    if ( _snapdClientCancellationTokenSource.Token.CanBeCanceled )
     {
-      cts.Dispose ( );
-      GC.SuppressFinalize ( this );
+      try
+      {
+        _snapdClientCancellationTokenSource.Cancel ( true );
+      }
+      catch
+      {
+        // Just eat any exception. Nothing to do here.
+      }
     }
-    else
-    {
-      throw new ObjectDisposedException ( nameof (MockSnapdClient) );
-    }
+
+    _snapdClientCancellationTokenSource.Dispose ( );
+    GC.SuppressFinalize ( this );
   }
 
   /// <inheritdoc />
@@ -50,8 +53,8 @@ public class MockSnapdClient ( CancellationToken realCancellationToken = default
   [SuppressMessage ( "ReSharper", "StringLiteralTypo" )]
   public async Task<SnapPackage[]?> GetAllSnapsAsync ( int timeout = 30000, CancellationToken cancellationToken = default )
   {
-    ObjectDisposedException.ThrowIf ( _cts is null, this );
-    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _cts.Token, cancellationToken );
+    ObjectDisposedException.ThrowIf ( _snapdClientCancellationTokenSource is null, this );
+    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
     cts.CancelAfter ( timeout );
     string jsonFromFile = await File.ReadAllTextAsync ( "SampleJSON/GetAllSnaps.json", cts.Token );
     SnapApiSyncResponse<SnapPackage[]?> response = JsonSerializer
@@ -65,17 +68,17 @@ public class MockSnapdClient ( CancellationToken realCancellationToken = default
   /// <inheritdoc />
   public async Task<ChangeSet?> GetChangesAsync ( string actionId, int timeout = 30000, CancellationToken cancellationToken = default )
   {
-    ObjectDisposedException.ThrowIf ( _cts is null, this );
-    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _cts.Token, cancellationToken );
+    ObjectDisposedException.ThrowIf ( _snapdClientCancellationTokenSource is null, this );
+    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
     cts.CancelAfter ( timeout );
     return await Task.FromResult<ChangeSet?> ( null );
   }
 
   /// <inheritdoc />
-  public async Task<SnapPackage[]?> GetSingleSnapAsync ( string snapName, bool includeInactive = false, int timeout = 30000, CancellationToken cancellationToken = default )
+  public async Task<SnapPackage[]?> GetSingleSnapAsync ( string snapName, bool includeInactive = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
-    ObjectDisposedException.ThrowIf ( _cts is null, this );
-    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _cts.Token, cancellationToken );
+    ObjectDisposedException.ThrowIf ( _snapdClientCancellationTokenSource is null, this );
+    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
     SnapPackage[] response = JsonSerializer
      .Deserialize<SnapPackage[]> (
                                   await File.ReadAllTextAsync ( "SnapPackageArray.json", cts.Token ),
@@ -89,8 +92,8 @@ public class MockSnapdClient ( CancellationToken realCancellationToken = default
   /// <inheritdoc />
   public async Task<List<SnapPackage>?> GetSnapsAsync ( string[] snapNames, bool includeInactive = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
-    ObjectDisposedException.ThrowIf ( _cts is null, this );
-    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _cts.Token, cancellationToken );
+    ObjectDisposedException.ThrowIf ( _snapdClientCancellationTokenSource is null, this );
+    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
     cts.CancelAfter ( timeout );
     SnapPackage[] response = JsonSerializer
      .Deserialize<SnapPackage[]> (
@@ -105,8 +108,8 @@ public class MockSnapdClient ( CancellationToken realCancellationToken = default
   /// <inheritdoc />
   public async Task<SnapApiAsyncResponse?> InstallMultipleSnapsAsync ( string[] snapNames, TransactionMode transactionMode = TransactionMode.PerPackage, int timeout = 30000, CancellationToken cancellationToken = default )
   {
-    ObjectDisposedException.ThrowIf ( _cts is null, this );
-    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _cts.Token, cancellationToken );
+    ObjectDisposedException.ThrowIf ( _snapdClientCancellationTokenSource is null, this );
+    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
     cts.CancelAfter ( timeout );
     return await Task.FromResult<SnapApiAsyncResponse?> ( null );
   }
@@ -114,8 +117,8 @@ public class MockSnapdClient ( CancellationToken realCancellationToken = default
   /// <inheritdoc />
   public async Task<SnapApiAsyncResponse?> RemoveMultipleSnapsAsync ( string[] snapNames, bool purge = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
-    ObjectDisposedException.ThrowIf ( _cts is null, this );
-    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _cts.Token, cancellationToken );
+    ObjectDisposedException.ThrowIf ( _snapdClientCancellationTokenSource is null, this );
+    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
     cts.CancelAfter ( timeout );
     return await Task.FromResult<SnapApiAsyncResponse?> ( null );
   }
@@ -123,8 +126,8 @@ public class MockSnapdClient ( CancellationToken realCancellationToken = default
   /// <inheritdoc />
   public async Task<SnapApiAsyncResponse?> RemoveSnapAsync ( string name, string revision, bool purge = false, int timeout = 10000, CancellationToken cancellationToken = default )
   {
-    ObjectDisposedException.ThrowIf ( _cts is null, this );
-    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _cts.Token, cancellationToken );
+    ObjectDisposedException.ThrowIf ( _snapdClientCancellationTokenSource is null, this );
+    using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource ( _snapdClientCancellationTokenSource.Token, cancellationToken );
     cts.CancelAfter ( timeout );
     return await Task.FromResult<SnapApiAsyncResponse?> ( null );
   }
