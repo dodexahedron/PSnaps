@@ -13,6 +13,12 @@ namespace PSnaps.SnapdRestApi.Clients;
 /// <summary>
 ///   Interface representing the minimum functionality expected of a snapd client, by the library and module cmdlets.
 /// </summary>
+/// <remarks>
+///   Note to implementers:<br />
+///   The Dispose() method is expected to be safe to call more than once and thus must guard against that being a problem.<br />
+///   The implementation in <see cref="SnapdClient" /> uses <see cref="Interlocked.Exchange(ref long, long)" /> on a
+///   <see langword="private" /> field to flag disposal.
+/// </remarks>
 [PublicAPI]
 public interface ISnapdRestClient : IDisposable
 {
@@ -109,8 +115,12 @@ public interface ISnapdRestClient : IDisposable
   ///   If <see cref="TransactionMode.AllPackage" />, then all packages are installed in one transaction, and all must succeed or else
   ///   all installations will be rolled back.
   /// </param>
-  /// <param name="timeout"></param>
-  /// <param name="cancellationToken"></param>
+  /// <param name="timeout">
+  ///   A global timeout for the operation, in milliseconds. If not specified, default is 30 seconds.<br />
+  ///   The timeout applies to the API request only; It does not affect the asynchronous installation operation(s) executed by snapd to
+  ///   carry out the request.
+  /// </param>
+  /// <param name="cancellationToken">A <see cref="CancellationToken" /> for the operation.</param>
   /// <returns>
   ///   A <see cref="SnapApiAsyncResponse" /> containing the change ID, which can be used to retrieve status of the operation.
   /// </returns>
