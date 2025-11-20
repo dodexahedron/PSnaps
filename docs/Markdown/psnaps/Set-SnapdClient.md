@@ -38,7 +38,7 @@ This command is not usually needed in normal use, but can be used for testing pu
 
 Using the null client (which does nothing at all, discards all input, and outputs only null results):
 
-```powershell
+```
 Set-SnapdClient [PSnaps.SnapdRestApi.Clients.NullSnapdClient]::new()
 ```
 
@@ -46,7 +46,7 @@ Set-SnapdClient [PSnaps.SnapdRestApi.Clients.NullSnapdClient]::new()
 
 Using the built-in SnapdClient, but with a different socket path:
 
-```powershell
+```
 Set-SnapdClient [PSnaps.SnapdRestApi.Clients.SnapdClient]::new('unix:///usr/run/snapd/restapi.sock')
 ```
 
@@ -54,7 +54,7 @@ Set-SnapdClient [PSnaps.SnapdRestApi.Clients.SnapdClient]::new('unix:///usr/run/
 
 Preserving the previous client so it can be reset later:
 
-```powershell
+```
 # Save a reference to the current client for later use.
 $originalClient = Get-SnapdClient
 

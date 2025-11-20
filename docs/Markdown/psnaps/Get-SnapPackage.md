@@ -39,11 +39,14 @@ Gets one or more snap packages, according to input options, as instances of [PSn
 ### Example 1
 
 To get all installed snap packages:
-```powershell
+
+```
 Get-SnapPackage -All
 ```
+
 Output:
-```text
+
+```
 Name                                             Version Revision Tracking                   Publisher          Publisher Verified
 ----                                             ------- -------- --------                   ---------          ------------------
 bare                                                 1.0        5 latest/stable              Canonical                 True
@@ -69,12 +72,14 @@ thunderbird                                 140.4.0esr-1      846 latest/stable/
 ### Example 2
 
 To get a single snap package:
-```powershell
+
+```
 Get-SnapPackage lz4
 ```
 
 Output:
-```text
+
+```
 Name Version Revision Tracking      Publisher          Publisher Verified
 ---- ------- -------- --------      ---------          ------------------
 lz4    1.9.4        4 latest/stable Edward Hope-Morley       False

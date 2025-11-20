@@ -1,7 +1,7 @@
 ---
 document type: module
 Help Version: 1.0.0.0
-HelpInfoUri: 'https://github.com/dodexahedron/PSnaps/tree/0.16.0-Beta1/docs/Help'
+HelpInfoUri: ''
 Locale: en-US
 Module Guid: 7a389ff6-dd4f-4486-b430-802de6fcc65c
 Module Name: psnaps

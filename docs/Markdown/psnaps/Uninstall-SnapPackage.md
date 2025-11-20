@@ -51,28 +51,28 @@ Uninstalls one or more installed snap packages from the system, according to the
 ### Example 1
 
 Uninstall a single snap package completely (all installed revisions):
-```powershell
+```
 Uninstall-SnapPackage lz4
 ```
 
 ### Example 2
 
 Uninstall only the inactive instances of a single snap package:
-```powershell
+```
 Uninstall-SnapPackage lz4 -Disabled
 ```
 
 ### Example 3
 
 Uninstall only a specific revision of a single snap package:
-```powershell
+```
 Uninstall-SnapPackage lz4 -Revision 4
 ```
 
 ### Example 4
 
 Uninstall all inactive revisions of all snap packages installed on the system:
-```powershell
+```
 Uninstall-SnapPackage -All -Disabled
 ```
 

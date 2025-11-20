@@ -25,22 +25,28 @@ Get-SnapdClient [-Timeout <int>] [<CommonParameters>]
 
 ## DESCRIPTION
 
-Retrieves the instance of a [PSnaps.SnapdRestApi.Clients.ISnapdClient] that the PSnaps module is using for interaction with snapd.\
+Retrieves the instance of a [PSnaps.SnapdRestApi.Clients.ISnapdClient] that the PSnaps module is using for interaction with snapd.
+
 By default, this is an instance of [PSnaps.SnapdRestApi.Clients.SnapdClient].
 
 ## EXAMPLES
 
 ### Example 1
 
-```powershell
+Get the current client instance used by PSnaps:
+
+```
 Get-SnapdClient
 ```
+
 Output:
-```text
+
+```
 BaseUri              SnapdUnixSocketUri
 -------              ------------------
 http://localhost/v2/ unix:///run/snapd.socket
 ```
+
 ## PARAMETERS
 
 ### -Timeout

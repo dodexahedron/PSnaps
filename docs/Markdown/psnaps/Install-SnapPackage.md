@@ -37,10 +37,12 @@ Installs one or more specified snap packages to the system.
 
 ### Example 1
 
-```powershell
+```
 Install-SnapPackage core24
 ```
-Output:\
+
+Output:
+
 No output, currently.
 
 ## PARAMETERS
