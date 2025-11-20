@@ -9,7 +9,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
     <WarningLevel>9</WarningLevel>
-    <VersionPrefix>0.17.0</VersionPrefix>
+    <VersionPrefix>0.18.0</VersionPrefix>
     <VersionSuffix>Beta1</VersionSuffix>
     <DebugType>portable</DebugType>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
@@ -25,7 +25,8 @@
     <PackageTags>snap;snapd;Linux;PSEdition_Core;PSModule</PackageTags>
     <PackageReleaseNotes>
       Early development version. Functionality and API surface are subject to change.
-      0.17.0-Beta1: Adds multi-targeting for .net9/10 and PowerShell 7.5/7.6.
+      0.18.0-Beta1: Adds multi-targeting for .net9/10 and PowerShell 7.5/7.6.
+                    Switched to the PowershellStandard.Library package instead of System.Management.Automation for compatibility. with .net 10 target.
                     Adds module help XML.
       0.16.0-Beta1: Corrected property name for Tracking column of SnapPackage formatting.
       0.15.0-Beta1: Altered SnapPackage formatting to remove the grouping that was not as helpful as predicted.
