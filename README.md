@@ -4,10 +4,24 @@ PowerShell module for managing Snap packages on Linux.
 [![Build and Test](https://github.com/dodexahedron/PSnaps/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/dodexahedron/PSnaps/actions/workflows/build-and-test.yml)
 
 ## Installation
-Install-Module PSnaps -AllowPrerelease
+```powershell
+Install-Module PSnaps -AllowPrerelease -SkipPublisherCheck
+```
+**OR**, if you prefer to use PSResourceGet:
+```powershell
+Install-PSResource PSnaps -Prerelease -AuthenticodeCheck:$false
+```
 
 ## Uninstallation
-Uninstall-Module PSnaps
+```powershell
+Uninstall-Module PSnaps -AllVersions
+```
+OR
+```powershell
+Uninstall-PSResource PSnaps -Version '[0.1.0, )'
+```
+
+
 
 ## Example Usage:
 
